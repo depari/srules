@@ -42,6 +42,8 @@ export interface SearchIndexItem {
   author?: string;
   excerpt: string;
   path: string;
+  difficulty?: 'beginner' | 'intermediate' | 'advanced';
+  created?: string;
 }
 
 export interface CategoryInfo {

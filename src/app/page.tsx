@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getAllRules, getFeaturedRules, getAllCategories } from "@/lib/rules";
+import SearchBar from "@/components/common/SearchBar";
 
 export default function Home() {
   const featuredRules = getFeaturedRules().slice(0, 6);
@@ -49,18 +50,7 @@ export default function Home() {
 
           {/* Search Bar */}
           <div className="mt-10 mx-auto max-w-2xl">
-            <div className="relative">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                <svg className="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <input
-                type="text"
-                placeholder="규칙, 프레임워크, 언어로 검색하세요..."
-                className="w-full rounded-full border border-slate-700 bg-slate-900/50 py-4 pl-12 pr-4 text-lg text-white placeholder-slate-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
-              />
-            </div>
+            <SearchBar />
           </div>
 
           {/* Quick Links */}
