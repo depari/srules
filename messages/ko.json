@@ -8,7 +8,9 @@
         "search": "검색",
         "theme": "테마 전환",
         "language": "언어 전환",
-        "loading": "불러오는 중..."
+        "loading": "불러오는 중...",
+        "recent_views": "최근 본 규칙",
+        "reset": "초기화"
     },
     "home": {
         "hero": {
@@ -30,8 +32,13 @@
         }
     },
     "footer": {
-        "links": "링크",
-        "community": "커뮤니티",
+        "description": "Smart Rules Archive는 개발자들의 지식 공유를 위한 오픈 플랫폼입니다.",
+        "links": {
+            "title": "링크"
+        },
+        "community": {
+            "title": "커뮤니티"
+        },
         "rights": "Smart Rules Archive. All rights reserved.",
         "privacy": "개인정보처리방침",
         "terms": "이용약관"

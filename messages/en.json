@@ -8,7 +8,9 @@
         "search": "Search",
         "theme": "Toggle Theme",
         "language": "Language",
-        "loading": "Loading..."
+        "loading": "Loading...",
+        "recent_views": "Recent Views",
+        "reset": "Reset"
     },
     "home": {
         "hero": {
@@ -30,8 +32,13 @@
         }
     },
     "footer": {
-        "links": "Links",
-        "community": "Community",
+        "description": "Smart Rules Archive is an open platform for developer knowledge sharing.",
+        "links": {
+            "title": "Links"
+        },
+        "community": {
+            "title": "Community"
+        },
         "rights": "Smart Rules Archive. All rights reserved.",
         "privacy": "Privacy Policy",
         "terms": "Terms of Use"

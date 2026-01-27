@@ -14,9 +14,13 @@
     - 클라이언트 컴포넌트와 서버 컴포넌트의 entry point 분리.
     - `next.config.ts` 플러그인 연동.
     - `setRequestLocale` 적용으로 headers() 문제 해결.
-4. 빌드 확인 및 성공.
+    - `middleware.ts` 제거 (Static Export 호환불가).
+    - `src/app/(index)` 라우트 그룹 생성하여 루트(`/`) 리다이렉트 처리.
+    - `footer` 네임스페이스 번역 키 누락 수정.
+    - `next.config.ts`의 `basePath` 설정을 `process.env.GH_PAGES`에 따라 조건부 적용하도록 수정.
+    - Footer 링크 페이지(`terms`, `privacy`, `docs`) 추가 및 Async Component 호환성 수정 (`params` await 처리).
 
 ## 메모
-- `output: export`를 사용할 때는 `next-intl`의 `setRequestLocale`이 필수적이다.
-- Client Component에서는 `generateStaticParams`를 Export할 수 없으므로 Server Component Wrapper가 필요하다.
-- 디렉토리 경로 지정 시 오타가 발생하지 않도록 주의가 필요하다 (`[locale]` vs `[locale/]`).
+- **Next.js 15**부터 `params`는 Promise이므로 반드시 `await` 처리해야 한다.
+- `output: export`에서는 Middleware를 사용할 수 없다. 대신 루트 페이지에서 리다이렉트를 처리해야 한다.
+- `basePath`가 설정되어 있으면 로컬 개발 시 리소스 경로가 깨질 수 있으므로 환경변수로 제어하는 것이 좋다.
