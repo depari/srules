@@ -83,7 +83,8 @@ export class GitHubAPIClient {
         path: string,
         content: string,
         message: string,
-        branch: string
+        branch: string,
+        sha?: string
     ): Promise<void> {
         const encodedContent = btoa(unescape(encodeURIComponent(content)));
 
@@ -93,8 +94,39 @@ export class GitHubAPIClient {
                 message,
                 content: encodedContent,
                 branch,
+                sha,
             }),
         });
+    }
+
+    /**
+     * 파일 삭제
+     */
+    private async deleteFile(
+        path: string,
+        message: string,
+        branch: string,
+        sha: string
+    ): Promise<void> {
+        await this.request(`/repos/${this.owner}/${this.repo}/contents/${path}`, {
+            method: 'DELETE',
+            body: JSON.stringify({
+                message,
+                branch,
+                sha,
+            }),
+        });
+    }
+
+    /**
+     * 파일 정보(SHA 등) 가져오기
+     */
+    async getFileInfo(path: string): Promise<{ sha: string; content: string }> {
+        const data = await this.request(`/repos/${this.owner}/${this.repo}/contents/${path}`);
+        return {
+            sha: data.sha,
+            content: decodeURIComponent(escape(atob(data.content))),
+        };
     }
 
     /**
@@ -194,6 +226,88 @@ ${params.content}`;
             };
         } catch (error) {
             console.error('GitHub API Error:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * 규칙 수정 → PR 생성
+     */
+    async updateRule(params: CreatePRParams & { originalPath: string }): Promise<{ prUrl: string; prNumber: number }> {
+        try {
+            const timestamp = Date.now();
+            const slug = params.originalPath.split('/').pop()?.replace('.md', '') || 'updated-rule';
+            const branchName = `update/${slug}-${timestamp}`;
+
+            const mainSHA = await this.getMainBranchSHA();
+            await this.createBranch(branchName, mainSHA);
+
+            // 기존 파일 정보 가져오기 (SHA 필요)
+            const { sha: originalSha } = await this.getFileInfo(params.originalPath);
+
+            const category = params.category[0].toLowerCase();
+            const newSlug = params.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+            const newPath = `rules/${category}/${newSlug}.md`;
+
+            const markdown = `---
+title: "${params.title}"
+slug: "${category}/${newSlug}"
+version: "1.0.1"
+created: "${new Date().toISOString().split('T')[0]}"
+author: "${params.author}"
+tags: [${params.tags.map((t: string) => `"${t}"`).join(', ')}]
+category: [${params.category.map((c: string) => `"${c}"`).join(', ')}]
+difficulty: ${params.difficulty}
+---
+
+${params.content}`;
+
+            // 경로가 바뀌었으면 기존 파일 삭제 후 새 파일 생성, 같으면 업데이트
+            if (params.originalPath !== newPath) {
+                await this.deleteFile(params.originalPath, `Remove old version of ${params.title}`, branchName, originalSha);
+                await this.createFile(newPath, markdown, `Update rule: ${params.title}`, branchName);
+            } else {
+                await this.createFile(newPath, markdown, `Update rule: ${params.title}`, branchName, originalSha);
+            }
+
+            const pr = await this.createPullRequest(
+                `📝 Update rule: ${params.title}`,
+                branchName,
+                `## 규칙 수정 요청\n\n**제목**: ${params.title}\n**변경 내용**: 사용자가 웹 폼을 통해 규칙을 수정했습니다.`
+            );
+
+            return { prUrl: pr.html_url, prNumber: pr.number };
+        } catch (error) {
+            console.error('GitHub API Error (Update):', error);
+            throw error;
+        }
+    }
+
+    /**
+     * 규칙 삭제 → PR 생성
+     */
+    async deleteRule(params: { title: string; originalPath: string; author: string }): Promise<{ prUrl: string; prNumber: number }> {
+        try {
+            const timestamp = Date.now();
+            const slug = params.originalPath.split('/').pop()?.replace('.md', '') || 'deleted-rule';
+            const branchName = `delete/${slug}-${timestamp}`;
+
+            const mainSHA = await this.getMainBranchSHA();
+            await this.createBranch(branchName, mainSHA);
+
+            const { sha: originalSha } = await this.getFileInfo(params.originalPath);
+
+            await this.deleteFile(params.originalPath, `Delete rule: ${params.title}`, branchName, originalSha);
+
+            const pr = await this.createPullRequest(
+                `🗑️ Delete rule: ${params.title}`,
+                branchName,
+                `## 규칙 삭제 요청\n\n**제목**: ${params.title}\n**작성자**: ${params.author}\n\n이 규칙을 아카이브에서 삭제하고자 합니다.`
+            );
+
+            return { prUrl: pr.html_url, prNumber: pr.number };
+        } catch (error) {
+            console.error('GitHub API Error (Delete):', error);
             throw error;
         }
     }

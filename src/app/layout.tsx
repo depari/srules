@@ -18,17 +18,22 @@ export const metadata: Metadata = {
   description: "코딩 규칙, 베스트 프랙티스, AI 프롬프트 템플릿을 체계적으로 관리하고 공유하세요",
 };
 
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-slate-950 text-slate-100`}
       >
+        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );

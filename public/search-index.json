@@ -1,5 +1,20 @@
 [
   {
+    "title": "Antigravity 에서 사용하는 Rule",
+    "slug": "antigravity/antigravity-rule",
+    "category": [
+      "Antigravity"
+    ],
+    "tags": [
+      "Antigravity"
+    ],
+    "author": "서대원",
+    "excerpt": "# 대원's Rule ## 개요 대원이가 사용하는 Antigravity Rule ## 예시 대답 할때는 한글로 해 git commit message 생성 할때는 구어체가 아니라 내용을 나열 하는 형태로 만들어줘. 작업 진행시 git commit 은 진행하지 말고, 내가 확인후 진행 할 거야. 파일 처리는 small chunks 로 해줘. 작업 보",
+    "path": "antigravity/antigravity-rule",
+    "difficulty": "beginner",
+    "created": "2026-01-27"
+  },
+  {
     "title": "Cursor Rules 작성 가이드",
     "slug": "cursor/cursor-rules",
     "category": [

@@ -1,4 +1,12 @@
 {
+  "antigravity/antigravity-rule": [
+    {
+      "hash": "1eddf1bba3138a85ce2d2a697eef0438a5a3a21f",
+      "author": "SEO DAE WON",
+      "date": "2026-01-27",
+      "message": "Add rule: Antigravity 에서 사용하는 Rule"
+    }
+  ],
   "cursor/cursor-rules": [
     {
       "hash": "f1dc19e1e4efcb9bc0fee013143e958fbdbc28fa",

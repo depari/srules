@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getAllRules, getFeaturedRules, getAllCategories } from "@/lib/rules";
 import SearchBar from "@/components/common/SearchBar";
+import RuleCard from "@/components/rules/RuleCard";
 
 export default function Home() {
   const featuredRules = getFeaturedRules().slice(0, 6);
@@ -8,60 +9,42 @@ export default function Home() {
   const totalRules = getAllRules().length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 text-slate-100">
-      {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-purple-600 to-cyan-600 p-2">
-                <svg className="h-full w-full text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                  Smart Rules Archive
-                </h1>
-                <p className="text-sm text-slate-400">{totalRules}개의 규칙이 등록되어 있습니다</p>
-              </div>
-            </div>
-            <nav className="flex gap-4">
-              <Link href="/rules" className="text-slate-300 hover:text-white transition-colors">
-                규칙 목록
-              </Link>
-              <Link href="/submit" className="text-slate-300 hover:text-white transition-colors">
-                규칙 등록
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
-
+    <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h2 className="text-5xl font-bold tracking-tight">
-            개발자를 위한 규칙 아카이브
-          </h2>
-          <p className="mt-6 text-xl text-slate-400 max-w-3xl mx-auto">
-            코딩 규칙, 베스트 프랙티스, AI 프롬프트 템플릿을 체계적으로 관리하고 공유하세요
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-sm font-medium mb-6 animate-fade-in">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+            </span>
+            전 세계 개발자들과 공유하는 {totalRules}개의 규칙
+          </div>
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-8">
+            <span className="block">개발자를 위한</span>
+            <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-400 bg-[length:200%_auto] bg-clip-text text-transparent animate-gradient">
+              규칙 아카이브
+            </span>
+          </h1>
+          <p className="mt-6 text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
+            코딩 규칙, 베스트 프랙티스, AI 프롬프트 템플릿을<br className="hidden sm:block" /> 체계적으로 관리하고 커뮤니티와 함께 성장시키세요.
           </p>
 
           {/* Search Bar */}
-          <div className="mt-10 mx-auto max-w-2xl">
+          <div className="mt-12 mx-auto max-w-2xl bg-slate-900/50 p-2 rounded-2xl border border-slate-800 focus-within:border-purple-500/50 transition-all shadow-2xl">
             <SearchBar />
           </div>
 
           {/* Quick Links */}
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <div className="mt-10 flex flex-wrap justify-center gap-3">
+            <span className="text-sm text-slate-500 py-2 mr-2">인기 카테고리:</span>
             {categories.slice(0, 5).map((category) => (
               <Link
                 key={category.name}
                 href={`/categories/${category.name.toLowerCase()}`}
-                className="rounded-full bg-slate-800 px-4 py-2 text-sm text-slate-200 hover:bg-slate-700 transition-colors"
+                className="rounded-full bg-slate-800/50 border border-slate-700 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-all shadow-sm"
               >
-                {category.name} ({category.count})
+                {category.name}
               </Link>
             ))}
           </div>
@@ -69,86 +52,69 @@ export default function Home() {
       </section>
 
       {/* Featured Rules */}
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-8">
-          <h3 className="text-3xl font-bold">Featured 규칙</h3>
-          <Link href="/rules" className="text-purple-400 hover:text-purple-300 transition-colors">
-            모두 보기 →
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between mb-10">
+          <div>
+            <h2 className="text-3xl font-bold text-white">추천 규칙</h2>
+            <p className="text-slate-400 mt-1">커뮤니티에서 가장 사랑받는 베스트 규칙들입니다.</p>
+          </div>
+          <Link href="/rules" className="group flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors font-medium">
+            모두 보기
+            <svg className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
           </Link>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {featuredRules.map((rule) => (
-            <Link
+            <RuleCard
               key={rule.slug}
-              href={`/rules/${rule.slug}`}
-              className="group relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900/50 p-6 transition-all hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/10 hover:-translate-y-1"
-            >
-              <div className="mb-4">
-                <h4 className="text-xl font-semibold text-white group-hover:text-purple-400 transition-colors">
-                  {rule.title}
-                </h4>
-                <p className="mt-2 text-sm text-slate-400 line-clamp-3">
-                  {rule.excerpt}
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {rule.tags.slice(0, 3).map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-md bg-slate-800 px-2 py-1 text-xs text-slate-300"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              {rule.difficulty && (
-                <div className="mt-4 text-xs text-slate-500">
-                  난이도: {rule.difficulty}
-                </div>
-              )}
-            </Link>
+              slug={rule.slug}
+              title={rule.title}
+              excerpt={rule.excerpt}
+              author={rule.author}
+              created={rule.created}
+              difficulty={rule.difficulty}
+              category={rule.category}
+              tags={rule.tags}
+              featured={rule.featured}
+            />
           ))}
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <h3 className="text-3xl font-bold mb-8">카테고리</h3>
+      {/* Categories Grid */}
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mb-10">
+          <h2 className="text-3xl font-bold text-white">카테고리별 탐색</h2>
+          <p className="text-slate-400 mt-1">다양한 기술 스택과 도구에 맞는 규칙을 찾아보세요.</p>
+        </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {categories.map((category) => (
             <Link
               key={category.name}
               href={`/categories/${category.name.toLowerCase()}`}
-              className="rounded-lg border border-slate-800 bg-slate-900/50 p-6 hover:border-cyan-500/50 transition-all hover:shadow-lg hover:shadow-cyan-500/10"
+              className="group relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900/50 p-6 hover:border-cyan-500/50 transition-all hover:shadow-lg hover:shadow-cyan-500/10"
             >
-              <div className="text-2xl font-bold text-cyan-400">{category.count}</div>
-              <div className="mt-2 text-lg font-semibold text-white">{category.name}</div>
+              <div className="flex justify-between items-start mb-4">
+                <div className="text-3xl font-bold bg-gradient-to-br from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                  {category.count}
+                </div>
+                <div className="p-2 rounded-lg bg-slate-800 text-slate-400 group-hover:bg-cyan-500/10 group-hover:text-cyan-400 transition-colors">
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                </div>
+              </div>
+              <div className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors uppercase tracking-wide">
+                {category.name}
+              </div>
             </Link>
           ))}
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="border-t border-slate-800 bg-slate-950/50 mt-16">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="text-center text-slate-400">
-            <p>Made with ❤️ by developers, for developers</p>
-            <p className="mt-2 text-sm">
-              <Link href="https://github.com" className="hover:text-purple-400 transition-colors">
-                GitHub
-              </Link>
-              {" · "}
-              <Link href="/docs" className="hover:text-purple-400 transition-colors">
-                문서
-              </Link>
-            </p>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </main>
   );
 }
 

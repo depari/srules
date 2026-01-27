@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getRuleBySlug, markdownToHtml, getAllRules } from "@/lib/rules";
 import RuleActions from "@/components/rules/RuleActions";
 import VersionHistory from "@/components/rules/VersionHistory";
+import ReadingProgress from "@/components/rules/ReadingProgress";
 
 interface PageProps {
     params: Promise<{
@@ -31,32 +32,8 @@ export default async function RulePage({ params }: PageProps) {
     const htmlContent = await markdownToHtml(rule.content);
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 text-slate-100">
-            {/* Header */}
-            <header className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm">
-                <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between">
-                        <Link href="/" className="flex items-center gap-3">
-                            <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-purple-600 to-cyan-600 p-2">
-                                <svg className="h-full w-full text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                            </div>
-                            <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                                Smart Rules Archive
-                            </span>
-                        </Link>
-                        <nav className="flex gap-4">
-                            <Link href="/rules" className="text-slate-300 hover:text-white transition-colors">
-                                규칙 목록
-                            </Link>
-                            <Link href="/submit" className="text-slate-300 hover:text-white transition-colors">
-                                규칙 등록
-                            </Link>
-                        </nav>
-                    </div>
-                </div>
-            </header>
+        <div className="py-8">
+            <ReadingProgress />
 
             <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
                 {/* Breadcrumb */}
@@ -125,7 +102,17 @@ export default async function RulePage({ params }: PageProps) {
                 </div>
 
                 {/* Action Buttons */}
-                <RuleActions content={rule.content} slug={rule.slug} />
+                <RuleActions
+                    content={rule.content}
+                    slug={rule.slug}
+                    title={rule.title}
+                    author={rule.author || 'Unknown'}
+                    category={rule.category}
+                    difficulty={rule.difficulty}
+                    excerpt={rule.excerpt}
+                    created={rule.created}
+                    tags={rule.tags}
+                />
 
                 {/* Content */}
                 <article
