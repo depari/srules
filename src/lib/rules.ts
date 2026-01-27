@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { marked } from 'marked';
+import { marked } from '@/lib/markdown';
 import { Rule, RuleListItem, RuleFrontmatter } from '@/types/rule';
 
 const rulesDirectory = path.join(process.cwd(), 'rules');

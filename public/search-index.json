@@ -1,5 +1,24 @@
 [
   {
+    "title": "Cursor Rules 작성 가이드",
+    "slug": "cursor/cursor-rules",
+    "category": [
+      "Tool",
+      "Cursor"
+    ],
+    "tags": [
+      "Cursor",
+      "AI",
+      "Rules",
+      "Configuration"
+    ],
+    "author": "Smart Rules Archive",
+    "excerpt": "# Cursor Rules 작성 가이드 ## .cursorrules 파일이란? 프로젝트 루트에 `.cursorrules` 파일을 만들어 Cursor AI가 따라야 할 규칙을 정의할 수 있습니다. ## 기본 구조 ``` # 프로젝트 개요 이 프로젝트는 Next.js 14를 사용한 웹 애플리케이션입니다. ## 코딩 스타일 - TypeScript 사용",
+    "path": "cursor/cursor-rules",
+    "difficulty": "beginner",
+    "created": "2026-01-27"
+  },
+  {
     "title": "Cursor AI 효과적인 프롬프트 작성법",
     "slug": "cursor/effective-prompts",
     "category": [
@@ -39,6 +58,26 @@
     "created": "2026-01-27"
   },
   {
+    "title": "Git 브랜치 전략 (Git Flow)",
+    "slug": "git/git-flow",
+    "category": [
+      "Tool",
+      "Git"
+    ],
+    "tags": [
+      "Git",
+      "Git Flow",
+      "Branching",
+      "Workflow",
+      "Version Control"
+    ],
+    "author": "Smart Rules Archive",
+    "excerpt": "# Git 브랜치 전략 (Git Flow) ## Git Flow란? Vincent Driessen이 제안한 Git 브랜치 관리 전략으로, 체계적인 릴리즈 관리에 적합합니다. ## 주요 브랜치 ### 1. main (master) - 프로덕션 배포용 - 항상 배포 가능한 상태 유지 - 태그로 버전 관리 ### 2. develop - 다음 릴리즈 개",
+    "path": "git/git-flow",
+    "difficulty": "intermediate",
+    "created": "2026-01-27"
+  },
+  {
     "title": "Python PEP 8 스타일 가이드",
     "slug": "python/pep8-guide",
     "category": [
@@ -55,6 +94,25 @@
     "excerpt": "# Python PEP 8 스타일 가이드 ## 개요 PEP 8은 Python 코드의 공식 스타일 가이드입니다. 일관된 코딩 스타일은 코드 가독성을 높이고 협업을 용이하게 합니다. ## 들여쓰기 스페이스 4개를 사용합니다: ```python # ✅ 좋은 예시 def calculate_sum(numbers): total = 0 for",
     "path": "python/pep8-guide",
     "difficulty": "beginner",
+    "created": "2026-01-27"
+  },
+  {
+    "title": "Python Type Hints 완벽 가이드",
+    "slug": "python/type-hints",
+    "category": [
+      "Language",
+      "Python"
+    ],
+    "tags": [
+      "Python",
+      "Type Hints",
+      "mypy",
+      "Static Typing"
+    ],
+    "author": "Smart Rules Archive",
+    "excerpt": "# Python Type Hints 완벽 가이드 ## 기본 타입 힌트 ```python def greet(name: str) -> str: return f\"Hello, {name}\" age: int = 25 price: float = 19.99 is_active: bool = True ``` ## 컬렉션 타입 ```python from t",
+    "path": "python/type-hints",
+    "difficulty": "intermediate",
     "created": "2026-01-27"
   },
   {
@@ -78,6 +136,26 @@
     "created": "2026-01-27"
   },
   {
+    "title": "React 성능 최적화 기법",
+    "slug": "react/performance-optimization",
+    "category": [
+      "Framework",
+      "React"
+    ],
+    "tags": [
+      "React",
+      "Performance",
+      "Optimization",
+      "useMemo",
+      "useCallback"
+    ],
+    "author": "Smart Rules Archive",
+    "excerpt": "# React 성능 최적화 기법 ## 1. React.memo로 불필요한 리렌더링 방지 ```typescript const ExpensiveComponent = React.memo(({ data }: { data: Data }) => { return <div>{/* 복잡한 렌더링 */}</div>; }); ``` ## 2. useMemo로 계산",
+    "path": "react/performance-optimization",
+    "difficulty": "advanced",
+    "created": "2026-01-27"
+  },
+  {
     "title": "TypeScript 엄격 모드 Best Practices",
     "slug": "typescript/strict-mode",
     "category": [
@@ -94,6 +172,25 @@
     "excerpt": "# TypeScript 엄격 모드 Best Practices ## 개요 TypeScript의 엄격 모드(`strict`)를 활성화하면 더 안전하고 견고한 코드를 작성할 수 있습니다. 이 가이드는 엄격 모드 설정과 관련 Best Practices를 제공합니다. ## 왜 엄격 모드를 사용해야 하나요? - **타입 안정성 향상**: 암시적 any 타입",
     "path": "typescript/strict-mode",
     "difficulty": "intermediate",
+    "created": "2026-01-27"
+  },
+  {
+    "title": "TypeScript 유틸리티 타입 활용하기",
+    "slug": "typescript/utility-types",
+    "category": [
+      "Language",
+      "TypeScript"
+    ],
+    "tags": [
+      "TypeScript",
+      "Utility Types",
+      "Advanced",
+      "Type Manipulation"
+    ],
+    "author": "Smart Rules Archive",
+    "excerpt": "# TypeScript 유틸리티 타입 활용하기 ## 개요 TypeScript는 강력한 유틸리티 타입을 제공하여 타입 변환 작업을 용이하게 합니다. ## 주요 유틸리티 타입 ### 1. Partial<T> 모든 속성을 선택적으로 만듭니다. ```typescript interface User { id: number; name: string;",
+    "path": "typescript/utility-types",
+    "difficulty": "advanced",
     "created": "2026-01-27"
   }
 ]
