@@ -11,6 +11,8 @@ interface GitHubFileContent {
     content: string;
 }
 
+import { getStoredToken } from '@/lib/storage';
+
 interface CreatePRParams {
     title: string;
     content: string;
@@ -317,7 +319,11 @@ ${params.content}`;
  * GitHub API 클라이언트 인스턴스 생성 헬퍼
  */
 export function createGitHubClient(): GitHubAPIClient | null {
-    const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN || process.env.GITHUB_TOKEN;
+    // 1. LocalStorage에서 토큰 확인 (클라이언트 사이드)
+    const storedToken = typeof window !== 'undefined' ? getStoredToken() : null;
+
+    // 2. 환경변수 확인 (우선순위: 저장된 토큰 > NEXT_PUBLIC > GITHUB_TOKEN)
+    const token = storedToken || process.env.NEXT_PUBLIC_GITHUB_TOKEN || process.env.GITHUB_TOKEN;
     const owner = process.env.NEXT_PUBLIC_GITHUB_OWNER || 'depari';
     const repo = process.env.NEXT_PUBLIC_GITHUB_REPO || 'srules';
 

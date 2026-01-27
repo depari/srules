@@ -7,6 +7,7 @@
 const STORAGE_KEYS = {
     FAVORITES: 'srules_favorites',
     RECENT_VIEWS: 'srules_recent_views',
+    GITHUB_TOKEN: 'srules_github_token',
     THEME: 'srules_theme',
 };
 
@@ -97,6 +98,24 @@ export const addRecentView = (slug: string, title: string): void => {
     }
 
     localStorage.setItem(STORAGE_KEYS.RECENT_VIEWS, JSON.stringify(recentViews));
+};
+
+/**
+ * GitHub Token 관리
+ */
+export const getStoredToken = (): string | null => {
+    if (typeof window === 'undefined') return null;
+    return localStorage.getItem(STORAGE_KEYS.GITHUB_TOKEN);
+};
+
+export const setStoredToken = (token: string): void => {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem(STORAGE_KEYS.GITHUB_TOKEN, token);
+};
+
+export const removeStoredToken = (): void => {
+    if (typeof window === 'undefined') return;
+    localStorage.removeItem(STORAGE_KEYS.GITHUB_TOKEN);
 };
 
 // 테마 관리

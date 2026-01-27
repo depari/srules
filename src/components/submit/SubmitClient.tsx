@@ -108,8 +108,43 @@ function SubmitForm() {
         setIsSubmitting(true);
         try {
             const client = createGitHubClient();
+
+            // 토큰이 없으면 Issue 생성 방식으로 전환 (Token-Free)
             if (!client) {
-                alert('GitHub 토큰이 설정되지 않아 제출 기능을 사용할 수 없습니다. .env.local 파일을 확인해주세요.');
+                const owner = process.env.NEXT_PUBLIC_GITHUB_OWNER || 'depari';
+                const repo = process.env.NEXT_PUBLIC_GITHUB_REPO || 'srules';
+
+                const titleEncoded = encodeURIComponent(editSlug
+                    ? `[Update] ${data.title}`
+                    : `[Proposal] ${data.title}`
+                );
+
+                const bodyContent = `
+## 규칙 제안서
+
+**제목**: ${data.title}
+**카테고리**: ${data.category.join(', ')}
+**태그**: ${data.tags}
+**난이도**: ${data.difficulty}
+**작성자**: ${data.author}
+
+### 제안 내용
+\`\`\`markdown
+${data.content}
+\`\`\`
+
+---
+*이 이슈는 srules 웹사이트에서 생성되었습니다.*
+`.trim();
+
+                const bodyEncoded = encodeURIComponent(bodyContent);
+                const issueUrl = `https://github.com/${owner}/${repo}/issues/new?title=${titleEncoded}&body=${bodyEncoded}&labels=rule-proposal`;
+
+                // 새 탭으로 이동
+                window.open(issueUrl, '_blank');
+
+                // 완료 화면 표시 (이슈 모드)
+                setPrUrl(issueUrl);
                 return;
             }
 
@@ -158,9 +193,10 @@ function SubmitForm() {
                         </svg>
                     </div>
                 </div>
-                <h1 className="text-3xl font-bold text-white mb-4 font-noto">제출이 완료되었습니다!</h1>
+                <h1 className="text-3xl font-bold text-white mb-4 font-noto">제출이 준비되었습니다!</h1>
                 <p className="text-slate-400 mb-8 font-medium font-noto">
-                    규칙 제안이 GitHub Pull Request로 생성되었습니다. 검토 후 아카이브에 반영될 예정입니다.
+                    GitHub 창이 열렸다면 내용을 확인하고 <strong>Submit</strong> 버튼을 눌러주세요.<br />
+                    (토큰이 설정된 경우 자동으로 PR이 생성되었습니다)
                 </p>
                 <div className="flex flex-col gap-4">
                     <a

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import ReactDiffViewer from '@alexbruf/react-diff-viewer';
+import { getStoredToken, setStoredToken, removeStoredToken } from '@/lib/storage';
 
 interface Commit {
     hash: string;
@@ -21,6 +22,17 @@ export default function VersionHistory({ slug, currentContent }: VersionHistoryP
     const [historicalContent, setHistoricalContent] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [showTokenInput, setShowTokenInput] = useState(false);
+    const [userToken, setUserToken] = useState<string | null>(null);
+    const [tokenInput, setTokenInput] = useState('');
+
+    // 초기 토큰 로드
+    useEffect(() => {
+        const stored = getStoredToken();
+        if (stored) {
+            setUserToken(stored);
+        }
+    }, []);
 
     // 로그 데이터 로드
     useEffect(() => {
@@ -43,7 +55,8 @@ export default function VersionHistory({ slug, currentContent }: VersionHistoryP
         try {
             const owner = process.env.NEXT_PUBLIC_GITHUB_OWNER || 'depari';
             const repo = process.env.NEXT_PUBLIC_GITHUB_REPO || 'srules';
-            const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+            // 우선순위: 사용자 입력 토큰 > ENV 토큰
+            const token = userToken || process.env.NEXT_PUBLIC_GITHUB_TOKEN;
 
             const url = `https://api.github.com/repos/${owner}/${repo}/contents/rules/${slug}.md?ref=${commit.hash}`;
 
@@ -57,8 +70,10 @@ export default function VersionHistory({ slug, currentContent }: VersionHistoryP
             });
 
             if (!response.ok) {
-                if (response.status === 403) throw new Error('API Rate limit exceeded or unauthorized. Please set GitHub Token.');
-                throw new Error('Failed to fetch historical content.');
+                if (response.status === 403) {
+                    throw new Error('API 호출 한도 초과. GitHub 토큰을 설정해주세요.');
+                }
+                throw new Error('이전 버전을 불러오는데 실패했습니다.');
             }
 
             const content = await response.text();
@@ -70,6 +85,20 @@ export default function VersionHistory({ slug, currentContent }: VersionHistoryP
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const handleSaveToken = () => {
+        if (!tokenInput.trim()) return;
+        setStoredToken(tokenInput.trim());
+        setUserToken(tokenInput.trim());
+        setTokenInput('');
+        setShowTokenInput(false);
+        setError(null); // 에러 초기화
+    };
+
+    const handleRemoveToken = () => {
+        removeStoredToken();
+        setUserToken(null);
     };
 
     if (history.length === 0) {
@@ -85,12 +114,63 @@ export default function VersionHistory({ slug, currentContent }: VersionHistoryP
             <div className="flex flex-col lg:flex-row gap-6">
                 {/* 리스트 섹션 */}
                 <div className="w-full lg:w-1/3 space-y-4">
-                    <h3 className="text-lg font-semibold flex items-center gap-2">
-                        <svg className="h-5 w-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        변경 이력 ({history.length})
-                    </h3>
+                    <div className="flex items-center justify-between">
+                        <h3 className="text-lg font-semibold flex items-center gap-2">
+                            <svg className="h-5 w-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            변경 이력 ({history.length})
+                        </h3>
+                        <div className="relative">
+                            <button
+                                onClick={() => setShowTokenInput(!showTokenInput)}
+                                className={`p-1.5 rounded-lg transition-colors ${userToken ? 'text-green-400 bg-green-400/10' : 'text-slate-500 hover:text-white hover:bg-slate-800'}`}
+                                title={userToken ? "토큰 설정됨" : "GitHub 토큰 설정"}
+                            >
+                                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                                </svg>
+                            </button>
+
+                            {/* 토큰 입력 팝업 */}
+                            {showTokenInput && (
+                                <div className="absolute right-0 top-full mt-2 z-50 w-72 rounded-xl border border-slate-700 bg-slate-800 p-4 shadow-xl">
+                                    <h4 className="text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">GitHub Token 설정</h4>
+                                    {userToken ? (
+                                        <div className="space-y-3">
+                                            <p className="text-xs text-green-400">✅ 토큰이 설정되어 있습니다.</p>
+                                            <button
+                                                onClick={handleRemoveToken}
+                                                className="w-full rounded-lg bg-red-500/10 py-2 text-xs font-bold text-red-400 hover:bg-red-500/20"
+                                            >
+                                                토큰 삭제
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-3">
+                                            <input
+                                                type="password"
+                                                value={tokenInput}
+                                                onChange={(e) => setTokenInput(e.target.value)}
+                                                placeholder="ghp_..."
+                                                className="w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-xs text-white focus:border-purple-500 focus:outline-none"
+                                            />
+                                            <p className="text-[10px] text-slate-500 leading-tight">
+                                                GitHub Pages는 정적 사이트이므로, API 호출 한도를 늘리려면 개인 토큰(Read Only)이 필요합니다. 토큰은 브라우저에만 저장됩니다.
+                                            </p>
+                                            <button
+                                                onClick={handleSaveToken}
+                                                className="w-full rounded-lg bg-purple-600 py-2 text-xs font-bold text-white hover:bg-purple-500"
+                                            >
+                                                저장
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
                     <div className="max-h-[400px] overflow-y-auto space-y-2 pr-2 scrollbar-thin scrollbar-thumb-slate-700">
                         {history.map((commit, index) => (
                             <button
@@ -134,7 +214,16 @@ export default function VersionHistory({ slug, currentContent }: VersionHistoryP
                         </div>
                     ) : error ? (
                         <div className="flex-1 flex items-center justify-center p-6 text-center text-red-400">
-                            <p>{error}</p>
+                            <p className="mb-4">{error}</p>
+                            {/* 에러 발생 시 토큰 입력 유도 */}
+                            {!userToken && (
+                                <button
+                                    onClick={() => setShowTokenInput(true)}
+                                    className="rounded-lg bg-slate-800 px-4 py-2 text-xs font-bold text-purple-400 hover:bg-slate-700"
+                                >
+                                    GitHub 토큰 설정하기
+                                </button>
+                            )}
                         </div>
                     ) : historicalContent ? (
                         <div className="flex-1 flex flex-col p-4">
@@ -162,19 +251,6 @@ export default function VersionHistory({ slug, currentContent }: VersionHistoryP
                     ) : null}
                 </div>
             </div>
-
-            {/* API Info Alert */}
-            {!process.env.NEXT_PUBLIC_GITHUB_TOKEN && (
-                <div className="rounded-lg bg-amber-500/10 border border-amber-500/20 p-4 flex gap-3">
-                    <svg className="h-5 w-5 text-amber-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                    <p className="text-xs text-amber-200/80">
-                        비로그인 상태에서는 GitHub API 호출 제한이 발생할 수 있습니다.
-                        상세한 변경 이력을 자유롭게 확인하려면 <code className="bg-amber-900/30 px-1 rounded">GITHUB_TOKEN</code>을 설정해주세요.
-                    </p>
-                </div>
-            )}
         </div>
     );
 }
