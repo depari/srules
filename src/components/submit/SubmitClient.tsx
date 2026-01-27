@@ -76,7 +76,8 @@ function SubmitForm() {
     // 수정 모드일 때 기존 데이터 불러오기
     useEffect(() => {
         if (editSlug) {
-            fetch(`/rules/${editSlug}.md`)
+            const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+            fetch(`${basePath}/rules/${editSlug}.md`)
                 .then(res => {
                     if (!res.ok) throw new Error('Rule not found');
                     return res.text();

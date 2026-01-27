@@ -24,7 +24,8 @@ export default function VersionHistory({ slug, currentContent }: VersionHistoryP
 
     // 로그 데이터 로드
     useEffect(() => {
-        fetch('/rule-history.json')
+        const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+        fetch(`${basePath}/rule-history.json`)
             .then(res => res.json())
             .then(data => {
                 const ruleHistory = data[slug] || [];
