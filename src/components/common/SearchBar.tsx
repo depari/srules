@@ -20,7 +20,8 @@ export default function SearchBar({ variant = 'default', placeholder }: SearchBa
 
     // 검색 인덱스 로드
     useEffect(() => {
-        fetch('/search-index.json')
+        const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+        fetch(`${basePath}/search-index.json`)
             .then(res => res.json())
             .then((data: SearchIndexItem[]) => {
                 const fuseInstance = new Fuse(data, {

@@ -16,6 +16,9 @@ const nextConfig: NextConfig = {
     unoptimized: true, // 정적 내보내기에서는 이미지 최적화 비활성화
   },
   trailingSlash: true, // URL에 trailing slash 추가
+  env: {
+    NEXT_PUBLIC_BASE_PATH: isGhPages ? '/srules' : '',
+  },
 };
 
 export default withNextIntl(nextConfig);
