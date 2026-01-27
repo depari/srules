@@ -1,13 +1,12 @@
 ---
 title: "Cursor AI 효과적인 프롬프트 작성법"
-slug: "cursor/effective-prompts"
-version: "1.0.0"
+slug: "tool/cursor-ai"
+version: "1.0.1"
 created: "2026-01-27"
 author: "Smart Rules Archive"
-tags: [Cursor, AI, Prompts, Productivity]
-category: [Tool, Cursor, AI]
+tags: ["Cursor", "AI", "Prompts", "Productivity"]
+category: ["Tool", "Cursor", "AI"]
 difficulty: beginner
-featured: true
 ---
 
 # Cursor AI 효과적인 프롬프트 작성법
@@ -37,6 +36,7 @@ React TypeScript로 Primary 버튼 컴포넌트를 만들어줘:
 ### 2. 컨텍스트 제공
 
 기존 코드 스타일과 프로젝트 구조를 명시합니다:
+ 대원 테스트
 
 ```
 이 프로젝트는 Next.js 14 App Router를 사용합니다.
