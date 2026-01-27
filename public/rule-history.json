@@ -15,14 +15,6 @@
       "message": "feat: 커스텀 마크다운 렌더링 기능 및 카테고리별 규칙 목록 페이지를 추가하고, 여러 새 규칙 문서를 반영했습니다."
     }
   ],
-  "cursor/effective-prompts": [
-    {
-      "hash": "f10f300e0f5f4b88db9346df8e3d61005bae7c60",
-      "author": "depari",
-      "date": "2026-01-27",
-      "message": "feat: 규칙 아카이브 프로젝트 초기 설정 및 메인 페이지, 규칙 목록, 상세 페이지 구현, 마크다운 처리 및 검색 기능 추가"
-    }
-  ],
   "git/commit-messages": [
     {
       "hash": "f10f300e0f5f4b88db9346df8e3d61005bae7c60",
@@ -69,6 +61,14 @@
       "author": "depari",
       "date": "2026-01-27",
       "message": "feat: 커스텀 마크다운 렌더링 기능 및 카테고리별 규칙 목록 페이지를 추가하고, 여러 새 규칙 문서를 반영했습니다."
+    }
+  ],
+  "tool/cursor-ai": [
+    {
+      "hash": "8fce1697665bad8de0b93de65f3596166574a286",
+      "author": "SEO DAE WON",
+      "date": "2026-01-27",
+      "message": "Update rule: Cursor AI 효과적인 프롬프트 작성법"
     }
   ],
   "typescript/strict-mode": [

@@ -1,15 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import Fuse from 'fuse.js';
 import { SearchIndexItem } from '@/types/rule';
 
 interface SearchBarProps {
     variant?: 'default' | 'compact';
+    placeholder?: string;
 }
 
-export default function SearchBar({ variant = 'default' }: SearchBarProps) {
+export default function SearchBar({ variant = 'default', placeholder }: SearchBarProps) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<SearchIndexItem[]>([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -64,6 +65,8 @@ export default function SearchBar({ variant = 'default' }: SearchBarProps) {
         return () => document.removeEventListener('click', handleClickOutside);
     }, []);
 
+    const defaultPlaceholder = isCompact ? "규칙 검색..." : "규칙, 프레임워크, 언어로 검색하세요...";
+
     return (
         <div className="search-container relative w-full">
             <div className="relative">
@@ -77,7 +80,7 @@ export default function SearchBar({ variant = 'default' }: SearchBarProps) {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onFocus={() => query && results.length > 0 && setIsOpen(true)}
-                    placeholder={isCompact ? "규칙 검색..." : "규칙, 프레임워크, 언어로 검색하세요..."}
+                    placeholder={placeholder || defaultPlaceholder}
                     className={`w-full rounded-lg border border-slate-700 bg-slate-900/50 py-2 pl-10 pr-4 text-white placeholder-slate-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 ${isCompact ? 'py-2 pl-10 text-sm' : 'py-4 pl-12 text-lg rounded-full'}`}
                 />
                 {query && (
@@ -103,7 +106,7 @@ export default function SearchBar({ variant = 'default' }: SearchBarProps) {
                         {results.map((result) => (
                             <Link
                                 key={result.slug}
-                                href={`/rules/${result.path}`}
+                                href={`/rules/${result.slug}`}
                                 onClick={() => {
                                     setIsOpen(false);
                                     setQuery('');
@@ -111,7 +114,7 @@ export default function SearchBar({ variant = 'default' }: SearchBarProps) {
                                 className="flex flex-col gap-2 rounded-lg p-3 hover:bg-slate-800 transition-colors"
                             >
                                 <div className="flex items-start justify-between">
-                                    <h3 className="font-semibold text-white">{result.title}</h3>
+                                    <h3 className="font-semibold text-white group-hover:text-purple-400 transition-colors">{result.title}</h3>
                                     {result.difficulty && (
                                         <span className="ml-2 rounded-md bg-purple-500/10 px-2 py-0.5 text-xs text-purple-400">
                                             {result.difficulty}
@@ -141,11 +144,6 @@ export default function SearchBar({ variant = 'default' }: SearchBarProps) {
                                 </div>
                             </Link>
                         ))}
-                    </div>
-                    <div className="border-t border-slate-700 p-2 text-center">
-                        <p className="text-xs text-slate-500">
-                            Enter를 눌러 모든 결과 보기
-                        </p>
                     </div>
                 </div>
             )}

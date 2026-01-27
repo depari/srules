@@ -1,0 +1,39 @@
+{
+    "common": {
+        "title": "Smart Rules Archive",
+        "description": "An open archive where developers' knowledge and experiences are capitalized in the form of rules and shared for anyone to easily use.",
+        "list": "Rules",
+        "favorites": "Favorites",
+        "submit": "Submit",
+        "search": "Search",
+        "theme": "Toggle Theme",
+        "language": "Language",
+        "loading": "Loading..."
+    },
+    "home": {
+        "hero": {
+            "badge": "Sharing {count} rules with developers worldwide",
+            "title": "Rule Archive",
+            "subtitle": "for Developers",
+            "description": "Systematically manage and grow your coding rules, best practices, and AI prompt templates with the community."
+        },
+        "search_placeholder": "Search for rules (e.g., TypeScript, React...)",
+        "popular_categories": "Popular Categories",
+        "featured": {
+            "title": "Featured Rules",
+            "description": "Best rules loved by the community.",
+            "view_all": "View All"
+        },
+        "categories": {
+            "title": "Browse by Category",
+            "description": "Find rules that fit various tech stacks and tools."
+        }
+    },
+    "footer": {
+        "links": "Links",
+        "community": "Community",
+        "rights": "Smart Rules Archive. All rights reserved.",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Use"
+    }
+}

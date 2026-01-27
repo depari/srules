@@ -1,0 +1,39 @@
+{
+    "common": {
+        "title": "Smart Rules Archive",
+        "description": "개발자들의 지식과 경험을 규칙 형태로 자산화하고, 누구나 쉽게 활용할 수 있도록 공유하는 오픈 아카이브입니다.",
+        "list": "규칙 목록",
+        "favorites": "즐겨찾기",
+        "submit": "규칙 등록",
+        "search": "검색",
+        "theme": "테마 전환",
+        "language": "언어 전환",
+        "loading": "불러오는 중..."
+    },
+    "home": {
+        "hero": {
+            "badge": "전 세계 개발자들과 공유하는 {count}개의 규칙",
+            "title": "개발자를 위한",
+            "subtitle": "규칙 아카이브",
+            "description": "코딩 규칙, 베스트 프랙티스, AI 프롬프트 템플릿을 체계적으로 관리하고 커뮤니티와 함께 성장시키세요."
+        },
+        "search_placeholder": "규칙을 검색해보세요 (예: TypeScript, React...)",
+        "popular_categories": "인기 카테고리",
+        "featured": {
+            "title": "추천 규칙",
+            "description": "커뮤니티에서 가장 사랑받는 베스트 규칙들입니다.",
+            "view_all": "모두 보기"
+        },
+        "categories": {
+            "title": "카테고리별 탐색",
+            "description": "다양한 기술 스택과 도구에 맞는 규칙을 찾아보세요."
+        }
+    },
+    "footer": {
+        "links": "링크",
+        "community": "커뮤니티",
+        "rights": "Smart Rules Archive. All rights reserved.",
+        "privacy": "개인정보처리방침",
+        "terms": "이용약관"
+    }
+}

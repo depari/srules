@@ -34,26 +34,6 @@
     "created": "2026-01-27"
   },
   {
-    "title": "Cursor AI 효과적인 프롬프트 작성법",
-    "slug": "cursor/effective-prompts",
-    "category": [
-      "Tool",
-      "Cursor",
-      "AI"
-    ],
-    "tags": [
-      "Cursor",
-      "AI",
-      "Prompts",
-      "Productivity"
-    ],
-    "author": "Smart Rules Archive",
-    "excerpt": "# Cursor AI 효과적인 프롬프트 작성법 ## 개요 Cursor는 AI 기반 코드 에디터로, 효과적인 프롬프트 작성이 생산성의 핵심입니다. ## 기본 원칙 ### 1. 명확하고 구체적으로 ❌ **나쁜 예시:** ``` 버튼 만들어줘 ``` ✅ **좋은 예시:** ``` React TypeScript로 Primary 버튼 컴포넌트를 만들어줘",
-    "path": "cursor/effective-prompts",
-    "difficulty": "beginner",
-    "created": "2026-01-27"
-  },
-  {
     "title": "Git 커밋 메시지 작성 가이드",
     "slug": "git/commit-messages",
     "category": [
@@ -168,6 +148,26 @@
     "excerpt": "# React 성능 최적화 기법 ## 1. React.memo로 불필요한 리렌더링 방지 ```typescript const ExpensiveComponent = React.memo(({ data }: { data: Data }) => { return <div>{/* 복잡한 렌더링 */}</div>; }); ``` ## 2. useMemo로 계산",
     "path": "react/performance-optimization",
     "difficulty": "advanced",
+    "created": "2026-01-27"
+  },
+  {
+    "title": "Cursor AI 효과적인 프롬프트 작성법",
+    "slug": "tool/cursor-ai",
+    "category": [
+      "Tool",
+      "Cursor",
+      "AI"
+    ],
+    "tags": [
+      "Cursor",
+      "AI",
+      "Prompts",
+      "Productivity"
+    ],
+    "author": "Smart Rules Archive",
+    "excerpt": "# Cursor AI 효과적인 프롬프트 작성법 ## 개요 Cursor는 AI 기반 코드 에디터로, 효과적인 프롬프트 작성이 생산성의 핵심입니다. ## 기본 원칙 ### 1. 명확하고 구체적으로 ❌ **나쁜 예시:** ``` 버튼 만들어줘 ``` ✅ **좋은 예시:** ``` React TypeScript로 Primary 버튼 컴포넌트를 만들어줘",
+    "path": "tool/cursor-ai",
+    "difficulty": "beginner",
     "created": "2026-01-27"
   },
   {

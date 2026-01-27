@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { createGitHubClient } from '@/lib/github';
 import { toggleFavorite, isFavorite, addRecentView } from '@/lib/storage';
 
@@ -10,10 +10,10 @@ interface RuleActionsProps {
     content: string;
     slug: string;
     title: string;
-    author: string;
+    author?: string;
     category: string[];
     difficulty?: string;
-    excerpt: string;
+    excerpt?: string;
     created: string;
     tags: string[];
 }
@@ -69,10 +69,10 @@ export default function RuleActions({
             title,
             category,
             difficulty,
-            excerpt,
+            excerpt: excerpt || '',
             created,
             tags,
-            author
+            author: author || 'Anonymous'
         });
         setFavorited(isAdded);
         window.dispatchEvent(new CustomEvent('favorites-updated'));
@@ -94,7 +94,7 @@ export default function RuleActions({
             const { prUrl } = await client.deleteRule({
                 title,
                 originalPath: `rules/${slug}.md`,
-                author
+                author: author || 'Anonymous'
             });
 
             setDeletePrUrl(prUrl);

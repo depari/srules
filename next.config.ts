@@ -1,4 +1,7 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin();
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -16,4 +19,4 @@ const nextConfig: NextConfig = {
   trailingSlash: true, // URL에 trailing slash 추가
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

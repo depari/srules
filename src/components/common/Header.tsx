@@ -1,12 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link, usePathname } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 import { getFavorites } from '@/lib/storage';
 import ThemeToggle from './ThemeToggle';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Header() {
+    const t = useTranslations('common');
     const pathname = usePathname();
     const [favoriteCount, setFavoriteCount] = useState(0);
 
@@ -32,9 +34,9 @@ export default function Header() {
     }, []);
 
     const navItems = [
-        { name: '규칙 목록', href: '/rules' },
-        { name: '즐겨찾기', href: '/favorites', hasBadge: true },
-        { name: '규칙 등록', href: '/submit' },
+        { name: t('list'), href: '/rules' },
+        { name: t('favorites'), href: '/favorites', hasBadge: true },
+        { name: t('submit'), href: '/submit' },
     ];
 
     return (
@@ -70,6 +72,7 @@ export default function Header() {
                         ))}
                         <div className="h-4 w-px bg-slate-800 ml-2"></div>
                         <ThemeToggle />
+                        <LanguageSwitcher />
                     </nav>
 
                     {/* Mobile Navigation Button (Simple version) */}

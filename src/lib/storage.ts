@@ -13,7 +13,7 @@ const STORAGE_KEYS = {
 export type FavoriteItem = {
     slug: string;
     title: string;
-    excerpt: string;
+    excerpt?: string;
     author?: string;
     created: string;
     difficulty?: string;
