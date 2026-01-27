@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getRuleBySlug, markdownToHtml, getAllRules } from "@/lib/rules";
 import RuleActions from "@/components/rules/RuleActions";
+import VersionHistory from "@/components/rules/VersionHistory";
 
 interface PageProps {
     params: Promise<{
@@ -128,7 +129,7 @@ export default async function RulePage({ params }: PageProps) {
 
                 {/* Content */}
                 <article
-                    className="prose prose-invert prose-slate max-w-none
+                    className="prose prose-invert prose-slate max-w-none mb-16
             prose-headings:font-bold prose-headings:text-white
             prose-h1:text-3xl prose-h2:text-2xl prose-h2:border-b prose-h2:border-slate-800 prose-h2:pb-2
             prose-h3:text-xl prose-h4:text-lg
@@ -143,6 +144,20 @@ export default async function RulePage({ params }: PageProps) {
             prose-hr:border-slate-800"
                     dangerouslySetInnerHTML={{ __html: htmlContent }}
                 />
+
+                {/* Version History Section */}
+                <section className="border-t border-slate-800 pt-12 mt-12 mb-20">
+                    <div className="mb-6">
+                        <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                            <span className="h-8 w-1 bg-purple-500 rounded-full mr-1"></span>
+                            버전 히스토리 및 변경 관리
+                        </h2>
+                        <p className="mt-2 text-slate-400 text-sm">
+                            규칙의 수정 이력을 확인하고 이전 버전과의 차이점을 비교할 수 있습니다.
+                        </p>
+                    </div>
+                    <VersionHistory slug={slugPath} currentContent={rule.content} />
+                </section>
             </div>
         </div>
     );

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getAllRules, getAllCategories, getAllTags } from "@/lib/rules";
+import SearchBar from "@/components/common/SearchBar";
 
 export default function RulesPage() {
     const rules = getAllRules();
@@ -42,11 +43,7 @@ export default function RulesPage() {
                             {/* Search */}
                             <div>
                                 <h3 className="text-sm font-semibold text-slate-400 mb-3">검색</h3>
-                                <input
-                                    type="text"
-                                    placeholder="규칙 검색..."
-                                    className="w-full rounded-lg border border-slate-700 bg-slate-900/50 px-3 py-2 text-sm text-white placeholder-slate-400 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
-                                />
+                                <SearchBar variant="compact" />
                             </div>
 
                             {/* Filters */}

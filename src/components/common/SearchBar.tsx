@@ -5,11 +5,17 @@ import Link from 'next/link';
 import Fuse from 'fuse.js';
 import { SearchIndexItem } from '@/types/rule';
 
-export default function SearchBar() {
+interface SearchBarProps {
+    variant?: 'default' | 'compact';
+}
+
+export default function SearchBar({ variant = 'default' }: SearchBarProps) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<SearchIndexItem[]>([]);
     const [isOpen, setIsOpen] = useState(false);
     const [fuse, setFuse] = useState<Fuse<SearchIndexItem> | null>(null);
+
+    const isCompact = variant === 'compact';
 
     // 검색 인덱스 로드
     useEffect(() => {
@@ -62,7 +68,7 @@ export default function SearchBar() {
         <div className="search-container relative w-full">
             <div className="relative">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                    <svg className="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className={`${isCompact ? 'h-4 w-4' : 'h-5 w-5'} text-slate-400`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
@@ -71,8 +77,8 @@ export default function SearchBar() {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onFocus={() => query && results.length > 0 && setIsOpen(true)}
-                    placeholder="규칙, 프레임워크, 언어로 검색하세요..."
-                    className="w-full rounded-full border border-slate-700 bg-slate-900/50 py-4 pl-12 pr-4 text-lg text-white placeholder-slate-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
+                    placeholder={isCompact ? "규칙 검색..." : "규칙, 프레임워크, 언어로 검색하세요..."}
+                    className={`w-full rounded-lg border border-slate-700 bg-slate-900/50 py-2 pl-10 pr-4 text-white placeholder-slate-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 ${isCompact ? 'py-2 pl-10 text-sm' : 'py-4 pl-12 text-lg rounded-full'}`}
                 />
                 {query && (
                     <button

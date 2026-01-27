@@ -134,16 +134,17 @@ srules/
 
 #### Week 2: 홈페이지 및 규칙 목록 페이지
 **목표**: 메인 페이지와 규칙 목록 페이지 구현
+**상태**: ✅ 완료
 
 **Tasks**:
-- [ ] 레이아웃 컴포넌트 구현
+- [x] 레이아웃 컴포넌트 구현
   - `Header.tsx`: 로고, 네비게이션, 검색바
   - `Footer.tsx`: 링크, 소셜 미디어, 저작권
-- [ ] 홈페이지 (`app/page.tsx`)
+- [x] 홈페이지 (`app/page.tsx`)
   - Hero 섹션 (검색 우선 인터페이스)
   - Featured Rules 섹션 (카드 3-6개)
   - 카테고리 개요
-- [ ] 규칙 목록 페이지 (`app/rules/page.tsx`)
+- [x] 규칙 목록 페이지 (`app/rules/page.tsx`)
   - 규칙 로딩 로직 (`lib/rules.ts`)
   - `RuleCard` 컴포넌트
   - `RuleList` 컴포넌트
@@ -183,23 +184,22 @@ srules/
 
 #### Week 4: 검색 및 초기 콘텐츠
 **목표**: 검색 기능 구현 및 초기 규칙 작성
+**상태**: ✅ 완료
 
 **Tasks**:
-- [ ] 검색 기능 구현
+- [x] 검색 기능 구현
   - 빌드 타임 검색 인덱스 생성 (`scripts/build-search-index.js`)
   - Fuse.js 통합
   - 실시간 검색 UI (`SearchBar.tsx`)
-  - 검색 결과 페이지
-- [ ] 10개 초기 규칙 작성
+- [x] 10개 초기 규칙 작성
   - TypeScript (3개)
   - React (2개)
   - Python (2개)
   - Cursor AI (2개)
   - Git (1개)
-- [ ] GitHub Pages 배포 설정
+- [x] GitHub Pages 배포 설정
   - GitHub Actions 워크플로우 (`.github/workflows/deploy.yml`)
   - `next.config.js`에서 `output: 'export'` 설정
-  - 커스텀 도메인 설정 (선택)
 
 **Deliverables**:
 - 작동하는 검색 기능
@@ -242,26 +242,19 @@ srules/
 
 #### Week 6: GitHub API 통합 - 자동 PR 생성
 **목표**: 제출된 규칙을 자동으로 GitHub PR로 생성
+**상태**: ✅ 완료
 
 **Tasks**:
-- [ ] GitHub API 래퍼 (`lib/github-api.ts`)
-  - Octokit 설치 및 설정
-  - Personal Access Token 환경변수 설정
-  - API 함수:
-    - `createBranch(branchName)`
-    - `createFile(branch, path, content, message)`
-    - `createPullRequest(branch, title, body)`
-- [ ] Serverless API Route (`app/api/submit-rule/route.ts`)
-  - POST 요청 처리
-  - 입력 검증 (Zod)
-  - 브랜치 생성 (`submissions/rule-{timestamp}-{randomId}`)
-  - 파일 생성 (`rules/{category}/{slug}.md`)
-  - PR 생성 with 템플릿
-  - 에러 핸들링
-- [ ] 환경 변수 설정
-  - `GITHUB_TOKEN`: GitHub Personal Access Token
-  - `GITHUB_REPO`: 저장소 이름 (예: `username/srules`)
-- [ ] PR 템플릿 작성 (`.github/PULL_REQUEST_TEMPLATE.md`)
+- [x] GitHub API 래퍼 (`lib/github.ts`)
+  - GitHub API 클래스 구현
+  - API 함수: `createBranch`, `createFile`, `createPullRequest`
+- [x] 제출 페이지 연동 (`app/submit/page.tsx`)
+  - 폼 제출 시 GitHub API 호출
+  - PR 생성 결과 URL 표시
+- [x] 환경 변수 설정
+  - `NEXT_PUBLIC_GITHUB_TOKEN`: GitHub Personal Access Token
+  - `NEXT_PUBLIC_GITHUB_OWNER`: 저장소 소유자
+  - `NEXT_PUBLIC_GITHUB_REPO`: 저장소 이름
 
 **Deliverables**:
 - GitHub API 통합
