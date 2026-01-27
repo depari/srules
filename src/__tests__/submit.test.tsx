@@ -46,4 +46,29 @@ tags: [git, test]
         // It must call /rules/git/commit-messages.md (public folder)
         expect(global.fetch).toHaveBeenCalledWith('/rules/git/commit-messages.md');
     });
+
+    it('fetches existing rule with basePath when configured', async () => {
+        // Mock NEXT_PUBLIC_BASE_PATH
+        process.env.NEXT_PUBLIC_BASE_PATH = '/srules';
+
+        // Mock searchParams
+        const mockSearchParams = new URLSearchParams();
+        mockSearchParams.set('edit', 'git/commit-messages');
+
+        const nextNavigation = require('next/navigation');
+        (nextNavigation.useSearchParams as jest.Mock).mockReturnValue(mockSearchParams);
+
+        // Mock fetch response
+        (global.fetch as jest.Mock).mockResolvedValue({
+            ok: true,
+            text: async () => '---'
+        });
+
+        render(<SubmitClient />);
+
+        expect(global.fetch).toHaveBeenCalledWith('/srules/rules/git/commit-messages.md');
+
+        // Reset env
+        delete process.env.NEXT_PUBLIC_BASE_PATH;
+    });
 });
