@@ -26,6 +26,13 @@ Always wrap components using React Query hooks with `QueryClientProvider` in tes
 ### 3. Accessibility Testing (`getByLabelText`)
 Ensure `label` has `htmlFor` matching the input's `id`.
 
+### 4. Playwright E2E Testing
+- **Selectors**: Avoid text/class-based selectors for critical elements. Use `data-testid` where possible.
+- **Matchers**: Be flexible with URL matching (trailing slashes, locale prefixes).
+  - Bad: `toHaveURL(/\/rules$/)`
+  - Good: `toHaveURL(/\/rules\/?$/)`
+- **Dynamic Content**: Verify dynamic text changes (e.g., "Favorite" -> "Unfavorite") by checking the component implementation first to get exact strings.
+
 ## Status
 - All unit tests passed.
 - Lint clean.

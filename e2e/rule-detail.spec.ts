@@ -9,7 +9,7 @@ test.describe('규칙 상세 페이지', () => {
         await page.goto('/ko/rules/cursor/cursor-rules');
 
         // 페이지 타이틀 확인
-        const heading = page.locator('h1');
+        const heading = page.locator('h1').first();
         await expect(heading).toBeVisible();
     });
 
@@ -17,7 +17,7 @@ test.describe('규칙 상세 페이지', () => {
         await page.goto('/ko/rules/cursor/cursor-rules');
 
         // 작성자, 날짜, 카테고리, 태그 등 확인
-        const metadata = page.locator('[class*="meta"], [class*="badge"]');
+        const metadata = page.getByTestId('rule-metadata');
         await expect(metadata.first()).toBeVisible();
     });
 
@@ -86,11 +86,11 @@ test.describe('규칙 상세 페이지', () => {
         await page.goto('/ko/rules/cursor/cursor-rules');
 
         // 목록으로 돌아가기 링크
-        const backLink = page.locator('a[href*="/rules"]').filter({ hasText: /목록|List|Back/i }).first();
+        const backLink = page.getByTestId('breadcrumb-list');
 
         if (await backLink.isVisible()) {
             await backLink.click();
-            await expect(page).toHaveURL(/\/rules$/);
+            await expect(page).toHaveURL(/\/rules\/?$/);
         }
     });
 });

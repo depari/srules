@@ -84,6 +84,6 @@ test.describe('즐겨찾기 기능', () => {
         const text = await favoriteButtonAfterReload.textContent();
 
         // 즐겨찾기가 활성화된 상태여야 함
-        expect(text).toMatch(/해제|Remove|Added/i);
+        expect(text).toMatch(/해제|Remove|Added|취소/i);
     });
 });
