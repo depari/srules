@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      # Type Check는 build 과정에도 포함되지만, 빠른 피드백을 위해 별도로 실행 가능
+      # 여기서는 생략하고 Build 단계에서 확인하거나 필요 시 추가
+
+      - name: Unit Tests
+        run: npm test -- --coverage
+
+  e2e-test:
+    runs-on: ubuntu-latest
+    needs: lint-and-unit-test # Unit 테스트 통과 후 E2E 실행 (리소스 절약)
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Build Search Index & History
+        # E2E 테스트 전 필요한 정적 파일 생성
+        run: |
+          node scripts/build-search-index.js
+          node scripts/generate-history.js
+
+      - name: Run Playwright tests
+        run: npm run test:e2e
+        env:
+          NEXT_PUBLIC_BASE_PATH: /srules # CI 환경에서도 Base Path 설정 필요할 수 있음
+          CI: true
+
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30

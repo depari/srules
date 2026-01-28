@@ -1,7 +1,7 @@
 'use client';
 
 import { useLocale } from 'next-intl';
-import { useRouter, usePathname, routing } from '@/i18n/routing';
+import { useRouter, usePathname } from '@/i18n/routing';
 import { useParams } from 'next/navigation';
 
 export default function LanguageSwitcher() {
@@ -16,7 +16,7 @@ export default function LanguageSwitcher() {
         // router.replace handles the locale prefix automatically if configured
         // But since we are using next-intl/navigation hooks, it's straightforward
         router.replace(
-            // @ts-ignore
+            // @ts-expect-error next-intl types
             { pathname, params },
             { locale: nextLocale }
         );

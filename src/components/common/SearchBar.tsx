@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Link } from '@/i18n/routing';
-import Fuse from 'fuse.js';
-import { SearchIndexItem } from '@/types/rule';
+import { useSearch } from '@/hooks/queries/useSearchQueries';
+import { useDebounce } from '@/hooks/useDebounce';
 
 interface SearchBarProps {
     variant?: 'default' | 'compact';
@@ -12,46 +12,31 @@ interface SearchBarProps {
 
 export default function SearchBar({ variant = 'default', placeholder }: SearchBarProps) {
     const [query, setQuery] = useState('');
-    const [results, setResults] = useState<SearchIndexItem[]>([]);
     const [isOpen, setIsOpen] = useState(false);
-    const [fuse, setFuse] = useState<Fuse<SearchIndexItem> | null>(null);
+
+    // 검색어 디바운싱 (300ms)
+    const debouncedQuery = useDebounce(query, 300);
+
+    // 검색 서비스 Hook 사용 (엔진 추상화)
+    const { data: searchResults } = useSearch(debouncedQuery);
 
     const isCompact = variant === 'compact';
 
-    // 검색 인덱스 로드
-    useEffect(() => {
-        const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
-        fetch(`${basePath}/search-index.json`)
-            .then(res => res.json())
-            .then((data: SearchIndexItem[]) => {
-                const fuseInstance = new Fuse(data, {
-                    keys: [
-                        { name: 'title', weight: 2 },
-                        { name: 'tags', weight: 1.5 },
-                        { name: 'category', weight: 1.5 },
-                        { name: 'excerpt', weight: 1 },
-                        { name: 'author', weight: 0.5 },
-                    ],
-                    threshold: 0.4,
-                    includeScore: true,
-                });
-                setFuse(fuseInstance);
-            })
-            .catch(err => console.error('Failed to load search index:', err));
-    }, []);
+    // UI용 결과 데이터 변환 (SearchResult -> Item)
+    const results = useMemo(() => {
+        return searchResults?.map(result => result.item) ?? [];
+    }, [searchResults]);
 
-    // 검색 실행
+    // 검색어가 있고 결과가 있으면 자동으로 열기 (사용자가 입력 중일 때)
     useEffect(() => {
-        if (!fuse || !query.trim()) {
-            setResults([]);
+        // query가 있고(사용자 입력), debouncedQuery가 같을 때(검색 완료), 결과가 있으면 오픈
+        if (query && query === debouncedQuery && results.length > 0) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setIsOpen(true);
+        } else if (!query) {
             setIsOpen(false);
-            return;
         }
-
-        const searchResults = fuse.search(query);
-        setResults(searchResults.slice(0, 5).map(result => result.item));
-        setIsOpen(searchResults.length > 0);
-    }, [query, fuse]);
+    }, [query, debouncedQuery, results.length]);
 
     // 외부 클릭 시 닫기
     useEffect(() => {
@@ -88,7 +73,6 @@ export default function SearchBar({ variant = 'default', placeholder }: SearchBa
                     <button
                         onClick={() => {
                             setQuery('');
-                            setResults([]);
                             setIsOpen(false);
                         }}
                         className="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 hover:text-white"
@@ -102,7 +86,7 @@ export default function SearchBar({ variant = 'default', placeholder }: SearchBa
 
             {/* 검색 결과 드롭다운 */}
             {isOpen && results.length > 0 && (
-                <div className="absolute z-50 mt-2 w-full rounded-lg border border-slate-700 bg-slate-900 shadow-2xl">
+                <div className="absolute z-50 mt-2 w-full rounded-lg border border-slate-700 bg-slate-900 shadow-2xl max-h-[60vh] overflow-y-auto">
                     <div className="p-2">
                         {results.map((result) => (
                             <Link
@@ -112,12 +96,12 @@ export default function SearchBar({ variant = 'default', placeholder }: SearchBa
                                     setIsOpen(false);
                                     setQuery('');
                                 }}
-                                className="flex flex-col gap-2 rounded-lg p-3 hover:bg-slate-800 transition-colors"
+                                className="flex flex-col gap-2 rounded-lg p-3 hover:bg-slate-800 transition-colors group"
                             >
                                 <div className="flex items-start justify-between">
                                     <h3 className="font-semibold text-white group-hover:text-purple-400 transition-colors">{result.title}</h3>
                                     {result.difficulty && (
-                                        <span className="ml-2 rounded-md bg-purple-500/10 px-2 py-0.5 text-xs text-purple-400">
+                                        <span className="ml-2 rounded-md bg-purple-500/10 px-2 py-0.5 text-xs text-purple-400 shrink-0">
                                             {result.difficulty}
                                         </span>
                                     )}
@@ -150,9 +134,9 @@ export default function SearchBar({ variant = 'default', placeholder }: SearchBa
             )}
 
             {/* 검색 결과 없음 */}
-            {isOpen && query && results.length === 0 && (
+            {isOpen && debouncedQuery && results.length === 0 && (
                 <div className="absolute z-50 mt-2 w-full rounded-lg border border-slate-700 bg-slate-900 p-6 text-center shadow-2xl">
-                    <p className="text-slate-400">"{query}"에 대한 검색 결과가 없습니다.</p>
+                    <p className="text-slate-400">&quot;{query}&quot;에 대한 검색 결과가 없습니다.</p>
                 </div>
             )}
         </div>

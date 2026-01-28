@@ -47,7 +47,7 @@ export default async function RulePage({ params }: PageProps) {
                 <nav className="mb-8 flex items-center gap-2 text-sm text-slate-400 font-bold uppercase tracking-widest text-[10px]">
                     <Link href="/" className="hover:text-white transition-colors">HOME</Link>
                     <span className="text-slate-700">/</span>
-                    <Link href="/rules" className="hover:text-white transition-colors">{ct('list')}</Link>
+                    <Link href="/rules" className="hover:text-white transition-colors" data-testid="breadcrumb-list">{ct('list')}</Link>
                     <span className="text-slate-700">/</span>
                     <span className="text-white line-clamp-1">{rule.title}</span>
                 </nav>
@@ -55,7 +55,7 @@ export default async function RulePage({ params }: PageProps) {
                 {/* Title and Meta */}
                 <div className="mb-8">
                     <h1 className="text-4xl font-extrabold text-white mb-4 leading-tight tracking-tighter">{rule.title}</h1>
-                    <div className="flex flex-wrap items-center gap-6 text-sm text-slate-400 font-medium">
+                    <div className="flex flex-wrap items-center gap-6 text-sm text-slate-400 font-medium" data-testid="rule-metadata">
                         {rule.author && (
                             <div className="flex items-center gap-2">
                                 <div className="h-6 w-6 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-black text-slate-300 shadow-inner">

@@ -9,6 +9,7 @@ export default function ThemeToggle() {
 
     useEffect(() => {
         const savedTheme = getTheme();
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setInternalTheme(savedTheme);
         setTheme(savedTheme); // 초기 적용
         setMounted(true);

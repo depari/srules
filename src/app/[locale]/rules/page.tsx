@@ -72,13 +72,14 @@ export default async function RulesPage({ params }: PageProps) {
                             </h3>
                             <div className="flex flex-wrap gap-2">
                                 {tags.map((tag) => (
-                                    <span
+                                    <Link
                                         key={tag.name}
-                                        className="inline-flex items-center rounded-lg bg-slate-800/50 border border-slate-800 px-3 py-1.5 text-xs font-bold text-slate-400 hover:border-purple-500/50 hover:text-purple-400 transition-all cursor-default"
+                                        href={`/tags/${tag.name.toLowerCase().replace(/\s+/g, '-')}`}
+                                        className="inline-flex items-center rounded-lg bg-slate-800/50 border border-slate-800 px-3 py-1.5 text-xs font-bold text-slate-400 hover:border-purple-500/50 hover:text-purple-400 transition-all cursor-pointer"
                                     >
                                         #{tag.name}
                                         <span className="ml-1.5 opacity-40 text-[10px]">{tag.count}</span>
-                                    </span>
+                                    </Link>
                                 ))}
                             </div>
                         </div>

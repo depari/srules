@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+public
+scripts
+coverage
+playwright-report
+jest.config.js
+next.config.js
+postcss.config.js
+tailwind.config.ts
+e2e
