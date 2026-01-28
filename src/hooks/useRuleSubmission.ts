@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormSetValue } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import matter from 'gray-matter';
@@ -27,7 +27,7 @@ export type RuleFormData = z.infer<typeof ruleSchema>;
 /**
  * 규칙 데이터 로드 훅
  */
-export function useRuleLoader(editSlug: string | null, setValue: any) {
+export function useRuleLoader(editSlug: string | null, setValue: UseFormSetValue<RuleFormData>) {
     useEffect(() => {
         if (!editSlug) return;
 
@@ -41,7 +41,8 @@ export function useRuleLoader(editSlug: string | null, setValue: any) {
                 const { data, content } = matter(text);
                 setValue('title', data.title || '');
                 setValue('author', data.author || '');
-                setValue('difficulty', data.difficulty || 'beginner');
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                setValue('difficulty', (data.difficulty || 'beginner') as any);
                 setValue('category', data.category || []);
                 setValue('tags', (data.tags || []).join(', '));
                 setValue('content', content || '');
@@ -74,7 +75,7 @@ export function useMarkdownPreview() {
 /**
  * 섹션 삽입 훅
  */
-export function useSectionInserter(contentValue: string | undefined, setValue: any) {
+export function useSectionInserter(contentValue: string | undefined, setValue: UseFormSetValue<RuleFormData>) {
     const insertSection = (type: 'overview' | 'example') => {
         const sections = {
             overview: '\n## 개요\n\n이 규칙은 ...를 위한 것입니다.\n',
@@ -148,32 +149,21 @@ ${data.content}
 
             // GitHub PR 생성 (Mutation 사용)
             const tagsArray = data.tags.split(',').map(tag => tag.trim());
-            // editSlug가 있으면 파일명 유지, 없으면 제목으로 생성. 단 fileName에는 경로 포함
-            const fileName = editSlug
-                ? `rules/${editSlug}.md` // editSlug는 보통 'category/name' 형식이 아닐 수 있으므로 확인 필요
-                // 기존 useRuleLoader 로직을 보면 editSlug를 그대로 불러오는데, fileName 생성 시에는 rules/를 붙여야 함.
-                // 기존 코드: const fileName = editSlug ? `${editSlug}.md` : ...; -> services로 넘길 때는 fileName에 `rules/`를 붙여야 했음.
-                // Phase 3 서비스 로직에서는 fileName을 그대로 씀. 
-                // 기존 useRuleSubmission에서는 `fileName: rules/${fileName}` 형태로 넘겼음.
-                : `rules/${data.category[0].toLowerCase()}/${data.title.toLowerCase().replace(/\s+/g, '-')}.md`;
-
-            // 주의: fileName 생성 로직이 기존과 다를 수 있음. 기존: `rules/${fileName}`.
-            // editSlug가 'typescript/strict-mode'라면 fileName은 'rules/typescript/strict-mode.md'여야 함.
-
+            // editSlug가 있으면 파일명 유지, 없으면 제목으로 생성. 단 finalFileName에는 경로 포함
             let finalFileName = '';
             if (editSlug) {
                 // editSlug는 'typescript/strict-mode' 같은 경로일 수 있음. 이미 .md가 없을 것임.
                 finalFileName = `rules/${editSlug}.md`;
             } else {
                 // 새 파일: rules/category/title-slug.md (카테고리 폴더링 적용 권장)
-                // 하지만 기존 로직은 `rules/${data.title...}.md`로 루트에 뒀을 수도 있음. 
+                // 하지만 기존 로직은 `rules/${data.title...}.md`로 루트에 뒀을 수도 있음.
                 // README 예시는 `rules/typescript/strict-mode.md` 이므로 카테고리 포함이 맞음.
                 // 기존 코드는 `rules/${fileName}` 이었고 fileName은 title slug. 즉 rules/title.md 였음.
                 // 아키텍처 예시는 rules/category/file.md 임.
                 // Phase 2-2 리팩토링 전 코드를 참고해 최대한 기존 동작 유지.
                 // "rules/" prefix는 서비스가 아니라 클라이언트가 결정했음.
                 // 여기서는 기존 로직대로 `rules/${slug}.md` 로 하되, slug 생성 시 카테고리 포함 여부는 기존대로(제목기반) 갈지, 개선할지 결정.
-                // 기존대로 제목 기반으로 가되, 규칙 정리 시 폴더링은 수동으로 하는 구조인듯. 
+                // 기존대로 제목 기반으로 가되, 규칙 정리 시 폴더링은 수동으로 하는 구조인듯.
                 finalFileName = `rules/${data.title.toLowerCase().replace(/\s+/g, '-')}.md`;
             }
 
@@ -183,6 +173,7 @@ ${data.content}
                 category: data.category,
                 tags: tagsArray,
                 author: data.author,
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 difficulty: data.difficulty as any,
                 fileName: finalFileName,
             };

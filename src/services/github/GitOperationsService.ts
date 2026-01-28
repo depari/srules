@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Git 작업 서비스 구현
  * 책임: Git 브랜치 및 파일 관리 (저수준 Git 작업)

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * GitHub HTTP 클라이언트 구현
  * 책임: GitHub API와의 HTTP 통신만 담당

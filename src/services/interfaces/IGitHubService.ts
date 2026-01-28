@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * GitHub 서비스 인터페이스 정의
  * DIP 원칙 적용: 구체적인 구현이 아닌 추상화에 의존

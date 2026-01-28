@@ -1,23 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Link, routing } from '@/i18n/routing';
+import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
-import { getFavorites, getRecentViews, FavoriteItem, RecentViewItem } from '@/lib/storage';
+import { useFavorites } from '@/hooks/queries/useFavoriteQueries';
+import { useRecentViews } from '@/hooks/queries/useRecentViewQueries';
 import RuleCard from '@/components/rules/RuleCard';
-
 
 export default function FavoritesPage() {
     const ct = useTranslations('common');
-    const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
-    const [recentViews, setRecentViews] = useState<RecentViewItem[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const { data: favorites = [], isLoading: isLoadingFavorites } = useFavorites();
+    const { data: recentViews = [], isLoading: isLoadingRecent } = useRecentViews(5);
 
-    useEffect(() => {
-        setFavorites(getFavorites());
-        setRecentViews(getRecentViews());
-        setIsLoading(false);
-    }, []);
+    const isLoading = isLoadingFavorites || isLoadingRecent;
 
     if (isLoading) {
         return (
@@ -94,6 +88,7 @@ export default function FavoritesPage() {
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                     </span>
+                                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                     {ct('recent_views' as any) || 'RECENT VIEWS'}
                                 </h3>
                                 {recentViews.length > 0 ? (

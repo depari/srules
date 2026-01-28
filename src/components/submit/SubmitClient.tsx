@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+
 import { Link } from '@/i18n/routing';
 import { useRuleForm } from '@/hooks/useRuleSubmission';
 import {
@@ -30,7 +30,6 @@ export default function SubmitPage() {
 }
 
 function SubmitForm() {
-    const t = useTranslations('common');
     const searchParams = useSearchParams();
     const editSlug = searchParams.get('edit');
 
@@ -54,6 +53,7 @@ function SubmitForm() {
     };
 
     // 폼 제출 핸들러
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onSubmit = async (data: any) => {
         await submission.submitRule(data);
         form.reset();

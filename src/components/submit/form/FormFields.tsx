@@ -1,9 +1,10 @@
+
 /**
  * 규칙 제출 폼 UI 컴포넌트들
  * ISP 원칙 적용: 각 컴포넌트가 필요한 props만 받음
  */
 
-import { UseFormRegister, FieldErrors } from 'react-hook-form';
+import { UseFormRegister } from 'react-hook-form';
 import type { RuleFormData } from '@/hooks/useRuleSubmission';
 
 const CATEGORIES = [
@@ -60,10 +61,10 @@ export function CategorySelect({ selectedCategories, toggleCategory, error }: Ca
                         key={cat}
                         type="button"
                         onClick={() => toggleCategory(cat)}
-                        className={`rounded-lg px-4 py-3 text-sm font-bold transition-all border ${selectedCategories.includes(cat)
-                                ? 'bg-purple-600 border-purple-500 text-white shadow-lg shadow-purple-500/20'
-                                : 'bg-slate-900/50 border-slate-800 text-slate-400 hover:border-purple-500/50 hover:text-purple-400'
-                            }`}
+                        className={`rounded - lg px - 4 py - 3 text - sm font - bold transition - all border ${selectedCategories.includes(cat)
+                            ? 'bg-purple-600 border-purple-500 text-white shadow-lg shadow-purple-500/20'
+                            : 'bg-slate-900/50 border-slate-800 text-slate-400 hover:border-purple-500/50 hover:text-purple-400'
+                            } `}
                     >
                         {cat}
                     </button>
@@ -212,11 +213,11 @@ export function ContentEditor({
             <textarea
                 {...register('content')}
                 rows={20}
-                placeholder="## 규칙 설명&#10;&#10;이 규칙은...&#10;&#10;## 사용 예시&#10;&#10;```typescript&#10;// 코드 예시&#10;```"
+                placeholder="## 규칙 설명&#10;&#10;이 규칙은...&#10;&#10;## 사용 예시&#10;&#10;```typescript &#10;// 코드 예시&#10;```"
                 className="w-full rounded-xl border border-slate-800 bg-slate-900/50 px-5 py-4 text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all font-mono text-sm"
             />
             {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
-        </div>
+        </div >
     );
 }
 

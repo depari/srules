@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * ElasticSearch 서비스 구현체
  * 실제 Elasticsearch 클러스터와 통신

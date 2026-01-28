@@ -83,7 +83,6 @@ export function useRemoveFavorite() {
  * 즐겨찾기 토글 훅 (추가/제거 통합)
  */
 export function useToggleFavorite() {
-    const queryClient = useQueryClient();
     const addFavorite = useAddFavorite();
     const removeFavorite = useRemoveFavorite();
 

@@ -31,6 +31,7 @@ export default function SearchBar({ variant = 'default', placeholder }: SearchBa
     useEffect(() => {
         // query가 있고(사용자 입력), debouncedQuery가 같을 때(검색 완료), 결과가 있으면 오픈
         if (query && query === debouncedQuery && results.length > 0) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setIsOpen(true);
         } else if (!query) {
             setIsOpen(false);
@@ -135,7 +136,7 @@ export default function SearchBar({ variant = 'default', placeholder }: SearchBa
             {/* 검색 결과 없음 */}
             {isOpen && debouncedQuery && results.length === 0 && (
                 <div className="absolute z-50 mt-2 w-full rounded-lg border border-slate-700 bg-slate-900 p-6 text-center shadow-2xl">
-                    <p className="text-slate-400">"{query}"에 대한 검색 결과가 없습니다.</p>
+                    <p className="text-slate-400">&quot;{query}&quot;에 대한 검색 결과가 없습니다.</p>
                 </div>
             )}
         </div>

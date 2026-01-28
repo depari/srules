@@ -42,7 +42,6 @@ export function generateStaticParams() {
 export default async function TagPage({ params }: PageProps) {
     const { locale, tag: tagSlug } = await params;
     setRequestLocale(locale);
-    const t = await getTranslations({ locale, namespace: 'home' });
     const ct = await getTranslations({ locale, namespace: 'common' });
 
     const allRules = getAllRules();

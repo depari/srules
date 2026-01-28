@@ -172,7 +172,7 @@ export default function VersionHistory({ slug, currentContent }: VersionHistoryP
                     </div>
 
                     <div className="max-h-[400px] overflow-y-auto space-y-2 pr-2 scrollbar-thin scrollbar-thumb-slate-700">
-                        {history.map((commit, index) => (
+                        {history.map((commit) => (
                             <button
                                 key={commit.hash}
                                 onClick={() => fetchHistoricalContent(commit)}

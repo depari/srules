@@ -1,37 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+
 import { Link, usePathname } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
-import { getFavorites } from '@/lib/storage';
+import { useFavorites } from '@/hooks/queries/useFavoriteQueries';
 import ThemeToggle from './ThemeToggle';
 import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Header() {
     const t = useTranslations('common');
     const pathname = usePathname();
-    const [favoriteCount, setFavoriteCount] = useState(0);
-
-    // 즐겨찾기 개수 업데이트 로직
-    const updateFavoriteCount = () => {
-        setFavoriteCount(getFavorites().length);
-    };
-
-    useEffect(() => {
-        updateFavoriteCount();
-
-        // 즐겨찾기 토글 시 발생하는 스토리지 이벤트를 감지 (커스텀 이벤트 추천)
-        // 여기서는 간단히 페이지가 활성화될 때마다 업데이트
-        window.addEventListener('focus', updateFavoriteCount);
-
-        // 커스텀 이벤트 리스너 (RuleActions에서 발생시킬 수 있음)
-        window.addEventListener('favorites-updated', updateFavoriteCount);
-
-        return () => {
-            window.removeEventListener('focus', updateFavoriteCount);
-            window.removeEventListener('favorites-updated', updateFavoriteCount);
-        };
-    }, []);
+    const { data: favorites } = useFavorites();
+    const favoriteCount = favorites?.length ?? 0;
 
     const navItems = [
         { name: t('list'), href: '/rules' },

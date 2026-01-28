@@ -6,7 +6,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { FuseSearchService } from '@/services/search/FuseSearchService';
 import { ElasticSearchService } from '@/services/search/ElasticSearchService';
-import type { ISearchService, SearchOptions, SearchResult } from '@/services/interfaces/ISearchService';
+import type { ISearchService, SearchOptions } from '@/services/interfaces/ISearchService';
 import type { SearchIndexItem } from '@/types/rule';
 
 // Query Keys

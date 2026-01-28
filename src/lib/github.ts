@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * GitHub 클라이언트 팩토리
  * 기존 API와의 호환성을 유지하면서 새로운 서비스 아키텍처 제공

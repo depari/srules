@@ -70,8 +70,10 @@ export function useFavoriteRule(slug: string, ruleData: FavoriteItem) {
         // 컴포넌트 마운트 시 한 번만 실행되도록
         if (ruleData.slug === slug) {
             // RuleListItem과 FavoriteItem 간 타입 호환성 처리
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             addRecentView(ruleData as any);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [slug, ruleData.slug, ruleData.title, addRecentView]);
 
     const toggleFavorite = () => {
