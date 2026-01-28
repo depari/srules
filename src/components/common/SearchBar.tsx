@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Link } from '@/i18n/routing';
 import Fuse from 'fuse.js';
 import { SearchIndexItem } from '@/types/rule';
+import { useSearchIndex } from '@/hooks/queries/useSearchQueries';
 
 interface SearchBarProps {
     variant?: 'default' | 'compact';
@@ -12,46 +13,44 @@ interface SearchBarProps {
 
 export default function SearchBar({ variant = 'default', placeholder }: SearchBarProps) {
     const [query, setQuery] = useState('');
-    const [results, setResults] = useState<SearchIndexItem[]>([]);
     const [isOpen, setIsOpen] = useState(false);
-    const [fuse, setFuse] = useState<Fuse<SearchIndexItem> | null>(null);
+
+    // React Query로 검색 인덱스 로드 (캐싱 및 로딩 상태 자동 관리)
+    const { data: searchIndex } = useSearchIndex();
 
     const isCompact = variant === 'compact';
 
-    // 검색 인덱스 로드
-    useEffect(() => {
-        const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
-        fetch(`${basePath}/search-index.json`)
-            .then(res => res.json())
-            .then((data: SearchIndexItem[]) => {
-                const fuseInstance = new Fuse(data, {
-                    keys: [
-                        { name: 'title', weight: 2 },
-                        { name: 'tags', weight: 1.5 },
-                        { name: 'category', weight: 1.5 },
-                        { name: 'excerpt', weight: 1 },
-                        { name: 'author', weight: 0.5 },
-                    ],
-                    threshold: 0.4,
-                    includeScore: true,
-                });
-                setFuse(fuseInstance);
-            })
-            .catch(err => console.error('Failed to load search index:', err));
-    }, []);
+    // Fuse 인스턴스 메모이제이션
+    const fuse = useMemo(() => {
+        if (!searchIndex) return null;
 
-    // 검색 실행
+        return new Fuse(searchIndex, {
+            keys: [
+                { name: 'title', weight: 2 },
+                { name: 'tags', weight: 1.5 },
+                { name: 'category', weight: 1.5 },
+                { name: 'excerpt', weight: 1 },
+                { name: 'author', weight: 0.5 },
+            ],
+            threshold: 0.4,
+            includeScore: true,
+        });
+    }, [searchIndex]);
+
+    // 검색 결과 계산
+    const results = useMemo(() => {
+        if (!fuse || !query.trim()) return [];
+        return fuse.search(query).slice(0, 5).map(result => result.item);
+    }, [fuse, query]);
+
+    // 검색어가 있고 결과가 있으면 자동으로 열기 (사용자가 입력 중일 때)
     useEffect(() => {
-        if (!fuse || !query.trim()) {
-            setResults([]);
+        if (query && results.length > 0) {
+            setIsOpen(true);
+        } else if (!query) {
             setIsOpen(false);
-            return;
         }
-
-        const searchResults = fuse.search(query);
-        setResults(searchResults.slice(0, 5).map(result => result.item));
-        setIsOpen(searchResults.length > 0);
-    }, [query, fuse]);
+    }, [query, results.length]);
 
     // 외부 클릭 시 닫기
     useEffect(() => {
@@ -88,7 +87,6 @@ export default function SearchBar({ variant = 'default', placeholder }: SearchBa
                     <button
                         onClick={() => {
                             setQuery('');
-                            setResults([]);
                             setIsOpen(false);
                         }}
                         className="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 hover:text-white"

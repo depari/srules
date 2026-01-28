@@ -17,6 +17,8 @@
   "dependencies": {
     "@alexbruf/react-diff-viewer": "^3.1.5",
     "@hookform/resolvers": "^3.3.4",
+    "@tanstack/react-query": "^5.90.20",
+    "@tanstack/react-query-devtools": "^5.91.2",
     "fuse.js": "^7.0.0",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.9.0",

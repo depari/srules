@@ -1,12 +1,13 @@
 /**
  * Rule Actions 커스텀 훅
  * 각 액션의 비즈니스 로직을 독립적인 훅으로 분리
+ * React Query를 통해 상태 관리 최적화
  */
 
 import { useState, useEffect } from 'react';
-import { getFavoriteService } from '@/services/FavoriteService';
-import { getRecentViewService } from '@/services/RecentViewService';
 import type { FavoriteItem } from '@/types/rule';
+import { useIsFavorite, useToggleFavorite } from '@/hooks/queries/useFavoriteQueries';
+import { useAddRecentView } from '@/hooks/queries/useRecentViewQueries';
 
 /**
  * 규칙 복사 훅
@@ -56,29 +57,31 @@ export function useShareRule() {
 }
 
 /**
- * 즐겨찾기 훅
+ * 즐겨찾기 훅 (React Query 적용)
  */
 export function useFavoriteRule(slug: string, ruleData: FavoriteItem) {
-    const [favorited, setFavorited] = useState(false);
-    const favoriteService = getFavoriteService();
-
-    useEffect(() => {
-        setFavorited(favoriteService.isFavorite(slug));
-    }, [slug, favoriteService]);
+    // React Query Hooks 사용
+    const { data: favorited } = useIsFavorite(slug);
+    const { toggle } = useToggleFavorite();
+    const { mutate: addRecentView } = useAddRecentView();
 
     // 페이지 로드 시 최근 본 규칙에 추가
     useEffect(() => {
-        const recentViewService = getRecentViewService();
-        recentViewService.addRecentView(slug, ruleData.title);
-    }, [slug, ruleData.title]);
+        // 컴포넌트 마운트 시 한 번만 실행되도록
+        if (ruleData.slug === slug) {
+            // RuleListItem과 FavoriteItem 간 타입 호환성 처리
+            addRecentView(ruleData as any);
+        }
+    }, [slug, ruleData.slug, ruleData.title, addRecentView]);
 
     const toggleFavorite = () => {
-        const isAdded = favoriteService.toggleFavorite(ruleData);
-        setFavorited(isAdded);
-        window.dispatchEvent(new CustomEvent('favorites-updated'));
+        toggle(ruleData);
     };
 
-    return { favorited, toggleFavorite };
+    return {
+        favorited: !!favorited, // undefined일 경우 false 처리
+        toggleFavorite
+    };
 }
 
 /**

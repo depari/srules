@@ -24,7 +24,7 @@
 - **Framework**: Next.js 14 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **State Management**: React Hooks
+- **State Management**: React Query (TanStack Query)
 
 ### Features
 - **Search**: Fuse.js
@@ -239,6 +239,7 @@ srules/
 │   ├── report_20260128_solid_phase2_2.md
 │   ├── report_20260128_solid_phase3.md
 │   ├── report_20260128_solid_phase4.md
+│   ├── report_20260128_solid_phase5.md
 │   └── report_20260128_solid_comprehensive.md
 ├── rules/                          # 규칙 Markdown 파일
 │   ├── typescript/
@@ -263,7 +264,14 @@ srules/
 │   │   └── submit/                # 제출 폼 컴포넌트
 │   ├── hooks/                      # 커스텀 훅
 │   │   ├── useRuleActions.ts
-│   │   └── useRuleSubmission.ts
+│   │   ├── useRuleSubmission.ts
+│   │   └── queries/               # React Query 훅 (New)
+│   │       ├── useFavoriteQueries.ts
+│   │       ├── useRecentViewQueries.ts
+│   │       ├── useGitHubQueries.ts
+│   │       └── useSearchQueries.ts
+│   ├── providers/                  # 전역 Provider
+│   │   └── QueryProvider.tsx      # React Query 설정
 │   ├── services/                   # 서비스 계층
 │   │   ├── interfaces/            # 인터페이스 정의
 │   │   ├── storage/               # 스토리지 어댑터
@@ -407,7 +415,7 @@ NEXT_PUBLIC_BASE_PATH=/srules                 # GitHub Pages 서브 디렉토리
 - [x] Phase 2: 컴포넌트 책임 분리
 - [x] Phase 3: GitHub API 클라이언트 리팩토링
 - [x] Phase 4: E2E 테스트 추가 (Playwright)
-- [ ] Phase 5: 성능 최적화 (React Query)
+- [x] Phase 5: 성능 최적화 (React Query)
 - [ ] Phase 6: 검색 기능 고도화 (ElasticSearch)
 - [ ] Phase 7: CI/CD GitHub Actions 통합
 

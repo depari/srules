@@ -21,17 +21,33 @@ export class FavoriteService {
     }
 
     /**
+     * 즐겨찾기 추가
+     */
+    addFavorite(item: FavoriteItem): void {
+        if (!this.isFavorite(item.slug)) {
+            this.storage.add(item);
+        }
+    }
+
+    /**
+     * 즐겨찾기 제거
+     */
+    removeFavorite(slug: string): void {
+        this.storage.remove(f => f.slug === slug);
+    }
+
+    /**
      * 즐겨찾기 토글 (추가/삭제)
      * @returns true if added, false if removed
      */
     toggleFavorite(item: FavoriteItem): boolean {
-        const exists = this.storage.exists(f => f.slug === item.slug);
+        const exists = this.isFavorite(item.slug);
 
         if (exists) {
-            this.storage.remove(f => f.slug === item.slug);
+            this.removeFavorite(item.slug);
             return false;
         } else {
-            this.storage.add(item);
+            this.addFavorite(item);
             return true;
         }
     }

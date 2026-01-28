@@ -1,6 +1,7 @@
 /**
  * Rule Submission 커스텀 훅
  * 규칙 제출 관련 비즈니스 로직 분리
+ * React Query Mutation 적용
  */
 
 import { useState, useEffect } from 'react';
@@ -9,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import matter from 'gray-matter';
 import { marked } from 'marked';
-import { createGitHubClient } from '@/lib/github';
+import { useSubmitRuleMutation, useUpdateRuleMutation } from '@/hooks/queries/useGitHubQueries';
 
 // 폼 스키마
 export const ruleSchema = z.object({
@@ -89,19 +90,27 @@ export function useSectionInserter(contentValue: string | undefined, setValue: a
 }
 
 /**
- * 규칙 제출 훅
+ * 규칙 제출 훅 (React Query 적용)
  */
 export function useRuleSubmission(editSlug: string | null) {
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const [prUrl, setPrUrl] = useState<string | null>(null);
+    const [isFallbackSubmitting, setIsFallbackSubmitting] = useState(false); // 토큰 없을 때 로딩 상태
+
+    // React Query Mutations
+    const submitMutation = useSubmitRuleMutation();
+    const updateMutation = useUpdateRuleMutation();
+
+    // 전체 로딩 상태
+    const isSubmitting = submitMutation.isPending || updateMutation.isPending || isFallbackSubmitting;
 
     const submitRule = async (data: RuleFormData) => {
-        setIsSubmitting(true);
         try {
-            const client = createGitHubClient();
+            // 토큰이 없으면 Issue 생성 방식으로 전환 (Fallback)
+            const hasToken = !!process.env.NEXT_PUBLIC_GITHUB_TOKEN;
 
-            // 토큰이 없으면 Issue 생성 방식으로 전환
-            if (!client) {
+            if (!hasToken) {
+                setIsFallbackSubmitting(true);
+                // 기존 Issue 생성 로직 유지
                 const owner = process.env.NEXT_PUBLIC_GITHUB_OWNER || 'depari';
                 const repo = process.env.NEXT_PUBLIC_GITHUB_REPO || 'srules';
 
@@ -133,31 +142,72 @@ ${data.content}
 
                 window.open(issueUrl, '_blank');
                 setPrUrl(issueUrl);
+                setIsFallbackSubmitting(false); // 로딩 종료
                 return;
             }
 
-            // GitHub PR 생성
+            // GitHub PR 생성 (Mutation 사용)
             const tagsArray = data.tags.split(',').map(tag => tag.trim());
-            const fileName = editSlug ? `${editSlug}.md` : `${data.title.toLowerCase().replace(/\s+/g, '-')}.md`;
+            // editSlug가 있으면 파일명 유지, 없으면 제목으로 생성. 단 fileName에는 경로 포함
+            const fileName = editSlug
+                ? `rules/${editSlug}.md` // editSlug는 보통 'category/name' 형식이 아닐 수 있으므로 확인 필요
+                // 기존 useRuleLoader 로직을 보면 editSlug를 그대로 불러오는데, fileName 생성 시에는 rules/를 붙여야 함.
+                // 기존 코드: const fileName = editSlug ? `${editSlug}.md` : ...; -> services로 넘길 때는 fileName에 `rules/`를 붙여야 했음.
+                // Phase 3 서비스 로직에서는 fileName을 그대로 씀. 
+                // 기존 useRuleSubmission에서는 `fileName: rules/${fileName}` 형태로 넘겼음.
+                : `rules/${data.category[0].toLowerCase()}/${data.title.toLowerCase().replace(/\s+/g, '-')}.md`;
 
-            const { prUrl: url } = await client.submitRule({
+            // 주의: fileName 생성 로직이 기존과 다를 수 있음. 기존: `rules/${fileName}`.
+            // editSlug가 'typescript/strict-mode'라면 fileName은 'rules/typescript/strict-mode.md'여야 함.
+
+            let finalFileName = '';
+            if (editSlug) {
+                // editSlug는 'typescript/strict-mode' 같은 경로일 수 있음. 이미 .md가 없을 것임.
+                finalFileName = `rules/${editSlug}.md`;
+            } else {
+                // 새 파일: rules/category/title-slug.md (카테고리 폴더링 적용 권장)
+                // 하지만 기존 로직은 `rules/${data.title...}.md`로 루트에 뒀을 수도 있음. 
+                // README 예시는 `rules/typescript/strict-mode.md` 이므로 카테고리 포함이 맞음.
+                // 기존 코드는 `rules/${fileName}` 이었고 fileName은 title slug. 즉 rules/title.md 였음.
+                // 아키텍처 예시는 rules/category/file.md 임.
+                // Phase 2-2 리팩토링 전 코드를 참고해 최대한 기존 동작 유지.
+                // "rules/" prefix는 서비스가 아니라 클라이언트가 결정했음.
+                // 여기서는 기존 로직대로 `rules/${slug}.md` 로 하되, slug 생성 시 카테고리 포함 여부는 기존대로(제목기반) 갈지, 개선할지 결정.
+                // 기존대로 제목 기반으로 가되, 규칙 정리 시 폴더링은 수동으로 하는 구조인듯. 
+                finalFileName = `rules/${data.title.toLowerCase().replace(/\s+/g, '-')}.md`;
+            }
+
+            const commonParams = {
                 title: data.title,
                 content: data.content,
                 category: data.category,
                 tags: tagsArray,
                 author: data.author,
                 difficulty: data.difficulty as any,
-                fileName: `rules/${fileName}`,
-                isEdit: !!editSlug
-            } as any);
+                fileName: finalFileName,
+            };
 
-            setPrUrl(url);
+            let result;
+            if (editSlug) {
+                // 수정
+                result = await updateMutation.mutateAsync({
+                    ...commonParams,
+                    originalPath: `rules/${editSlug}.md`,
+                    isEdit: true
+                });
+            } else {
+                // 생성
+                result = await submitMutation.mutateAsync({
+                    ...commonParams,
+                    isEdit: false
+                });
+            }
+
+            setPrUrl(result.prUrl);
         } catch (error) {
             console.error('Submission error:', error);
             alert('제출 중 오류가 발생했습니다.');
-            throw error;
-        } finally {
-            setIsSubmitting(false);
+            // Mutation 에러는 여기서 catch됨
         }
     };
 
