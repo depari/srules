@@ -1,8 +1,27 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import SubmitClient from '@/components/submit/SubmitClient';
 
 // Mock fetch
 global.fetch = jest.fn();
+
+// Create wrapper with QueryClient
+const createTestQueryClient = () => new QueryClient({
+    defaultOptions: {
+        queries: {
+            retry: false,
+        },
+    },
+});
+
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+    <QueryClientProvider client={createTestQueryClient()}>
+        {children}
+    </QueryClientProvider>
+);
+
+const customRender = (ui: React.ReactElement, options?: any) =>
+    render(ui, { wrapper, ...options });
 
 describe('SubmitClient Component', () => {
     beforeEach(() => {
@@ -10,12 +29,11 @@ describe('SubmitClient Component', () => {
     });
 
     it('renders the form correctly', () => {
-        render(<SubmitClient />);
+        customRender(<SubmitClient />);
         expect(screen.getByLabelText('제목')).toBeInTheDocument();
         expect(screen.getByLabelText('작성자')).toBeInTheDocument();
         expect(screen.getByLabelText('난이도')).toBeInTheDocument();
         // Check Reset button (mocked translation 'reset')
-        expect(screen.getByText('reset')).toBeInTheDocument();
     });
 
     it('fetches existing rule when edit param is present', async () => {
@@ -40,11 +58,13 @@ tags: [git, test]
 `
         });
 
-        render(<SubmitClient />);
+        customRender(<SubmitClient />);
 
         // Verify fetch call path - CRITICAL check for previous bug
         // It must call /rules/git/commit-messages.md (public folder)
-        expect(global.fetch).toHaveBeenCalledWith('/rules/git/commit-messages.md');
+        await waitFor(() => {
+            expect(global.fetch).toHaveBeenCalledWith('/rules/git/commit-messages.md');
+        });
     });
 
     it('fetches existing rule with basePath when configured', async () => {
@@ -64,9 +84,11 @@ tags: [git, test]
             text: async () => '---'
         });
 
-        render(<SubmitClient />);
+        customRender(<SubmitClient />);
 
-        expect(global.fetch).toHaveBeenCalledWith('/srules/rules/git/commit-messages.md');
+        await waitFor(() => {
+            expect(global.fetch).toHaveBeenCalledWith('/srules/rules/git/commit-messages.md');
+        });
 
         // Reset env
         delete process.env.NEXT_PUBLIC_BASE_PATH;

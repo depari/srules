@@ -26,10 +26,11 @@ interface TitleInputProps {
 export function TitleInput({ register, error }: TitleInputProps) {
     return (
         <div>
-            <label className="block text-sm font-bold uppercase tracking-wide text-cyan-400 mb-3">
+            <label htmlFor="title" className="block text-sm font-bold uppercase tracking-wide text-cyan-400 mb-3">
                 제목
             </label>
             <input
+                id="title"
                 {...register('title')}
                 type="text"
                 placeholder="규칙의 명확한 제목을 입력하세요"
@@ -86,10 +87,11 @@ interface TagsInputProps {
 export function TagsInput({ register, error }: TagsInputProps) {
     return (
         <div>
-            <label className="block text-sm font-bold uppercase tracking-wide text-pink-400 mb-3">
+            <label htmlFor="tags" className="block text-sm font-bold uppercase tracking-wide text-pink-400 mb-3">
                 태그 (쉼표로 구분)
             </label>
             <input
+                id="tags"
                 {...register('tags')}
                 type="text"
                 placeholder="예: best practices, clean code, performance"
@@ -111,10 +113,11 @@ interface DifficultySelectProps {
 export function DifficultySelect({ register, error }: DifficultySelectProps) {
     return (
         <div>
-            <label className="block text-sm font-bold uppercase tracking-wide text-yellow-400 mb-3">
+            <label htmlFor="difficulty" className="block text-sm font-bold uppercase tracking-wide text-yellow-400 mb-3">
                 난이도
             </label>
             <select
+                id="difficulty"
                 {...register('difficulty')}
                 className="w-full rounded-xl border border-slate-800 bg-slate-900/50 px-5 py-4 text-white focus:border-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/20 transition-all"
             >
@@ -138,10 +141,11 @@ interface AuthorInputProps {
 export function AuthorInput({ register, error }: AuthorInputProps) {
     return (
         <div>
-            <label className="block text-sm font-bold uppercase tracking-wide text-green-400 mb-3">
+            <label htmlFor="author" className="block text-sm font-bold uppercase tracking-wide text-green-400 mb-3">
                 작성자
             </label>
             <input
+                id="author"
                 {...register('author')}
                 type="text"
                 placeholder="당신의 이름 또는 닉네임"

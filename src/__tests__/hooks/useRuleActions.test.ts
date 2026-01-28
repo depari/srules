@@ -4,18 +4,28 @@
 
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { useCopyRule, useDownloadRule, useShareRule, useFavoriteRule, useDeleteRule } from '@/hooks/useRuleActions';
-import { getFavoriteService } from '@/services/FavoriteService';
-import { getRecentViewService } from '@/services/RecentViewService';
-import type { FavoriteItem } from '@/types/rule';
 
-// Mock services
-jest.mock('@/services/FavoriteService');
-jest.mock('@/services/RecentViewService');
+// Mock hooks
+const mockToggle = jest.fn();
+const mockAddRecentView = jest.fn();
+
+jest.mock('@/hooks/queries/useFavoriteQueries', () => ({
+    useIsFavorite: jest.fn((slug) => ({ data: false })),
+    useToggleFavorite: jest.fn(() => ({ toggle: mockToggle })),
+}));
+
+jest.mock('@/hooks/queries/useRecentViewQueries', () => ({
+    useAddRecentView: jest.fn(() => ({ mutate: mockAddRecentView })),
+}));
+
+// Re-import types/mocks
+import { useIsFavorite } from '@/hooks/queries/useFavoriteQueries';
 
 describe('useRuleActions hooks', () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        localStorage.clear();
+        mockToggle.mockClear();
+        mockAddRecentView.mockClear();
 
         // Mock clipboard API
         Object.assign(navigator, {
@@ -66,12 +76,23 @@ describe('useRuleActions hooks', () => {
     describe('useDownloadRule', () => {
         it('should create download link and trigger download', () => {
             const mockClick = jest.fn();
-            const mockCreateElement = jest.spyOn(document, 'createElement');
-            mockCreateElement.mockReturnValue({
-                click: mockClick,
-                href: '',
-                download: '',
-            } as any);
+
+            // Save original createElement
+            const originalCreateElement = document.createElement.bind(document);
+
+            // Spy on createElement to return real element but with mocked click
+            const createElementSpy = jest.spyOn(document, 'createElement');
+            createElementSpy.mockImplementation((tagName: string, options?: any) => {
+                const element = originalCreateElement(tagName, options);
+                if (tagName === 'a') {
+                    jest.spyOn(element, 'click').mockImplementation(mockClick);
+                }
+                return element;
+            });
+
+            // Spy on append/remove to verify calls, but allow default implementation (pass-through)
+            const appendSpy = jest.spyOn(document.body, 'appendChild');
+            const removeSpy = jest.spyOn(document.body, 'removeChild');
 
             const { result } = renderHook(() => useDownloadRule('test-slug', 'test content'));
 
@@ -83,18 +104,13 @@ describe('useRuleActions hooks', () => {
             expect(mockClick).toHaveBeenCalled();
             expect(global.URL.revokeObjectURL).toHaveBeenCalledWith('blob:test');
 
-            mockCreateElement.mockRestore();
+            createElementSpy.mockRestore();
+            appendSpy.mockRestore();
+            removeSpy.mockRestore();
         });
     });
 
     describe('useShareRule', () => {
-        beforeEach(() => {
-            Object.defineProperty(window, 'location', {
-                value: { href: 'https://example.com/test' },
-                writable: true,
-            });
-        });
-
         it('should copy URL to clipboard', async () => {
             const { result } = renderHook(() => useShareRule());
 
@@ -102,7 +118,7 @@ describe('useRuleActions hooks', () => {
                 await result.current.share();
             });
 
-            expect(navigator.clipboard.writeText).toHaveBeenCalledWith('https://example.com/test');
+            expect(navigator.clipboard.writeText).toHaveBeenCalledWith(window.location.href);
             expect(result.current.sharesCopied).toBe(true);
         });
 
@@ -129,7 +145,7 @@ describe('useRuleActions hooks', () => {
     });
 
     describe('useFavoriteRule', () => {
-        const testRule: FavoriteItem = {
+        const testRule = {
             slug: 'test-slug',
             title: 'Test Title',
             category: ['TypeScript'],
@@ -139,38 +155,16 @@ describe('useRuleActions hooks', () => {
         };
 
         it('should check favorite status on mount', () => {
-            const mockFavoriteService = {
-                isFavorite: jest.fn().mockReturnValue(false),
-                toggleFavorite: jest.fn(),
-            };
+            (useIsFavorite as jest.Mock).mockReturnValue({ data: true });
 
-            const mockRecentViewService = {
-                addRecentView: jest.fn(),
-            };
+            const { result } = renderHook(() => useFavoriteRule('test-slug', testRule));
 
-            (getFavoriteService as jest.Mock).mockReturnValue(mockFavoriteService);
-            (getRecentViewService as jest.Mock).mockReturnValue(mockRecentViewService);
-
-            renderHook(() => useFavoriteRule('test-slug', testRule));
-
-            expect(mockFavoriteService.isFavorite).toHaveBeenCalledWith('test-slug');
-            expect(mockRecentViewService.addRecentView).toHaveBeenCalledWith('test-slug', 'Test Title');
+            expect(result.current.favorited).toBe(true);
+            expect(mockAddRecentView).toHaveBeenCalledWith(testRule);
         });
 
-        it('should toggle favorite and dispatch event', () => {
-            const mockFavoriteService = {
-                isFavorite: jest.fn().mockReturnValue(false),
-                toggleFavorite: jest.fn().mockReturnValue(true),
-            };
-
-            const mockRecentViewService = {
-                addRecentView: jest.fn(),
-            };
-
-            (getFavoriteService as jest.Mock).mockReturnValue(mockFavoriteService);
-            (getRecentViewService as jest.Mock).mockReturnValue(mockRecentViewService);
-
-            const mockDispatchEvent = jest.spyOn(window, 'dispatchEvent');
+        it('should toggle favorite', () => {
+            (useIsFavorite as jest.Mock).mockReturnValue({ data: false });
 
             const { result } = renderHook(() => useFavoriteRule('test-slug', testRule));
 
@@ -178,11 +172,7 @@ describe('useRuleActions hooks', () => {
                 result.current.toggleFavorite();
             });
 
-            expect(mockFavoriteService.toggleFavorite).toHaveBeenCalledWith(testRule);
-            expect(result.current.favorited).toBe(true);
-            expect(mockDispatchEvent).toHaveBeenCalled();
-
-            mockDispatchEvent.mockRestore();
+            expect(mockToggle).toHaveBeenCalledWith(testRule);
         });
     });
 

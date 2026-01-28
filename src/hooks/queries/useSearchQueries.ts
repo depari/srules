@@ -31,6 +31,10 @@ function getSearchService(): ISearchService {
     return searchServiceInstance;
 }
 
+export function resetSearchServiceForTest() {
+    searchServiceInstance = null;
+}
+
 /**
  * 검색 실행 훅
  * 검색어 변경 시 자동으로 검색 실행 및 캐싱
