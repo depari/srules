@@ -241,6 +241,7 @@ srules/
 │   ├── report_20260128_solid_phase4.md
 │   ├── report_20260128_solid_phase5.md
 │   ├── report_20260128_solid_phase6.md
+│   ├── report_20260128_solid_phase7.md
 │   └── report_20260128_solid_comprehensive.md
 ├── rules/                          # 규칙 Markdown 파일
 │   ├── typescript/
@@ -359,6 +360,19 @@ e2e/
    - Actions 탭에서 워크플로우 실행 확인
    - 배포 완료 후 `https://depari.github.io/srules/` 접속
 
+### CI/CD 파이프라인
+
+이 프로젝트는 GitHub Actions를 사용하여 CI/CD를 자동화합니다.
+
+- **CI (`ci.yml`)**: `main` 브랜치 Push 및 PR 시 실행
+  - Lint 검사 (`npm run lint`)
+  - 단위 테스트 (`npm test`)
+  - E2E 테스트 (`npm run test:e2e`)
+- **CD (`deploy.yml`)**: `main` 브랜치 Push 시 실행
+  - 검색 인덱스 생성
+  - Next.js 빌드 및 Export
+  - GitHub Pages 배포
+
 ### 환경 변수
 
 ```env
@@ -418,7 +432,7 @@ NEXT_PUBLIC_BASE_PATH=/srules                 # GitHub Pages 서브 디렉토리
 - [x] Phase 4: E2E 테스트 추가 (Playwright)
 - [x] Phase 5: 성능 최적화 (React Query)
 - [x] Phase 6: 검색 기능 고도화 (ElasticSearch)
-- [ ] Phase 7: CI/CD GitHub Actions 통합
+- [x] Phase 7: CI/CD GitHub Actions 통합
 
 ## 📄 라이선스
 
