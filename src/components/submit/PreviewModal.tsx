@@ -13,7 +13,7 @@ export function PreviewModal({ show, html, onClose }: PreviewModalProps) {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-            <div className="relative w-full max-w-4xl max-h-[90vh] rounded-2xl border border-slate-800 bg-slate-950 shadow-2xl overflow-hidden">
+            <div className="relative w-full max-w-4xl max-h-[90vh] rounded-2xl border border-slate-800 bg-slate-950 shadow-2xl overflow-hidden" role="dialog" aria-modal="true">
                 {/* Header */}
                 <div className="flex items-center justify-between border-b border-slate-800 px-6 py-4 bg-slate-900/50">
                     <h3 className="text-lg font-bold text-white flex items-center gap-2">
@@ -25,6 +25,7 @@ export function PreviewModal({ show, html, onClose }: PreviewModalProps) {
                     </h3>
                     <button
                         onClick={onClose}
+                        aria-label="Close"
                         className="rounded-lg p-2 text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
                     >
                         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
