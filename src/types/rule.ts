@@ -61,3 +61,14 @@ export interface RuleSubmissionData {
   email?: string;
   difficulty?: 'beginner' | 'intermediate' | 'advanced';
 }
+
+export interface FavoriteItem {
+  slug: string;
+  title: string;
+  excerpt?: string;
+  author?: string;
+  created: string;
+  difficulty?: 'beginner' | 'intermediate' | 'advanced';
+  category: string[];
+  tags: string[];
+}

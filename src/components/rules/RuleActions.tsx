@@ -68,7 +68,7 @@ export default function RuleActions({
             slug,
             title,
             category,
-            difficulty,
+            difficulty: difficulty as 'beginner' | 'intermediate' | 'advanced' | undefined,
             excerpt: excerpt || '',
             created,
             tags,
