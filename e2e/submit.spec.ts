@@ -107,7 +107,7 @@ test.describe('규칙 제출 폼', () => {
         await previewButton.click();
 
         // 닫기 버튼 클릭
-        const closeButton = page.locator('button').filter({ hasText: /닫기|Close/i }).first();
+        const closeButton = page.getByLabel(/닫기|Close/i);
         await closeButton.click();
 
         // 모달이 사라져야 함
