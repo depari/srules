@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import type { FavoriteItem } from '@/types/rule';
 import { useIsFavorite, useToggleFavorite } from '@/hooks/queries/useFavoriteQueries';
 import { useAddRecentView } from '@/hooks/queries/useRecentViewQueries';
+import { useDeleteRuleMutation } from '@/hooks/queries/useGitHubQueries';
 
 /**
  * 규칙 복사 훅
@@ -96,26 +97,31 @@ export interface DeleteRuleParams {
 }
 
 export function useDeleteRule(params: DeleteRuleParams) {
-    const [isDeleting, setIsDeleting] = useState(false);
     const [deletePrUrl, setDeletePrUrl] = useState<string | null>(null);
+    const deleteMutation = useDeleteRuleMutation();
 
-    const deleteRule = async (onDeleteAction: (params: DeleteRuleParams) => Promise<string>) => {
+    const isDeleting = deleteMutation.isPending;
+
+    const deleteRule = async () => {
         if (!confirm('정말로 이 규칙을 삭제하시겠습니까? 삭제 요청 Pull Request가 생성됩니다.')) {
             return;
         }
 
-        setIsDeleting(true);
         try {
-            const prUrl = await onDeleteAction(params);
-            setDeletePrUrl(prUrl);
+            const result = await deleteMutation.mutateAsync({
+                title: params.title,
+                originalPath: `rules/${params.slug}.md`,
+                author: params.author,
+            });
+
+            setDeletePrUrl(result.prUrl);
             alert('삭제 요청 PR이 성공적으로 생성되었습니다.');
         } catch (error) {
             console.error('Delete error:', error);
             alert('삭제 요청 중 오류가 발생했습니다.');
-        } finally {
-            setIsDeleting(false);
         }
     };
 
     return { isDeleting, deletePrUrl, deleteRule };
 }
+
