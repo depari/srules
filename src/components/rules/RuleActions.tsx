@@ -1,7 +1,6 @@
 'use client';
 
 import { useCopyRule, useDownloadRule, useShareRule, useFavoriteRule, useDeleteRule } from '@/hooks/useRuleActions';
-import { createGitHubClient } from '@/lib/github';
 import { DeleteSuccessMessage } from './actions/DeleteSuccessMessage';
 import {
     FavoriteButton,
@@ -60,22 +59,9 @@ export default function RuleActions({
 
     // 삭제 액션 핸들러
     const handleDelete = async () => {
-        await deleteRule(async (params) => {
-            const client = createGitHubClient();
-            if (!client) {
-                alert('GitHub 토큰이 설정되지 않아 삭제 기능을 사용할 수 없습니다.');
-                throw new Error('No GitHub token');
-            }
-
-            const { prUrl } = await client.deleteRule({
-                title: params.title,
-                originalPath: `rules/${params.slug}.md`,
-                author: params.author
-            });
-
-            return prUrl;
-        });
+        await deleteRule();
     };
+
 
     // 삭제 성공 메시지 표시
     if (deletePrUrl) {
