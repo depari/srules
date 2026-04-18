@@ -27,7 +27,6 @@ export type RecentViewItem = ServiceRecentViewItem;
 const favoriteService = getFavoriteService();
 const recentViewService = getRecentViewService();
 const tokenStorage = new LocalStorageAdapter<string>('srules');
-const themeStorage = new LocalStorageAdapter<string>('');
 
 /**
  * 즐겨찾기 목록 조회

@@ -10,9 +10,15 @@ export default function ThemeToggle() {
     useEffect(() => {
         // 마운트 시 현재 테마 읽어서 동기화
         const currentTheme = getTheme();
-        setInternalTheme(currentTheme);
-        // html 클래스가 아직 설정 안 된 경우 보정
-        // (FOUC 방지 script가 이미 처리했지만 SSR 안전장치)
+        
+        // 린트 에러(cascading renders) 방지를 위해 값이 다를 때만 업데이트
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setInternalTheme(prev => {
+            if (prev !== currentTheme) return currentTheme;
+            return prev;
+        });
+
+        // html 클래스가 아직 설정 안 된 경우 보정 (SSR 안전장치)
         setTheme(currentTheme);
         setMounted(true);
     }, []);
