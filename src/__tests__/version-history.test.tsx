@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import VersionHistory from '@/components/rules/VersionHistory';
 
 // Mock fetch
@@ -22,8 +22,10 @@ describe('VersionHistory Component', () => {
 
         render(<VersionHistory slug="test/slug" currentContent="content" />);
 
-        // Verify fetch call path with basePath
-        expect(global.fetch).toHaveBeenCalledWith('/srules/rule-history.json');
+        // Wait for fetch to be called
+        await waitFor(() => {
+            expect(global.fetch).toHaveBeenCalledWith('/srules/rule-history.json');
+        });
 
         // Reset env
         delete process.env.NEXT_PUBLIC_BASE_PATH;
@@ -40,7 +42,9 @@ describe('VersionHistory Component', () => {
 
         render(<VersionHistory slug="test/slug" currentContent="content" />);
 
-        // Verify fetch call path without basePath
-        expect(global.fetch).toHaveBeenCalledWith('/rule-history.json');
+        // Wait for fetch to be called
+        await waitFor(() => {
+            expect(global.fetch).toHaveBeenCalledWith('/rule-history.json');
+        });
     });
 });
