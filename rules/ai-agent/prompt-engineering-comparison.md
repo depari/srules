@@ -182,3 +182,10 @@ Next.js 14, TypeScript strict, Jest, Playwright
 ✅ 올바른 예: `Add: FavoriteService unit test, Fix storage NPE`
 ❌ 잘못된 예: `테스트를 추가했습니다`
 ```
+
+---
+
+## 예시
+
+- 실제 프롬프트 및 사용 사례는 관련 IDE 가이드 문서를 참조하십시오.
+- 프로젝트 루트의 `AI_CONTEXT.md`와 `./scripts` 폴더의 자동화 스크립트 활용 예시를 확인하세요.

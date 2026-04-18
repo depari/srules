@@ -192,6 +192,14 @@ Antigravity는 대화 로그를 자동 저장합니다.
 ### 팁 3: 중단점 명시
 
 ```
-"오늘 작업을 .cursor/memory/04_active_context.md에
-현재 상태와 내일 재개할 부분을 명시해서 업데이트해줘"
-```
+
+---
+
+## 예시
+
+### Antigravity에 작업을 요청하는 실제 시나리오
+
+1.  **초기 분석**: "AI_CONTEXT.md와 .cursor/rules/를 읽고 현재 프로젝트의 아키텍처 원칙을 요약해줘."
+2.  **Task 생성**: "새로운 FavoriteService를 추가할 거야. TDD 절차에 따라 Task 체크리스트를 만들어줘."
+3.  **구현 및 검증**: "첫 번째 테스트 케이스를 작성하고 npm test 결과가 FAIL인 것을 확인해줘."
+4.  **장기 메모리 저장**: "방금 성공한 리팩토링 패턴을 Knowledge Item으로 기록해줘."

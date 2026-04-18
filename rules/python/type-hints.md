@@ -11,6 +11,11 @@ difficulty: intermediate
 
 # Python Type Hints 완벽 가이드
 
+
+## 개요
+
+이 문서는 해당 주제에 대한 기본 원칙과 가이드를 설명합니다.
+
 ## 기본 타입 힌트
 
 ```python
@@ -137,3 +142,9 @@ pyright your_file.py
 - Union: 여러 타입 허용
 - Generic: 제네릭 클래스
 - TypedDict: 구조화된 딕셔너리
+
+---
+
+## 예시
+
+상세한 실제 적용 사례는 프로젝트의 기존 스타일을 참고하여 적용하십시오.

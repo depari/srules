@@ -178,3 +178,10 @@ Gemini는 대용량 컨텍스트 처리가 강점입니다.
 - `.gemini/config.yaml`은 로컬 전용 (`.gitignore`에 추가)
 - `.gemini/styleguide.md`, `guardrails.md`는 팀 공유 가능 (git 추적)
 - API 사용 비용에 주의 (긴 컨텍스트는 토큰 소비 많음)
+
+---
+
+## 예시
+
+- 실제 프롬프트 및 사용 사례는 관련 IDE 가이드 문서를 참조하십시오.
+- 프로젝트 루트의 `AI_CONTEXT.md`와 `./scripts` 폴더의 자동화 스크립트 활용 예시를 확인하세요.

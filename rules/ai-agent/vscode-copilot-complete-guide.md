@@ -191,3 +191,10 @@ FavoriteService를 리팩토링해줘"
 "#file:.github/prompts/code-review.md 의 기준으로
 이 PR을 리뷰해줘"
 ```
+
+---
+
+## 예시
+
+- 실제 프롬프트 및 사용 사례는 관련 IDE 가이드 문서를 참조하십시오.
+- 프로젝트 루트의 `AI_CONTEXT.md`와 `./scripts` 폴더의 자동화 스크립트 활용 예시를 확인하세요.

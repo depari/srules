@@ -169,3 +169,10 @@ alwaysApply: false
 - `.gitignore`에 `04_active_context.md`, `05_progress.md` 추가 (개인 세션 정보)
 - `00~03_*.md`는 git 추적 권장 (팀 공유 가능)
 - MDC 파일은 반드시 git 추적 (팀 전체 규칙 공유)
+
+---
+
+## 예시
+
+- 실제 프롬프트 및 사용 사례는 관련 IDE 가이드 문서를 참조하십시오.
+- 프로젝트 루트의 `AI_CONTEXT.md`와 `./scripts` 폴더의 자동화 스크립트 활용 예시를 확인하세요.

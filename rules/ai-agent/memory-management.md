@@ -202,3 +202,10 @@ bash scripts/update-ai-context.sh
 2. reports/ 보고서 작성 (완료된 경우)
 3. bash scripts/notify.sh "세션 종료: {완료 내용}"
 ```
+
+---
+
+## 예시
+
+- 실제 프롬프트 및 사용 사례는 관련 IDE 가이드 문서를 참조하십시오.
+- 프로젝트 루트의 `AI_CONTEXT.md`와 `./scripts` 폴더의 자동화 스크립트 활용 예시를 확인하세요.
