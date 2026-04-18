@@ -1,4 +1,4 @@
-import { getAllRules, getAllCategories, getAllTags } from "@/lib/rules";
+import { getAllRules, getAllCategories, getAllTags, nameToSlug } from "@/lib/rules";
 import RuleCard from "@/components/rules/RuleCard";
 import SearchBar from "@/components/common/SearchBar";
 import { Link, routing } from "@/i18n/routing";
@@ -52,7 +52,7 @@ export default async function RulesPage({ params }: PageProps) {
                                 {categories.map((cat) => (
                                     <Link
                                         key={cat.name}
-                                        href={`/categories/${cat.name.toLowerCase()}`}
+                                        href={`/categories/${nameToSlug(cat.name)}`}
                                         className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold text-slate-400 hover:bg-slate-800 hover:text-white transition-all group"
                                     >
                                         <span className="uppercase tracking-wide font-mono">{cat.name}</span>
@@ -74,7 +74,7 @@ export default async function RulesPage({ params }: PageProps) {
                                 {tags.map((tag) => (
                                     <Link
                                         key={tag.name}
-                                        href={`/tags/${tag.name.toLowerCase().replace(/\s+/g, '-')}`}
+                                        href={`/tags/${nameToSlug(tag.name)}`}
                                         className="inline-flex items-center rounded-lg bg-slate-800/50 border border-slate-800 px-3 py-1.5 text-xs font-bold text-slate-400 hover:border-purple-500/50 hover:text-purple-400 transition-all cursor-pointer"
                                     >
                                         #{tag.name}

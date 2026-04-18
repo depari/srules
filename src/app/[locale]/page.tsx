@@ -1,4 +1,4 @@
-import { getAllRules, getFeaturedRules, getAllCategories } from "@/lib/rules";
+import { getAllRules, getFeaturedRules, getAllCategories, nameToSlug } from "@/lib/rules";
 import SearchBar from "@/components/common/SearchBar";
 import RuleCard from "@/components/rules/RuleCard";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -56,7 +56,7 @@ export default async function Home({ params }: PageProps) {
             {categories.slice(0, 5).map((category) => (
               <Link
                 key={category.name}
-                href={`/categories/${category.name.toLowerCase()}`}
+                href={`/categories/${nameToSlug(category.name)}`}
                 className="rounded-full bg-slate-800/50 border border-slate-700 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-all shadow-sm font-bold uppercase tracking-tighter"
               >
                 {category.name}
@@ -109,7 +109,7 @@ export default async function Home({ params }: PageProps) {
           {categories.map((category) => (
             <Link
               key={category.name}
-              href={`/categories/${category.name.toLowerCase()}`}
+              href={`/categories/${nameToSlug(category.name)}`}
               className="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 p-8 hover:border-cyan-500/50 transition-all hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-1"
             >
               <div className="flex justify-between items-start mb-6">

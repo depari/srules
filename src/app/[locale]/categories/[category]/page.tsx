@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getAllCategories, getRulesByCategory } from "@/lib/rules";
+import { getAllCategories, getRulesByCategory, nameToSlug } from "@/lib/rules";
 import { Link, routing } from "@/i18n/routing";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import RuleCard from "@/components/rules/RuleCard";
@@ -11,33 +11,39 @@ interface PageProps {
     }>;
 }
 
+// slug를 원래 카테고리 이름으로 변환
+function slugToCategory(slug: string, allCategories: ReturnType<typeof getAllCategories>): string | null {
+    const category = allCategories.find(c => nameToSlug(c.name) === slug);
+    return category ? category.name : null;
+}
+
 export async function generateStaticParams() {
     const allCategories = getAllCategories();
     return routing.locales.flatMap((locale) =>
         allCategories.map((cat) => ({
             locale,
-            category: cat.name.toLowerCase(),
+            category: nameToSlug(cat.name),
         }))
     );
 }
 
 export default async function CategoryPage({ params }: PageProps) {
-    const { category, locale } = await params;
+    const { category: categorySlug, locale } = await params;
     setRequestLocale(locale);
     const t = await getTranslations({ locale, namespace: 'home' });
     const ct = await getTranslations({ locale, namespace: 'common' });
 
     const allCategories = getAllCategories();
 
-    const matchedCategory = allCategories.find(
-        (cat) => cat.name.toLowerCase() === category.toLowerCase()
-    );
+    // slug를 원래 이름으로 변환
+    const categoryName = slugToCategory(categorySlug, allCategories);
 
-    if (!matchedCategory) {
+    if (!categoryName) {
         notFound();
     }
 
-    const rules = getRulesByCategory(matchedCategory.name);
+    const rules = getRulesByCategory(categoryName);
+    const matchedCategory = allCategories.find(c => c.name === categoryName)!;
 
     return (
         <div className="py-12">
@@ -110,7 +116,7 @@ export default async function CategoryPage({ params }: PageProps) {
                             .map((cat) => (
                                 <Link
                                     key={cat.name}
-                                    href={`/categories/${cat.name.toLowerCase()}`}
+                                    href={`/categories/${nameToSlug(cat.name)}`}
                                     className="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 p-8 hover:border-cyan-500/50 transition-all hover:shadow-2xl hover:shadow-cyan-500/10"
                                 >
                                     <div className="flex justify-between items-start mb-6">

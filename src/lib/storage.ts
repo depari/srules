@@ -87,20 +87,24 @@ export const removeStoredToken = (): void => {
 // 테마 관리
 export type Theme = 'dark' | 'light';
 
+const THEME_STORAGE_KEY = 'srules-theme';
+const VALID_THEMES: Theme[] = ['dark', 'light'];
+
 export const getTheme = (): Theme => {
     if (typeof window === 'undefined') return 'dark';
-    const theme = themeStorage.get('srules-theme');
-    return (theme as Theme) || 'dark';
+    const stored = localStorage.getItem(THEME_STORAGE_KEY);
+    if (stored && VALID_THEMES.includes(stored as Theme)) {
+        return stored as Theme;
+    }
+    return 'dark'; // 기본값: 다크 테마
 };
 
 export const setTheme = (theme: Theme): void => {
     if (typeof window === 'undefined') return;
-    themeStorage.set('srules-theme', theme);
-    // HTML 태그에 클래스 적용
-    if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
+    // localStorage에 저장 (key 직접 사용으로 일관성 보장)
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+    // HTML 루트 클래스를 테마 클래스로 완전 교체
+    // globals.css의 html.dark / html.light 셀렉터와 매칭
+    document.documentElement.className = theme;
 };
 

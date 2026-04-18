@@ -1,0 +1,62 @@
+---
+description: TypeScript 코딩 규칙
+globs: ["**/*.ts", "**/*.tsx", "!node_modules/**", "!.next/**"]
+alwaysApply: false
+---
+
+# TypeScript 코딩 규칙
+
+## 타입 안전성
+- `strict` 모드 필수 (tsconfig.json에 설정됨)
+- `any` 타입 **절대 금지** - 명시적 타입 또는 `unknown` 사용
+- `as any` 캐스팅 금지
+
+```typescript
+// ❌ 금지
+const data: any = fetchData();
+const result = data as any;
+
+// ✅ 허용
+const data: Rule[] = fetchData();
+const result = data as unknown as Rule;  // 불가피한 경우만
+```
+
+## 인터페이스 네이밍
+- 인터페이스: `I` 접두사 필수
+- 예: `IFavoriteService`, `IStorage`, `IRuleService`
+
+## SOLID 패턴 (TypeScript)
+
+```typescript
+// DIP: 인터페이스에 의존
+function useRuleActions(service: IRuleService) { ... }
+
+// SRP: 단일 책임
+class FavoriteService implements IFavoriteService {
+  constructor(private readonly storage: IStorage) {}
+  // 즐겨찾기 관련 로직만 담당
+}
+```
+
+## 환경변수
+```typescript
+// ✅ 환경변수 사용
+const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+if (!token) throw new Error('GITHUB_TOKEN이 설정되지 않았습니다');
+
+// ❌ 하드코딩 절대 금지
+const token = "ghp_xxxxx";
+```
+
+## 에러 처리
+```typescript
+// try-catch with specific error types
+try {
+  await service.submit(rule);
+} catch (error) {
+  if (error instanceof ApiError) {
+    console.error('API 오류:', error.message);
+  }
+  throw error;
+}
+```

@@ -1,0 +1,92 @@
+---
+description: TDD 테스트 작성 규칙
+globs: ["**/*.test.ts", "**/*.spec.ts", "**/__tests__/**", "**/e2e/**"]
+alwaysApply: false
+---
+
+# TDD 테스트 작성 규칙
+
+## TDD 사이클 (필수)
+
+```
+TC 작성 → npm test (FAIL 확인) → 구현 → npm test (PASS 확인) → 반복
+```
+
+⚠️ **테스트 없이 구현 코드 먼저 작성 금지**
+
+## 단위 테스트 구조 (Jest)
+
+```typescript
+// src/__tests__/services/{Name}Service.test.ts
+import { {Name}Service } from '../../services/{Name}Service';
+import { ArrayStorageAdapter } from '../../services/storage/ArrayStorageAdapter';
+
+describe('{Name}Service', () => {
+  let service: {Name}Service;
+  let storage: ArrayStorageAdapter;
+
+  beforeEach(() => {
+    storage = new ArrayStorageAdapter();
+    service = new {Name}Service(storage);
+  });
+
+  describe('{기능 그룹}', () => {
+    it('should {예상 동작} when {조건}', () => {
+      // Arrange
+      const input = '...';
+      
+      // Act
+      const result = service.method(input);
+      
+      // Assert
+      expect(result).toBe(expected);
+    });
+  });
+});
+```
+
+## E2E 테스트 구조 (Playwright)
+
+```typescript
+// e2e/{feature}.spec.ts
+import { test, expect } from '@playwright/test';
+
+test.describe('{기능} 테스트', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/ko');
+  });
+
+  test('{테스트 설명}', async ({ page }) => {
+    // 1. 액션
+    await page.click('[data-testid="search-input"]');
+    
+    // 2. 검증
+    await expect(page.locator('.rule-card')).toBeVisible();
+  });
+});
+```
+
+## 테스트 파일 위치
+- 단위 테스트: `src/__tests__/{서비스명}/{Name}Service.test.ts`
+- 훅 테스트: `src/__tests__/hooks/{hookName}.test.ts`
+- E2E 테스트: `e2e/{feature}.spec.ts`
+
+## 커버리지 목표
+- 서비스 계층: 100%
+- 훅: 80% 이상
+- 전체: 80% 이상
+
+## 테스트 실행 명령
+```bash
+# 전체 단위 테스트
+npm test
+
+# 특정 파일
+npm test -- --testPathPattern=FavoriteService
+
+# 커버리지 확인
+npm test -- --coverage
+
+# E2E
+npm run test:e2e
+```

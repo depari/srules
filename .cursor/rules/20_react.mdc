@@ -1,0 +1,96 @@
+---
+description: React 컴포넌트 작성 규칙
+globs: ["src/components/**/*.tsx", "src/app/**/*.tsx"]
+alwaysApply: false
+---
+
+# React 컴포넌트 규칙
+
+## 컴포넌트 원칙 (SOLID)
+
+### SRP: 단일 책임
+```tsx
+// ❌ 금지: 한 컴포넌트에 너무 많은 역할
+function RulePage() {
+  // 데이터 fetch + 렌더링 + 필터링 + 즐겨찾기 로직 모두 포함
+}
+
+// ✅ 올바른 방식: 역할 분리
+function RuleCard({ rule }: { rule: Rule }) {
+  return <div>...</div>; // 렌더링만
+}
+function RuleActions({ ruleId }: { ruleId: string }) {
+  const { onCopy, onFavorite } = useRuleActions(ruleId);
+  return <div>...</div>; // 액션만
+}
+```
+
+### ISP: 인터페이스 분리
+```tsx
+// ❌ 금지: 필요 없는 props 강제
+interface RuleCardProps {
+  rule: Rule;
+  onCopy: () => void;
+  onDelete: () => void;
+  onShare: () => void;
+  onFavorite: () => void;
+}
+
+// ✅ 올바른 방식: 필요한 것만
+interface RuleCardProps {
+  rule: Rule;
+}
+```
+
+## 컴포넌트 작성 패턴
+
+```tsx
+'use client'; // 필요한 경우만
+
+import type { FC } from 'react';
+
+interface Props {
+  // 명확한 타입 정의
+}
+
+// named export 사용
+export const ComponentName: FC<Props> = ({ prop1, prop2 }) => {
+  return (
+    <div>
+      {/* JSX */}
+    </div>
+  );
+};
+```
+
+## 훅 사용 패턴
+```tsx
+// 커스텀 훅으로 로직 분리
+function RuleActions({ ruleId }: { ruleId: string }) {
+  const { isCopied, onCopy } = useCopyRule(ruleId);
+  const { isFavorite, onToggle } = useFavoriteRule(ruleId);
+  
+  return (
+    <div>
+      <button onClick={onCopy}>{isCopied ? '복사됨' : '복사'}</button>
+      <button onClick={onToggle}>{isFavorite ? '★' : '☆'}</button>
+    </div>
+  );
+}
+```
+
+## 데이터 fetching
+```tsx
+// React Query 사용 (서버 상태)
+import { useQuery } from '@tanstack/react-query';
+
+function RuleList() {
+  const { data: rules, isLoading } = useQuery({
+    queryKey: ['rules'],
+    queryFn: fetchRules,
+  });
+  
+  if (isLoading) return <Skeleton />;
+  return <div>{rules?.map(rule => <RuleCard key={rule.id} rule={rule} />)}</div>;
+}
+```

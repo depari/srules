@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getRuleBySlug, markdownToHtml, getAllRules } from "@/lib/rules";
+import { getRuleBySlug, markdownToHtml, getAllRules, nameToSlug } from "@/lib/rules";
 import RuleActions from "@/components/rules/RuleActions";
 import VersionHistory from "@/components/rules/VersionHistory";
 import ReadingProgress from "@/components/rules/ReadingProgress";
@@ -83,7 +83,7 @@ export default async function RulePage({ params }: PageProps) {
                     {rule.category.map((cat) => (
                         <Link
                             key={cat}
-                            href={`/categories/${cat.toLowerCase()}`}
+                            href={`/categories/${nameToSlug(cat)}`}
                             className="rounded-lg bg-cyan-500/10 px-3 py-1.5 text-[10px] font-black text-cyan-400 border border-cyan-500/20 hover:bg-cyan-500/20 transition-all uppercase tracking-widest shadow-sm"
                         >
                             {cat}

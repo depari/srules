@@ -36,6 +36,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -43,3 +44,21 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI Agent - 로컬 전용 (git 제외)
+.cursor/memory/04_active_context.md
+.cursor/memory/05_progress.md
+.gemini/config.yaml
+
+# AI Agent - 공유 가능 파일은 git 추적 (위 규칙 예외처리 불필요, 기본 추적)
+# .cursor/rules/*.mdc           → 추적됨
+# .cursor/memory/00~03_*.md    → 추적됨
+# .gemini/styleguide.md        → 추적됨
+# .gemini/guardrails.md        → 추적됨
+# .ai/harness/*.md             → 추적됨
+# .ai/guardrails/*.md          → 추적됨
+# .github/copilot-instructions.md → 추적됨
+# .github/prompts/*.md         → 추적됨
+# AI_CONTEXT.md                → 추적됨
+# scripts/notify.sh            → 추적됨
+# scripts/update-ai-context.sh → 추적됨

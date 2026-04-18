@@ -1,4 +1,4 @@
-import { getAllRules, getAllTags } from "@/lib/rules";
+import { getAllRules, getAllTags, nameToSlug } from "@/lib/rules";
 import RuleCard from "@/components/rules/RuleCard";
 import SearchBar from "@/components/common/SearchBar";
 import { Link, routing } from "@/i18n/routing";
@@ -12,14 +12,9 @@ interface PageProps {
     }>;
 }
 
-// 태그 이름을 URL-safe slug로 변환
-function tagToSlug(tagName: string): string {
-    return tagName.toLowerCase().replace(/\s+/g, '-');
-}
-
 // slug를 원래 태그 이름으로 변환
 function slugToTag(slug: string, allTags: ReturnType<typeof getAllTags>): string | null {
-    const tag = allTags.find(t => tagToSlug(t.name) === slug);
+    const tag = allTags.find(t => nameToSlug(t.name) === slug);
     return tag ? tag.name : null;
 }
 
@@ -31,7 +26,7 @@ export function generateStaticParams() {
         tags.forEach((tag) => {
             params.push({
                 locale,
-                tag: tagToSlug(tag.name),
+                tag: nameToSlug(tag.name),
             });
         });
     });
@@ -148,7 +143,7 @@ export default async function TagPage({ params }: PageProps) {
                                 .map((t) => (
                                     <Link
                                         key={t.name}
-                                        href={`/tags/${tagToSlug(t.name)}`}
+                                        href={`/tags/${nameToSlug(t.name)}`}
                                         className="inline-flex items-center rounded-lg bg-slate-800/50 border border-slate-800 px-3 py-1.5 text-xs font-bold text-slate-400 hover:border-purple-500/50 hover:text-purple-400 transition-all cursor-pointer"
                                     >
                                         #{t.name}

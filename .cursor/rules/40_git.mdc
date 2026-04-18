@@ -1,0 +1,57 @@
+---
+description: Git 커밋 및 브랜치 규칙
+alwaysApply: false
+---
+
+# Git 규칙
+
+## 커밋 메시지 형식
+
+### 형식
+```
+{Type}: {변경사항1}, {변경사항2}
+```
+
+### Type 목록
+- `Add`: 신규 기능 추가
+- `Fix`: 버그 수정
+- `Refactor`: 리팩토링 (기능 변경 없음)
+- `Test`: 테스트 추가/수정
+- `Docs`: 문서 업데이트
+- `Chore`: 빌드, 설정 변경
+
+### 올바른 예시 ✅
+```
+Add: FavoriteService unit test, LocalStorageAdapter NPE fix
+Fix: RuleCard key prop missing, SearchService empty query handling
+Refactor: Extract useRuleActions into separate hooks
+Test: Add E2E test for submit form validation
+Docs: Update README with AI agent guide
+```
+
+### 잘못된 예시 ❌
+```
+(구어체) 서비스 테스트를 추가했습니다
+(모호함) 수정
+(영문+한글 혼용 불필요) fix 버그
+```
+
+## 커밋 전 체크리스트
+- [ ] `npm test` 통과 확인
+- [ ] `npm run build` 성공 확인
+- [ ] TypeScript 에러 없음
+- [ ] ESLint 에러 없음
+- [ ] `.env.local` 스테이징 안 됨
+
+## 브랜치 네이밍
+```
+feature/{기능명}    # 신규 기능
+fix/{이슈번호}      # 버그 수정
+refactor/{모듈명}   # 리팩토링
+docs/{문서명}       # 문서 작업
+```
+
+## ⚠️ 중요
+- 커밋은 **사용자 확인 후** 진행 (자동 커밋 금지)
+- `.env.local`은 절대 커밋 금지
+- `node_modules/`, `.next/`는 커밋 금지

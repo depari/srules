@@ -1,5 +1,203 @@
 [
   {
+    "title": "Antigravity AI 완전 설정 가이드 (User Rules + KI)",
+    "slug": "ai-agent/antigravity-complete-guide",
+    "category": [
+      "AI Agent",
+      "Antigravity"
+    ],
+    "tags": [
+      "Antigravity",
+      "User Rules",
+      "Knowledge Items",
+      "KI",
+      "Memory",
+      "AI",
+      "Setup Guide"
+    ],
+    "author": "서대원",
+    "excerpt": "# Antigravity AI 완전 설정 가이드 (User Rules + KI) ## 개요 Google DeepMind의 Antigravity AI Coding Agent에서 **User Rules**, **AI_CONTEXT.md**, **Knowledge Items(KI)**를 활용하는 완전한 설정 가이드입니다. --- ## 1. Use",
+    "path": "ai-agent/antigravity-complete-guide",
+    "difficulty": "intermediate",
+    "created": "2026-04-18"
+  },
+  {
+    "title": "AI Coding Agent Best Practices 13선",
+    "slug": "ai-agent/best-practices-collection",
+    "category": [
+      "AI Agent",
+      "Best Practice"
+    ],
+    "tags": [
+      "AI",
+      "Best Practice",
+      "Cursor",
+      "Antigravity",
+      "Copilot",
+      "Gemini",
+      "TDD",
+      "SOLID",
+      "Memory"
+    ],
+    "author": "서대원",
+    "excerpt": "# AI Coding Agent Best Practices 13선 ## 개요 4대 AI Coding Agent를 효율적으로 활용하기 위한 실전 Best Practice 13가지를 소개합니다. --- ## BP-01: 공통 컨텍스트 파일로 멀티 Agent 동기화 모든 AI Agent가 참조하는 단일 진실 공급원(Single Source of T",
+    "path": "ai-agent/best-practices-collection",
+    "difficulty": "intermediate",
+    "created": "2026-04-18"
+  },
+  {
+    "title": "Cursor IDE 완전 설정 가이드 (MDC + Memory Bank)",
+    "slug": "ai-agent/cursor-ide-complete-guide",
+    "category": [
+      "AI Agent",
+      "Cursor"
+    ],
+    "tags": [
+      "Cursor",
+      "MDC",
+      "Memory Bank",
+      "Rules",
+      "AI",
+      "Setup Guide"
+    ],
+    "author": "서대원",
+    "excerpt": "# Cursor IDE 완전 설정 가이드 (MDC + Memory Bank) ## 개요 Cursor IDE에서 MDC(Markdown with Config) 규칙 파일과 Memory Bank 패턴을 활용한 완전한 AI 작업 환경 구성 가이드입니다. --- ## 1. 디렉토리 구조 ``` your-project/ ├── .cursor/ │",
+    "path": "ai-agent/cursor-ide-complete-guide",
+    "difficulty": "intermediate",
+    "created": "2026-04-18"
+  },
+  {
+    "title": "AI Coding Agent 가드레일(Guardrails) 설정 가이드",
+    "slug": "ai-agent/guardrails-guide",
+    "category": [
+      "AI Agent",
+      "Guardrails"
+    ],
+    "tags": [
+      "AI",
+      "Guardrails",
+      "Security",
+      "Cursor",
+      "Copilot",
+      "Gemini",
+      "Best Practice"
+    ],
+    "author": "서대원",
+    "excerpt": "# AI Coding Agent 가드레일(Guardrails) 설정 가이드 ## 개요 AI Agent가 위험하거나 잘못된 코드를 생성하지 않도록 제한하는 **가드레일(Guardrails)** 설정 방법을 정리합니다. --- ## 가드레일이 필요한 이유 AI Agent가 자동으로 생성하는 코드에는 다음과 같은 위험이 있습니다: - API 키 하드",
+    "path": "ai-agent/guardrails-guide",
+    "difficulty": "intermediate",
+    "created": "2026-04-18"
+  },
+  {
+    "title": "AI Coding Agent 하네스 엔지니어링 가이드",
+    "slug": "ai-agent/harness-engineering",
+    "category": [
+      "AI Agent",
+      "Harness Engineering"
+    ],
+    "tags": [
+      "AI",
+      "Harness",
+      "TDD",
+      "Workflow",
+      "Cursor",
+      "Copilot",
+      "Best Practice"
+    ],
+    "author": "서대원",
+    "excerpt": "# AI Coding Agent 하네스 엔지니어링 가이드 ## 개요 **하네스(Harness)**는 AI Agent가 특정 작업을 수행할 때 반드시 따라야 할 **구조화된 워크플로우**입니다. \"어떻게 만들어\"가 아닌 **\"이 순서대로 만들어\"**를 강제합니다. --- ## 하네스가 필요한 이유 AI Agent에게 단순히 \"기능을 만들어줘\"",
+    "path": "ai-agent/harness-engineering",
+    "difficulty": "advanced",
+    "created": "2026-04-18"
+  },
+  {
+    "title": "AI Coding Agent 메모리 관리 전략 (장기/단기)",
+    "slug": "ai-agent/memory-management",
+    "category": [
+      "AI Agent",
+      "Memory Management"
+    ],
+    "tags": [
+      "AI",
+      "Memory",
+      "Memory Bank",
+      "Knowledge Items",
+      "Context",
+      "Long-term",
+      "Short-term"
+    ],
+    "author": "서대원",
+    "excerpt": "# AI Coding Agent 메모리 관리 전략 (장기/단기) ## 개요 AI Agent는 기본적으로 대화 세션이 끝나면 컨텍스트를 잊어버립니다. **장기/단기 메모리 전략**으로 일관된 개발 환경을 유지하는 방법을 정리합니다. --- ## 메모리 계층 구조 ``` 레이어 1: 영구 메모리 (Permanent) └── AI_CONTEXT",
+    "path": "ai-agent/memory-management",
+    "difficulty": "advanced",
+    "created": "2026-04-18"
+  },
+  {
+    "title": "AI Coding Agent 프롬프트 엔지니어링 비교 가이드",
+    "slug": "ai-agent/prompt-engineering-comparison",
+    "category": [
+      "AI Agent",
+      "Prompt Engineering"
+    ],
+    "tags": [
+      "AI",
+      "Prompt Engineering",
+      "Cursor",
+      "Antigravity",
+      "Copilot",
+      "Gemini",
+      "Best Practice"
+    ],
+    "author": "서대원",
+    "excerpt": "# AI Coding Agent 프롬프트 엔지니어링 비교 가이드 ## 개요 4대 AI Coding Agent(Cursor IDE, Antigravity, VS Code + Copilot, VS Code + Gemini)에서 프롬프트 엔지니어링을 설정하는 방법과 각 Agent별 특징을 비교합니다. --- ## 비교 매트릭스 | 항목 | Cursor",
+    "path": "ai-agent/prompt-engineering-comparison",
+    "difficulty": "intermediate",
+    "created": "2026-04-18"
+  },
+  {
+    "title": "VS Code + GitHub Copilot 완전 설정 가이드",
+    "slug": "ai-agent/vscode-copilot-complete-guide",
+    "category": [
+      "AI Agent",
+      "GitHub Copilot"
+    ],
+    "tags": [
+      "VS Code",
+      "GitHub Copilot",
+      "Copilot Instructions",
+      "Prompts",
+      "AI",
+      "Setup Guide"
+    ],
+    "author": "서대원",
+    "excerpt": "# VS Code + GitHub Copilot 완전 설정 가이드 ## 개요 VS Code + GitHub Copilot Extension에서 프로젝트별 AI 동작을 커스터마이징하는 완전한 설정 가이드입니다. --- ## 1. 기본 설정 ### VS Code settings.json ```json { \"github.copilot.enab",
+    "path": "ai-agent/vscode-copilot-complete-guide",
+    "difficulty": "beginner",
+    "created": "2026-04-18"
+  },
+  {
+    "title": "VS Code + Gemini Coding AI 완전 설정 가이드",
+    "slug": "ai-agent/vscode-gemini-complete-guide",
+    "category": [
+      "AI Agent",
+      "Gemini"
+    ],
+    "tags": [
+      "VS Code",
+      "Gemini",
+      "Google AI",
+      "styleguide",
+      "guardrails",
+      "AI",
+      "Setup Guide"
+    ],
+    "author": "서대원",
+    "excerpt": "# VS Code + Gemini Coding AI 완전 설정 가이드 ## 개요 VS Code용 Gemini Coding AI Extension에서 프로젝트별 AI 동작을 커스터마이징하는 설정 가이드입니다. --- ## 1. 디렉토리 구조 ``` your-project/ └── .gemini/ ├── config.yaml #",
+    "path": "ai-agent/vscode-gemini-complete-guide",
+    "difficulty": "beginner",
+    "created": "2026-04-18"
+  },
+  {
     "title": "Antigravity 에서 사용하는 Rule",
     "slug": "antigravity/antigravity-rule",
     "category": [

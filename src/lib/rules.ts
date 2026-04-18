@@ -4,7 +4,15 @@ import matter from 'gray-matter';
 import { marked } from '@/lib/markdown';
 import { Rule, RuleListItem, RuleFrontmatter } from '@/types/rule';
 
+/**
+ * 카테고리/태그 이름을 URL용 slug로 변환 (공백 -> 하이픈, 소문자)
+ */
+export function nameToSlug(name: string): string {
+    return name.toLowerCase().trim().replace(/\s+/g, '-');
+}
+
 const rulesDirectory = path.join(process.cwd(), 'rules');
+
 
 /**
  * 모든 규칙 파일 경로를 재귀적으로 가져옵니다
