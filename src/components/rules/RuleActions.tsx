@@ -40,7 +40,7 @@ export default function RuleActions({
     const { download } = useDownloadRule(slug, content);
     const { sharesCopied, share } = useShareRule();
 
-    const { favorited, toggleFavorite } = useFavoriteRule(slug, {
+    const { favorited, toggleFavorite, isLoading } = useFavoriteRule(slug, {
         slug,
         title,
         category,

@@ -57,7 +57,7 @@ export default function Header() {
 
                     {/* Mobile Navigation Button (Simple version) */}
                     <div className="md:hidden flex items-center gap-4">
-                        <Link href="/favorites" className="relative p-2 text-slate-400">
+                        <Link href="/favorites" className="relative p-2 text-slate-400" aria-label={t('favorites')}>
                             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l2.07 6.323a1 1 0 00.95.69h6.642c.969 0 1.371 1.24.588 1.81l-5.378 3.908a1 1 0 00-.364 1.118l2.07 6.323c.3.921-.755 1.688-1.54 1.118l-5.378-3.908a1 1 0 00-1.175 0l-5.378 3.908c-.784.57-1.838-.197-1.539-1.118l2.07-6.323a1 1 0 00-.364-1.118L2.293 11.75c-.783-.57-.38-1.81.588-1.81h6.642a1 1 0 00.95-.69l2.07-6.323z" />
                             </svg>
@@ -67,7 +67,7 @@ export default function Header() {
                                 </span>
                             )}
                         </Link>
-                        <Link href="/rules" className="p-2 text-slate-400">
+                        <Link href="/rules" className="p-2 text-slate-400" aria-label={t('list')}>
                             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
