@@ -102,7 +102,7 @@ export function getAllRules(): RuleListItem[] {
 export function getRulesByCategory(category: string): RuleListItem[] {
     const allRules = getAllRules();
     return allRules.filter((rule) =>
-        rule.category.some((cat) => cat.toLowerCase() === category.toLowerCase())
+        rule.category.some((cat) => nameToSlug(cat) === nameToSlug(category))
     );
 }
 
@@ -112,7 +112,7 @@ export function getRulesByCategory(category: string): RuleListItem[] {
 export function getRulesByTag(tag: string): RuleListItem[] {
     const allRules = getAllRules();
     return allRules.filter((rule) =>
-        rule.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
+        rule.tags.some((t) => nameToSlug(t) === nameToSlug(tag))
     );
 }
 

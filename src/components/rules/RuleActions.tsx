@@ -71,7 +71,7 @@ export default function RuleActions({
     // 액션 버튼들
     return (
         <div className="mb-8 flex flex-wrap gap-3">
-            <FavoriteButton favorited={favorited} onClick={toggleFavorite} />
+            <FavoriteButton favorited={favorited} isLoading={isLoading} onClick={toggleFavorite} />
             <CopyButton copied={copied} onClick={copy} />
             <EditButton slug={slug} />
             <DeleteButton isDeleting={isDeleting} onClick={handleDelete} />

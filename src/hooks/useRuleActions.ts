@@ -62,7 +62,7 @@ export function useShareRule() {
  */
 export function useFavoriteRule(slug: string, ruleData: FavoriteItem) {
     // React Query Hooks 사용
-    const { data: favorited } = useIsFavorite(slug);
+    const { data: favorited, isLoading } = useIsFavorite(slug);
     const { toggle } = useToggleFavorite();
     const { mutate: addRecentView } = useAddRecentView();
 
@@ -83,6 +83,7 @@ export function useFavoriteRule(slug: string, ruleData: FavoriteItem) {
 
     return {
         favorited: !!favorited, // undefined일 경우 false 처리
+        isLoading,
         toggleFavorite
     };
 }

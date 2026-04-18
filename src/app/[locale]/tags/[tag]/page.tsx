@@ -51,7 +51,7 @@ export default async function TagPage({ params }: PageProps) {
 
     // 현재 태그로 필터링
     const rules = allRules.filter((rule) =>
-        rule.tags.some((t) => t.toLowerCase() === tagName.toLowerCase())
+        rule.tags.some((t) => nameToSlug(t) === nameToSlug(tagName))
     );
 
     // 태그 정보 찾기
@@ -139,7 +139,7 @@ export default async function TagPage({ params }: PageProps) {
                         </h3>
                         <div className="flex flex-wrap gap-2">
                             {allTags
-                                .filter((t) => tagToSlug(t.name) !== tagSlug)
+                                .filter((t) => nameToSlug(t.name) !== tagSlug)
                                 .map((t) => (
                                     <Link
                                         key={t.name}
