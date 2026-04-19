@@ -226,7 +226,7 @@
       "Configuration"
     ],
     "author": "Smart Rules Archive",
-    "excerpt": "# Cursor Rules 작성 가이드 ## .cursorrules 파일이란? 프로젝트 루트에 `.cursorrules` 파일을 만들어 Cursor AI가 따라야 할 규칙을 정의할 수 있습니다. ## 기본 구조 ``` # 프로젝트 개요 이 프로젝트는 Next.js 14를 사용한 웹 애플리케이션입니다. ## 코딩 스타일 - TypeScript 사용",
+    "excerpt": "# Cursor Rules 작성 가이드 ## 개요 이 문서는 해당 주제에 대한 기본 원칙과 가이드를 설명합니다. ## .cursorrules 파일이란? 프로젝트 루트에 `.cursorrules` 파일을 만들어 Cursor AI가 따라야 할 규칙을 정의할 수 있습니다. ## 기본 구조 ``` # 프로젝트 개요 이 프로젝트는 Next.js 14를",
     "path": "cursor/cursor-rules",
     "difficulty": "beginner",
     "created": "2026-01-27"
@@ -245,7 +245,7 @@
       "Version Control"
     ],
     "author": "Smart Rules Archive",
-    "excerpt": "# Git 커밋 메시지 작성 가이드 ## 기본 구조 ``` <type>(<scope>): <subject> <body> <footer> ``` ## Type 종류 - `feat`: 새로운 기능 추가 - `fix`: 버그 수정 - `docs`: 문서 변경 - `style`: 코드 포맷팅 (기능 변경 없음) - `refactor`: 코드 리팩토링",
+    "excerpt": "# Git 커밋 메시지 작성 가이드 ## 개요 이 문서는 해당 주제에 대한 기본 원칙과 가이드를 설명합니다. ## 기본 구조 ``` <type>(<scope>): <subject> <body> <footer> ``` ## Type 종류 - `feat`: 새로운 기능 추가 - `fix`: 버그 수정 - `docs`: 문서 변경 - `styl",
     "path": "git/commit-messages",
     "difficulty": "beginner",
     "created": "2026-01-27"
@@ -265,7 +265,7 @@
       "Version Control"
     ],
     "author": "Smart Rules Archive",
-    "excerpt": "# Git 브랜치 전략 (Git Flow) ## Git Flow란? Vincent Driessen이 제안한 Git 브랜치 관리 전략으로, 체계적인 릴리즈 관리에 적합합니다. ## 주요 브랜치 ### 1. main (master) - 프로덕션 배포용 - 항상 배포 가능한 상태 유지 - 태그로 버전 관리 ### 2. develop - 다음 릴리즈 개",
+    "excerpt": "# Git 브랜치 전략 (Git Flow) ## 개요 이 문서는 해당 주제에 대한 기본 원칙과 가이드를 설명합니다. ## Git Flow란? Vincent Driessen이 제안한 Git 브랜치 관리 전략으로, 체계적인 릴리즈 관리에 적합합니다. ## 주요 브랜치 ### 1. main (master) - 프로덕션 배포용 - 항상 배포 가능한",
     "path": "git/git-flow",
     "difficulty": "intermediate",
     "created": "2026-01-27"
@@ -303,7 +303,7 @@
       "Static Typing"
     ],
     "author": "Smart Rules Archive",
-    "excerpt": "# Python Type Hints 완벽 가이드 ## 기본 타입 힌트 ```python def greet(name: str) -> str: return f\"Hello, {name}\" age: int = 25 price: float = 19.99 is_active: bool = True ``` ## 컬렉션 타입 ```python from t",
+    "excerpt": "# Python Type Hints 완벽 가이드 ## 개요 이 문서는 해당 주제에 대한 기본 원칙과 가이드를 설명합니다. ## 기본 타입 힌트 ```python def greet(name: str) -> str: return f\"Hello, {name}\" age: int = 25 price: float = 19.99 is_active:",
     "path": "python/type-hints",
     "difficulty": "intermediate",
     "created": "2026-01-27"
@@ -343,7 +343,7 @@
       "useCallback"
     ],
     "author": "Smart Rules Archive",
-    "excerpt": "# React 성능 최적화 기법 ## 1. React.memo로 불필요한 리렌더링 방지 ```typescript const ExpensiveComponent = React.memo(({ data }: { data: Data }) => { return <div>{/* 복잡한 렌더링 */}</div>; }); ``` ## 2. useMemo로 계산",
+    "excerpt": "# React 성능 최적화 기법 ## 개요 이 문서는 해당 주제에 대한 기본 원칙과 가이드를 설명합니다. ## 1. React.memo로 불필요한 리렌더링 방지 ```typescript const ExpensiveComponent = React.memo(({ data }: { data: Data }) => { return <div>{/* 복잡",
     "path": "react/performance-optimization",
     "difficulty": "advanced",
     "created": "2026-01-27"

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import { getAllCategories, getRulesByCategory, nameToSlug } from "@/lib/rules";
+import { getAllCategories, getRulesByCategory } from "@/lib/rules";
+import { nameToSlug } from "@/lib/slug";
 import { Link, routing } from "@/i18n/routing";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import RuleCard from "@/components/rules/RuleCard";

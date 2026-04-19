@@ -10,6 +10,7 @@ import { routing } from '@/i18n/routing';
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import QueryProvider from "@/providers/QueryProvider";
+import CommandPalette from "@/components/common/CommandPalette";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -78,6 +79,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           <QueryProvider>
             <Header />
+            <CommandPalette />
             {children}
             <Footer />
           </QueryProvider>

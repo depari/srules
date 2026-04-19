@@ -3,13 +3,9 @@ import path from 'path';
 import matter from 'gray-matter';
 import { marked } from '@/lib/markdown';
 import { Rule, RuleListItem, RuleFrontmatter } from '@/types/rule';
+import { nameToSlug } from './slug';
+import 'server-only';
 
-/**
- * 카테고리/태그 이름을 URL용 slug로 변환 (공백 -> 하이픈, 소문자)
- */
-export function nameToSlug(name: string): string {
-    return name.toLowerCase().trim().replace(/\s+/g, '-');
-}
 
 const rulesDirectory = path.join(process.cwd(), 'rules');
 

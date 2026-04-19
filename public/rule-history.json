@@ -1,4 +1,130 @@
 {
+  "ai-agent/antigravity-complete-guide": [
+    {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
+    {
+      "hash": "fb2921641a57cfcd22b2f6f27bf1642520a825a3",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "feat: AI Agent engineering setup, Dark Mode theme system, and Category Slug optimization"
+    }
+  ],
+  "ai-agent/best-practices-collection": [
+    {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
+    {
+      "hash": "fb2921641a57cfcd22b2f6f27bf1642520a825a3",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "feat: AI Agent engineering setup, Dark Mode theme system, and Category Slug optimization"
+    }
+  ],
+  "ai-agent/cursor-ide-complete-guide": [
+    {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
+    {
+      "hash": "fb2921641a57cfcd22b2f6f27bf1642520a825a3",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "feat: AI Agent engineering setup, Dark Mode theme system, and Category Slug optimization"
+    }
+  ],
+  "ai-agent/guardrails-guide": [
+    {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
+    {
+      "hash": "fb2921641a57cfcd22b2f6f27bf1642520a825a3",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "feat: AI Agent engineering setup, Dark Mode theme system, and Category Slug optimization"
+    }
+  ],
+  "ai-agent/harness-engineering": [
+    {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
+    {
+      "hash": "fb2921641a57cfcd22b2f6f27bf1642520a825a3",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "feat: AI Agent engineering setup, Dark Mode theme system, and Category Slug optimization"
+    }
+  ],
+  "ai-agent/memory-management": [
+    {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
+    {
+      "hash": "fb2921641a57cfcd22b2f6f27bf1642520a825a3",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "feat: AI Agent engineering setup, Dark Mode theme system, and Category Slug optimization"
+    }
+  ],
+  "ai-agent/prompt-engineering-comparison": [
+    {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
+    {
+      "hash": "fb2921641a57cfcd22b2f6f27bf1642520a825a3",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "feat: AI Agent engineering setup, Dark Mode theme system, and Category Slug optimization"
+    }
+  ],
+  "ai-agent/vscode-copilot-complete-guide": [
+    {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
+    {
+      "hash": "fb2921641a57cfcd22b2f6f27bf1642520a825a3",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "feat: AI Agent engineering setup, Dark Mode theme system, and Category Slug optimization"
+    }
+  ],
+  "ai-agent/vscode-gemini-complete-guide": [
+    {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
+    {
+      "hash": "fb2921641a57cfcd22b2f6f27bf1642520a825a3",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "feat: AI Agent engineering setup, Dark Mode theme system, and Category Slug optimization"
+    }
+  ],
   "antigravity/antigravity-rule": [
     {
       "hash": "1eddf1bba3138a85ce2d2a697eef0438a5a3a21f",
@@ -9,6 +135,12 @@
   ],
   "cursor/cursor-rules": [
     {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
+    {
       "hash": "f1dc19e1e4efcb9bc0fee013143e958fbdbc28fa",
       "author": "depari",
       "date": "2026-01-27",
@@ -16,6 +148,12 @@
     }
   ],
   "git/commit-messages": [
+    {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
     {
       "hash": "f10f300e0f5f4b88db9346df8e3d61005bae7c60",
       "author": "depari",
@@ -25,6 +163,12 @@
   ],
   "git/git-flow": [
     {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
+    {
       "hash": "f1dc19e1e4efcb9bc0fee013143e958fbdbc28fa",
       "author": "depari",
       "date": "2026-01-27",
@@ -32,6 +176,12 @@
     }
   ],
   "python/pep8-guide": [
+    {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
     {
       "hash": "f10f300e0f5f4b88db9346df8e3d61005bae7c60",
       "author": "depari",
@@ -41,6 +191,12 @@
   ],
   "python/type-hints": [
     {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
+    {
       "hash": "f1dc19e1e4efcb9bc0fee013143e958fbdbc28fa",
       "author": "depari",
       "date": "2026-01-27",
@@ -49,6 +205,12 @@
   ],
   "react/hooks-patterns": [
     {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
+    {
       "hash": "f10f300e0f5f4b88db9346df8e3d61005bae7c60",
       "author": "depari",
       "date": "2026-01-27",
@@ -56,6 +218,12 @@
     }
   ],
   "react/performance-optimization": [
+    {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
     {
       "hash": "f1dc19e1e4efcb9bc0fee013143e958fbdbc28fa",
       "author": "depari",
@@ -73,6 +241,12 @@
   ],
   "typescript/strict-mode": [
     {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
+    {
       "hash": "f10f300e0f5f4b88db9346df8e3d61005bae7c60",
       "author": "depari",
       "date": "2026-01-27",
@@ -80,6 +254,12 @@
     }
   ],
   "typescript/utility-types": [
+    {
+      "hash": "b00a65a51f15ace15a41a5084cdc90a85b68e1fa",
+      "author": "depari",
+      "date": "2026-04-18",
+      "message": "Fix: Rule validation errors by adding missing '## 개요' and '## 예시' sections across 20 rule files"
+    },
     {
       "hash": "f1dc19e1e4efcb9bc0fee013143e958fbdbc28fa",
       "author": "depari",

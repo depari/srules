@@ -11,11 +11,13 @@
 /* 기본값: 다크 테마 (dark-first) */
 :root {
   --background: #020617;       /* slate-950 */
-  --foreground: #f1f5f9;       /* slate-100 */
+  --foreground: #f8fafc;       /* slate-50 */
   --surface: #0f172a;          /* slate-900 */
   --surface-2: #1e293b;        /* slate-800 */
-  --border: #334155;           /* slate-700 */
+  --border: rgba(255, 255, 255, 0.1);
   --text-muted: #94a3b8;       /* slate-400 */
+  --accent: #8b5cf6;           /* violet-500 */
+  --accent-foreground: #ffffff;
 }
 
 /* 다크 테마 (.dark 클래스 또는 기본값) */
@@ -232,7 +234,33 @@ html.light .from-purple-400.to-cyan-400 {
 /* 전역 링(focus ring) 보정 */
 html.light .focus\:ring-purple-500\/20:focus {
   --tw-ring-color: rgba(147, 51, 234, 0.1) !important;
+}/* ================================================
+ * Rich Aesthetics & Animations
+ * ================================================ */
+
+.glass-surface {
+  @apply bg-surface/70 backdrop-blur-xl border border-white/10;
 }
 
+.text-gradient-premium {
+  @apply bg-gradient-to-r from-violet-400 via-fuchsia-400 to-cyan-400 bg-clip-text text-transparent;
+}
 
+.card-hover-effect {
+  @apply transition-all duration-300 hover:shadow-2xl hover:shadow-violet-500/10 hover:-translate-y-1 hover:border-violet-500/20;
+}
 
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Base transitions */
+* {
+  @apply transition-colors duration-200;
+}

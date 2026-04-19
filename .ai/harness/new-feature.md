@@ -1,130 +1,25 @@
-# 신규 기능 개발 하네스 (New Feature Harness)
+# 신규 기능 구현 하네스 (New Feature Harness)
 
-모든 신규 기능 개발 시 이 하네스를 따라 순서대로 진행합니다.
+## Phase 1: 요구사항 분석 및 설계
+- [ ] 목적 정의: 신규 기능의 목적과 기대 효과 명확화
+- [ ] 기술 검토: 기존 기술 스택(React Query, SOLID)과의 호환성 확인
+- [ ] 인터페이스 설계: `src/services/interfaces/`에 인터페이스 정의 (DIP)
+- [ ] 영향도 평가: 기존 테스트 및 컴포넌트에 미치는 영향 분석
 
----
+## Phase 2: TDD 사이클
+- [ ] **TC 작성**: `src/__tests__/` 하위에 실패하는 테스트 케이스 작성
+- [ ] **TC Failed 확인**: `npm test`를 실행하여 붉은색(실패) 확인
+- [ ] **최소 구현**: 테스트를 통과하기 위한 최소한의 코드 작성
+- [ ] **TC Pass 확인**: `npm test`를 실행하여 초록색(성공) 확인
+- [ ] **반복**: 기능이 완성될 때까지 1~4 단계 반복
 
-## 체크리스트
+## Phase 3: 통합 및 리팩토링
+- [ ] **SOLID 원칙 검토**: SRP, OCP 등 원칙 준수 여부 확인
+- [ ] **컴포넌트 연결**: 커스텀 훅을 통해 UI 컴포넌트와 서비스 연결
+- [ ] **통합 테스트**: 신규 기능과 기존 기능의 협업 검증 (E2E 테스트 추가 권장)
 
-### Phase 1: 분석 및 설계
-- [ ] 요구사항 명확화 (무엇을 구현하는가?)
-- [ ] 기존 코드베이스 영향 범위 분석
-- [ ] 관련 인터페이스 파악 (`src/services/interfaces/`)
-- [ ] 구현 방식 결정 (서비스? 훅? 컴포넌트?)
-
-### Phase 2: 인터페이스 정의 (DIP)
-- [ ] `src/services/interfaces/I{Name}Service.ts` 생성
-- [ ] 메서드 시그니처 정의 (구현 없음)
-
-```typescript
-// src/services/interfaces/I{Name}Service.ts
-export interface I{Name}Service {
-  // 핵심 메서드만 (ISP: 필요한 것만)
-  method1(param: Type): ReturnType;
-  method2(): void;
-}
-```
-
-### Phase 3: TDD - 실패 TC 작성 (FAIL 확인 필수)
-- [ ] `src/__tests__/services/{Name}Service.test.ts` 생성
-- [ ] `npm test -- --testPathPattern={Name}Service` 실행
-- [ ] **FAIL 상태 스크린샷/로그 확인** (반드시!)
-
-```typescript
-// src/__tests__/services/{Name}Service.test.ts
-import { {Name}Service } from '../../services/{Name}Service';
-import { ArrayStorageAdapter } from '../../services/storage/ArrayStorageAdapter';
-
-describe('{Name}Service', () => {
-  let service: {Name}Service;
-
-  beforeEach(() => {
-    service = new {Name}Service(new ArrayStorageAdapter());
-  });
-
-  describe('method1', () => {
-    it('should {예상 동작} when {조건}', () => {
-      // Arrange
-      const input = '...';
-      // Act
-      const result = service.method1(input);
-      // Assert
-      expect(result).toBe(expectedValue);
-    });
-  });
-});
-```
-
-### Phase 4: 최소 구현 (PASS 목표)
-- [ ] `src/services/{Name}Service.ts` 생성
-- [ ] TC가 PASS 되는 최소한의 코드만 작성
-- [ ] `npm test -- --testPathPattern={Name}Service` 실행
-- [ ] **PASS 확인**
-
-```typescript
-// src/services/{Name}Service.ts
-import type { I{Name}Service } from './interfaces/I{Name}Service';
-import type { IStorage } from './interfaces/IStorage';
-
-export class {Name}Service implements I{Name}Service {
-  constructor(private readonly storage: IStorage) {}
-
-  method1(param: string): ReturnType {
-    // 최소 구현
-  }
-}
-```
-
-### Phase 5: 엣지 케이스 TC 추가
-- [ ] 빈 입력, null, undefined, 경계값 TC 추가
-- [ ] 에러 케이스 TC 추가
-- [ ] `npm test` 전체 PASS 확인
-
-### Phase 6: 통합 (훅/컴포넌트)
-- [ ] 필요 시 `src/hooks/use{Name}.ts` 작성
-- [ ] 필요 시 컴포넌트에 연결
-- [ ] 필요 시 E2E 테스트 업데이트 (`e2e/`)
-
-### Phase 7: 검증 및 마무리
-- [ ] `npm test` 전체 PASS (TC 100%)
-- [ ] `npm run build` 성공
-- [ ] `npm run lint` 에러 없음
-- [ ] `reports/` 보고서 작성
-- [ ] Telegram 알림 발송 (`bash scripts/notify.sh "기능 구현 완료"`)
-
----
-
-## 빠른 참조: 공통 패턴
-
-### 스토리지 의존 서비스
-```typescript
-export class {Name}Service implements I{Name}Service {
-  private readonly KEY = '{name}_data';
-
-  constructor(private readonly storage: IStorage) {}
-
-  getData(): SomeType[] {
-    return this.storage.get<SomeType[]>(this.KEY) ?? [];
-  }
-
-  setData(data: SomeType[]): void {
-    this.storage.set(this.KEY, data);
-  }
-}
-```
-
-### GitHub API 연동 서비스
-```typescript
-export class {Name}Service implements I{Name}Service {
-  constructor(private readonly httpClient: GitHubHttpClient) {}
-
-  async fetchData(): Promise<SomeType> {
-    try {
-      return await this.httpClient.get<SomeType>('/endpoint');
-    } catch (error) {
-      console.error('{Name}Service fetchData 실패:', error);
-      throw error;
-    }
-  }
-}
-```
+## Phase 4: 품질 및 문서화
+- [ ] **구문 오류 및 빌드 확인**: 수정한 코드에 `);`나 `}` 등 불필요한 문자가 남지 않았는지, `npm run dev` 또는 `npm run build`를 통해 빌드 에러가 없는지 최종 확인 (필수)
+- [ ] **보고서 작성**: `reports/` 폴더에 작업 내용 및 결과 보고서 작성
+- [ ] **컨텍스트 업데이트**: `scripts/update-ai-context.sh` 실행
+- [ ] **텔레그램 알림**: 작업 완료 알림 발송

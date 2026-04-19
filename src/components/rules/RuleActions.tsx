@@ -1,6 +1,6 @@
 'use client';
 
-import { useCopyRule, useDownloadRule, useShareRule, useFavoriteRule, useDeleteRule } from '@/hooks/useRuleActions';
+import { useCopyRule, useDownloadRule, useShareRule, useFavoriteRule, useDeleteRule, useExportImage } from '@/hooks/useRuleActions';
 import { DeleteSuccessMessage } from './actions/DeleteSuccessMessage';
 import {
     FavoriteButton,
@@ -9,8 +9,10 @@ import {
     DeleteButton,
     DownloadButton,
     ShareButton,
+    ExportButton,
     ActionsDivider,
 } from './actions/ActionButtons';
+import { RefObject } from 'react';
 
 interface RuleActionsProps {
     content: string;
@@ -22,6 +24,7 @@ interface RuleActionsProps {
     excerpt?: string;
     created: string;
     tags: string[];
+    contentRef: RefObject<HTMLDivElement | null>;
 }
 
 export default function RuleActions({
@@ -33,12 +36,14 @@ export default function RuleActions({
     difficulty,
     excerpt,
     created,
-    tags
+    tags,
+    contentRef
 }: RuleActionsProps) {
     // 각 액션의 로직을 독립적인 훅으로 분리
     const { copied, copy } = useCopyRule(content);
     const { download } = useDownloadRule(slug, content);
-    const { sharesCopied, share } = useShareRule();
+    const { sharesCopied, copyUrl } = useShareRule();
+    const { isExporting, exportImage } = useExportImage(contentRef, slug.replace(/\//g, '-'));
 
     const { favorited, toggleFavorite, isLoading } = useFavoriteRule(slug, {
         slug,
@@ -62,7 +67,6 @@ export default function RuleActions({
         await deleteRule();
     };
 
-
     // 삭제 성공 메시지 표시
     if (deletePrUrl) {
         return <DeleteSuccessMessage prUrl={deletePrUrl} />;
@@ -77,7 +81,8 @@ export default function RuleActions({
             <DeleteButton isDeleting={isDeleting} onClick={handleDelete} />
             <ActionsDivider />
             <DownloadButton onClick={download} />
-            <ShareButton sharesCopied={sharesCopied} onClick={share} />
+            <ExportButton isLoading={isExporting} onClick={exportImage} />
+            <ShareButton sharesCopied={sharesCopied} onClick={copyUrl} />
         </div>
     );
 }

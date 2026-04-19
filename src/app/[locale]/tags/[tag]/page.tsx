@@ -1,4 +1,5 @@
-import { getAllRules, getAllTags, nameToSlug } from "@/lib/rules";
+import { getAllRules, getAllTags } from "@/lib/rules";
+import { nameToSlug } from "@/lib/slug";
 import RuleCard from "@/components/rules/RuleCard";
 import SearchBar from "@/components/common/SearchBar";
 import { Link, routing } from "@/i18n/routing";
