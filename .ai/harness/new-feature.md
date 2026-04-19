@@ -19,7 +19,7 @@
 - [ ] **통합 테스트**: 신규 기능과 기존 기능의 협업 검증 (E2E 테스트 추가 권장)
 
 ## Phase 4: 품질 및 문서화
-- [ ] **구문 오류 및 빌드 확인**: 수정한 코드에 `);`나 `}` 등 불필요한 문자가 남지 않았는지, `npm run lint`, `npm test`, `npm run build`를 통해 에러가 없는지 최종 확인 (필수)
+- [ ] **구문 오류 및 빌드 확인**: 수정한 코드에 `);`나 `}` 등 불필요한 문자가 남지 않았는지, `npm run lint`, `npm test`, `npx playwright test`, `npm run build`를 통해 에러가 없는지 최종 확인 (필수)
 - [ ] **의존성 정합성 확인**: `package.json` 변경 시 로컬에서 `npm install`을 실행하여 `package-lock.json`을 업데이트하고 정합성을 확인했는지 체크 (필수)
 - [ ] **보고서 작성**: `reports/` 폴더에 작업 내용 및 결과 보고서 작성
 - [ ] **컨텍스트 업데이트**: `scripts/update-ai-context.sh` 실행

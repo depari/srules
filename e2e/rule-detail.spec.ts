@@ -69,8 +69,10 @@ test.describe('규칙 상세 페이지', () => {
         const copyButton = page.locator('button').filter({ hasText: /복사|Copy/i }).first();
 
         if (await copyButton.isVisible()) {
-            // 클립보드 권한 허용 (테스트 환경)
-            await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+            // 클립보드 권한 허용 (Chromium에서만 지원)
+            if (test.info().project.name.includes('chromium')) {
+                await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+            }
 
             // 클릭
             await copyButton.click();

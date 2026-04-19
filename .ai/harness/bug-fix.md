@@ -15,7 +15,7 @@
 - [ ] **코드 리뷰 셀프 체크**: 수정된 코드가 프로젝트 컨벤션을 준수하는지 확인
 
 ## Phase 4: 마감
-- [ ] **구문 오류 및 빌드 확인**: 버그 수정 후 구문 오류나 `npm run lint`, `npm test`, `npm run build` 에러가 발생하지 않았는지 최종 확인 (필수)
+- [ ] **구문 오류 및 빌드 확인**: 버그 수정 후 구문 오류나 `npm run lint`, `npm test`, `npx playwright test`, `npm run build` 에러가 발생하지 않았는지 최종 확인 (필수)
 - [ ] **의존성 정합성 확인**: `package.json` 변경 시 로컬에서 `npm install`을 실행하여 `package-lock.json`을 업데이트하고 정합성을 확인했는지 체크 (필수)
 - [ ] **보고서 작성**: `tasks/` 폴더 하위에 버그 수정 이력 기록 (`[date]_[num]_[desc].md`)
 - [ ] **텔레그램 알림**: 수정 완료 및 배포 안내 알림 발송
