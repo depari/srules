@@ -8,6 +8,7 @@ import { useCopyRule, useDownloadRule, useShareRule, useFavoriteRule, useDeleteR
 // Mock hooks
 const mockToggle = jest.fn();
 const mockAddRecentView = jest.fn();
+const mockDeleteMutate = jest.fn();
 
 jest.mock('@/hooks/queries/useFavoriteQueries', () => ({
     useIsFavorite: jest.fn((slug) => ({ data: false })),
@@ -18,14 +19,23 @@ jest.mock('@/hooks/queries/useRecentViewQueries', () => ({
     useAddRecentView: jest.fn(() => ({ mutate: mockAddRecentView })),
 }));
 
+jest.mock('@/hooks/queries/useGitHubQueries', () => ({
+    useDeleteRuleMutation: jest.fn(() => ({
+        mutateAsync: mockDeleteMutate,
+        isPending: false
+    })),
+}));
+
 // Re-import types/mocks
 import { useIsFavorite } from '@/hooks/queries/useFavoriteQueries';
+import { useDeleteRuleMutation } from '@/hooks/queries/useGitHubQueries';
 
 describe('useRuleActions hooks', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         mockToggle.mockClear();
         mockAddRecentView.mockClear();
+        mockDeleteMutate.mockClear();
 
         // Mock clipboard API
         Object.assign(navigator, {
@@ -115,7 +125,7 @@ describe('useRuleActions hooks', () => {
             const { result } = renderHook(() => useShareRule());
 
             await act(async () => {
-                await result.current.share();
+                await result.current.copyUrl();
             });
 
             expect(navigator.clipboard.writeText).toHaveBeenCalledWith(window.location.href);
@@ -127,7 +137,7 @@ describe('useRuleActions hooks', () => {
             const { result } = renderHook(() => useShareRule());
 
             await act(async () => {
-                await result.current.share();
+                await result.current.copyUrl();
             });
 
             expect(result.current.sharesCopied).toBe(true);
@@ -187,32 +197,35 @@ describe('useRuleActions hooks', () => {
             global.confirm = jest.fn().mockReturnValue(true);
             global.alert = jest.fn();
 
-            const mockDeleteAction = jest.fn().mockResolvedValue('https://github.com/pr/1');
+            mockDeleteMutate.mockResolvedValue({ prUrl: 'https://github.com/pr/1' });
 
             const { result } = renderHook(() => useDeleteRule(params));
 
             await act(async () => {
-                await result.current.deleteRule(mockDeleteAction);
+                await result.current.deleteRule();
             });
 
             expect(global.confirm).toHaveBeenCalled();
-            expect(mockDeleteAction).toHaveBeenCalledWith(params);
+            expect(mockDeleteMutate).toHaveBeenCalledWith({
+                title: params.title,
+                originalPath: `rules/${params.slug}.md`,
+                author: params.author,
+            });
             expect(result.current.deletePrUrl).toBe('https://github.com/pr/1');
             expect(global.alert).toHaveBeenCalledWith('삭제 요청 PR이 성공적으로 생성되었습니다.');
         });
 
         it('should not delete when user cancels', async () => {
             global.confirm = jest.fn().mockReturnValue(false);
-            const mockDeleteAction = jest.fn();
 
             const { result } = renderHook(() => useDeleteRule(params));
 
             await act(async () => {
-                await result.current.deleteRule(mockDeleteAction);
+                await result.current.deleteRule();
             });
 
             expect(global.confirm).toHaveBeenCalled();
-            expect(mockDeleteAction).not.toHaveBeenCalled();
+            expect(mockDeleteMutate).not.toHaveBeenCalled();
         });
 
         it('should handle delete errors', async () => {
@@ -220,12 +233,12 @@ describe('useRuleActions hooks', () => {
             global.alert = jest.fn();
             const consoleError = jest.spyOn(console, 'error').mockImplementation();
 
-            const mockDeleteAction = jest.fn().mockRejectedValue(new Error('Delete failed'));
+            mockDeleteMutate.mockRejectedValue(new Error('Delete failed'));
 
             const { result } = renderHook(() => useDeleteRule(params));
 
             await act(async () => {
-                await result.current.deleteRule(mockDeleteAction);
+                await result.current.deleteRule();
             });
 
             expect(consoleError).toHaveBeenCalled();

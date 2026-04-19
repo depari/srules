@@ -3,8 +3,12 @@ import path from 'path';
 import matter from 'gray-matter';
 import { marked } from '@/lib/markdown';
 import { Rule, RuleListItem, RuleFrontmatter } from '@/types/rule';
+import { nameToSlug } from './slug';
+import 'server-only';
+
 
 const rulesDirectory = path.join(process.cwd(), 'rules');
+
 
 /**
  * 모든 규칙 파일 경로를 재귀적으로 가져옵니다
@@ -94,7 +98,7 @@ export function getAllRules(): RuleListItem[] {
 export function getRulesByCategory(category: string): RuleListItem[] {
     const allRules = getAllRules();
     return allRules.filter((rule) =>
-        rule.category.some((cat) => cat.toLowerCase() === category.toLowerCase())
+        rule.category.some((cat) => nameToSlug(cat) === nameToSlug(category))
     );
 }
 
@@ -104,7 +108,7 @@ export function getRulesByCategory(category: string): RuleListItem[] {
 export function getRulesByTag(tag: string): RuleListItem[] {
     const allRules = getAllRules();
     return allRules.filter((rule) =>
-        rule.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
+        rule.tags.some((t) => nameToSlug(t) === nameToSlug(tag))
     );
 }
 

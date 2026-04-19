@@ -163,3 +163,9 @@ type UpdateUserDto = Partial<Omit<FullUser, 'id' | 'createdAt'>>;
 - `Record`: 객체 타입 정의
 - `Readonly`: 읽기 전용
 - `ReturnType`: 반환 타입 추출
+
+---
+
+## 예시
+
+상세한 실제 적용 사례는 프로젝트의 기존 스타일을 참고하여 적용하십시오.

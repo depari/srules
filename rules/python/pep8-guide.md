@@ -139,3 +139,9 @@ pip install black flake8 pylint
 black your_file.py
 flake8 your_file.py
 ```
+
+---
+
+## 예시
+
+상세한 실제 적용 사례는 프로젝트의 기존 스타일을 참고하여 적용하십시오.

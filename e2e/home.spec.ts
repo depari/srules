@@ -32,7 +32,7 @@ test.describe('메인 페이지', () => {
         await page.goto('/');
 
         // 규칙 목록 링크 클릭
-        const rulesLink = page.locator('a[href*="/rules"]').first();
+        const rulesLink = page.locator('a[href*="/rules"]').filter({ visible: true }).first();
         await rulesLink.click();
 
         // URL 변경 확인

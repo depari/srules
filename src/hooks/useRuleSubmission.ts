@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { useForm, UseFormSetValue } from 'react-hook-form';
+import { useForm, useWatch, UseFormSetValue } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import matter from 'gray-matter';
@@ -217,8 +217,8 @@ export function useRuleForm(editSlug: string | null) {
         }
     });
 
-    const contentValue = form.watch('content');
-    const selectedCategories = form.watch('category');
+    const contentValue = useWatch({ control: form.control, name: 'content' });
+    const selectedCategories = useWatch({ control: form.control, name: 'category' });
 
     // 데이터 로드
     useRuleLoader(editSlug, form.setValue);

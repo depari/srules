@@ -10,6 +10,7 @@ import { routing } from '@/i18n/routing';
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import QueryProvider from "@/providers/QueryProvider";
+import CommandPalette from "@/components/common/CommandPalette";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,13 +49,37 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className="dark" suppressHydrationWarning>
+      <head>
+        {/*
+         * FOUC(Flash of Unstyled Content) 방지 인라인 스크립트
+         * - 페이지 로드 직후 localStorage에서 테마를 읽어 즉시 적용
+         * - hydration 전에 실행되어 흰 화면 깜빡임 방지
+         * - 저장된 테마 없으면 'dark' 기본값 적용
+         */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('srules-theme') || 'dark';
+                  if (theme !== 'dark' && theme !== 'light') theme = 'dark';
+                  document.documentElement.className = theme;
+                } catch(e) {
+                  document.documentElement.className = 'dark';
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-slate-950 text-slate-100 font-noto`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
       >
         <NextIntlClientProvider messages={messages}>
           <QueryProvider>
             <Header />
+            <CommandPalette />
             {children}
             <Footer />
           </QueryProvider>

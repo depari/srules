@@ -11,6 +11,11 @@ difficulty: intermediate
 
 # Git 브랜치 전략 (Git Flow)
 
+
+## 개요
+
+이 문서는 해당 주제에 대한 기본 원칙과 가이드를 설명합니다.
+
 ## Git Flow란?
 
 Vincent Driessen이 제안한 Git 브랜치 관리 전략으로, 체계적인 릴리즈 관리에 적합합니다.
@@ -164,3 +169,9 @@ git push origin develop
 - **release**: 릴리즈 준비
 - **hotfix**: 긴급 수정
 - `--no-ff` 옵션으로 머지 이력 보존
+
+---
+
+## 예시
+
+상세한 실제 적용 사례는 프로젝트의 기존 스타일을 참고하여 적용하십시오.

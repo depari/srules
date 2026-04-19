@@ -4,7 +4,8 @@
  * React Query를 통해 상태 관리 최적화
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, RefObject } from 'react';
+import { toPng } from 'html-to-image';
 import type { FavoriteItem } from '@/types/rule';
 import { useIsFavorite, useToggleFavorite } from '@/hooks/queries/useFavoriteQueries';
 import { useAddRecentView } from '@/hooks/queries/useRecentViewQueries';
@@ -48,13 +49,66 @@ export function useDownloadRule(slug: string, content: string) {
 export function useShareRule() {
     const [sharesCopied, setShareCopied] = useState(false);
 
-    const share = async () => {
+    const copyUrl = async () => {
         await navigator.clipboard.writeText(window.location.href);
         setShareCopied(true);
         setTimeout(() => setShareCopied(false), 2000);
     };
 
-    return { sharesCopied, share };
+    const shareNative = async (title: string, text: string) => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title,
+                    text,
+                    url: window.location.href,
+                });
+            } catch (err) {
+                console.error('Share failed:', err);
+            }
+        } else {
+            copyUrl();
+        }
+    };
+
+    return { sharesCopied, copyUrl, shareNative };
+}
+
+/**
+ * 이미지 익스포트 훅
+ */
+export function useExportImage<T extends HTMLElement>(ref: RefObject<T | null>, fileName: string) {
+    const [isExporting, setIsExporting] = useState(false);
+
+    const exportImage = useCallback(async () => {
+        if (ref.current === null) return;
+
+        setIsExporting(true);
+        try {
+            // 스타일 보정을 위한 약간의 대기
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
+            const dataUrl = await toPng(ref.current, {
+                cacheBust: true,
+                backgroundColor: '#020617', // slate-950
+                style: {
+                    borderRadius: '16px',
+                }
+            });
+
+            const link = document.createElement('a');
+            link.download = `${fileName}.png`;
+            link.href = dataUrl;
+            link.click();
+        } catch (err) {
+            console.error('Export failed:', err);
+            alert('이미지 저장 중 오류가 발생했습니다.');
+        } finally {
+            setIsExporting(false);
+        }
+    }, [ref, fileName]);
+
+    return { isExporting, exportImage };
 }
 
 /**
@@ -62,7 +116,7 @@ export function useShareRule() {
  */
 export function useFavoriteRule(slug: string, ruleData: FavoriteItem) {
     // React Query Hooks 사용
-    const { data: favorited } = useIsFavorite(slug);
+    const { data: favorited, isLoading } = useIsFavorite(slug);
     const { toggle } = useToggleFavorite();
     const { mutate: addRecentView } = useAddRecentView();
 
@@ -83,6 +137,7 @@ export function useFavoriteRule(slug: string, ruleData: FavoriteItem) {
 
     return {
         favorited: !!favorited, // undefined일 경우 false 처리
+        isLoading,
         toggleFavorite
     };
 }

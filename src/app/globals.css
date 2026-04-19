@@ -1,26 +1,266 @@
 @import "tailwindcss";
 
+/* ================================================
+ * 테마 CSS 변수 정의
+ * - 기본값: 다크 테마 (dark)
+ * - .dark 클래스: 다크 테마 명시적 적용
+ * - .light 클래스: 라이트 테마 명시적 적용
+ * - Tailwind v4: darkMode는 'class' 방식 사용
+ * ================================================ */
+
+/* 기본값: 다크 테마 (dark-first) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #020617;       /* slate-950 */
+  --foreground: #f8fafc;       /* slate-50 */
+  --surface: #0f172a;          /* slate-900 */
+  --surface-2: #1e293b;        /* slate-800 */
+  --border: rgba(255, 255, 255, 0.1);
+  --text-muted: #94a3b8;       /* slate-400 */
+  --accent: #8b5cf6;           /* violet-500 */
+  --accent-foreground: #ffffff;
+}
+
+/* 다크 테마 (.dark 클래스 또는 기본값) */
+:root.dark,
+html.dark {
+  --background: #020617;       /* slate-950 */
+  --foreground: #f1f5f9;       /* slate-100 */
+  --surface: #0f172a;          /* slate-900 */
+  --surface-2: #1e293b;        /* slate-800 */
+  --border: #334155;           /* slate-700 */
+  --text-muted: #94a3b8;       /* slate-400 */
+}
+
+/* 라이트 테마 (.light 클래스) */
+:root.light,
+html.light {
+  --background: #f8fafc;       /* slate-50 */
+  --foreground: #0f172a;       /* slate-900 */
+  --surface: #ffffff;           /* white */
+  --surface-2: #f1f5f9;        /* slate-100 */
+  --border: #e2e8f0;           /* slate-200 */
+  --text-muted: #64748b;       /* slate-500 */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text-muted: var(--text-muted);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* body 스타일: CSS 변수 사용 (테마 전환 시 자동 반영) */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Tailwind v4 dark variant 활성화 */
+@variant dark (&:where(.dark, .dark *));
+
+/* 스크롤바 스타일 (다크 테마) */
+html.dark ::-webkit-scrollbar {
+  width: 8px;
+}
+html.dark ::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* 스크롤바 스타일 (라이트 테마) */
+html.light ::-webkit-scrollbar {
+  width: 8px;
+}
+html.light ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+html.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ================================================
+ * 라이트 테마 컴포넌트 전환 스타일
+ * body 배경, 텍스트는 CSS 변수가 자동 처리.
+ * Tailwind 하드코딩된 slate-xxx 클래스가 있는 컴포넌트는
+ * html.light 하위에서 오버라이드.
+ * ================================================ */
+
+/* Header */
+html.light header {
+  background-color: rgba(248, 250, 252, 0.85) !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+
+/* Nav 링크 */
+html.light nav a {
+  color: #475569;
+}
+html.light nav a:hover {
+  color: #0f172a;
+}
+
+/* RuleCard 카드 배경 */
+html.light .bg-slate-900,
+html.light .bg-slate-900\/50,
+html.light [class*="bg-slate-900"] {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light .bg-slate-950,
+html.light [class*="bg-slate-950"] {
+  background-color: #f8fafc !important;
+}
+
+html.light .bg-slate-800,
+html.light [class*="bg-slate-800"] {
+  background-color: #f1f5f9 !important;
+}
+
+/* 텍스트 색상 */
+html.light .text-white,
+html.light .text-slate-50,
+html.light .text-slate-100,
+html.light [class*="text-slate-100"] {
+  color: #0f172a !important; /* slate-900 */
+}
+
+html.light .text-slate-200,
+html.light [class*="text-slate-200"] {
+  color: #1e293b !important; /* slate-800 */
+}
+
+html.light .text-slate-300,
+html.light [class*="text-slate-300"] {
+  color: #334155 !important; /* slate-700 */
+}
+
+html.light .text-slate-400,
+html.light [class*="text-slate-400"] {
+  color: #64748b !important; /* slate-500 */
+}
+
+/* Typography (next-intl or markdown prose) */
+html.light .prose {
+  --tw-prose-body: #334155;
+  --tw-prose-headings: #0f172a;
+  --tw-prose-links: #2563eb;
+  --tw-prose-code: #0f172a;
+  --tw-prose-counters: #64748b;
+  --tw-prose-bullets: #cbd5e1;
+  --tw-prose-hr: #e2e8f0;
+  --tw-prose-quotes: #0f172a;
+  --tw-prose-quote-borders: #e2e8f0;
+  --tw-prose-captions: #64748b;
+  --tw-prose-th-borders: #e2e8f0;
+  --tw-prose-td-borders: #f1f5f9;
+}
+
+html.light [class*="prose-headings:text-white"] {
+  color: #0f172a !important;
+}
+
+/* 테두리 */
+html.light .border-slate-800,
+html.light [class*="border-slate-800"] {
+  border-color: #e2e8f0 !important;
+}
+
+html.light .border-slate-700,
+html.light [class*="border-slate-700"] {
+  border-color: #cbd5e1 !important;
+}
+
+html.light .border-slate-600,
+html.light [class*="border-slate-600"] {
+  border-color: #94a3b8 !important;
+}
+
+/* ================================================
+ * 상세 컴포넌트 저대비 문제 해결 (Search Bar, Dropdowns, Hover)
+ * ================================================ */
+
+/* 검색창 및 입력창 배경 (input) */
+html.light input.bg-slate-900\/50,
+html.light input[class*="bg-slate-900"] {
+  background-color: #ffffff !important;
+  color: #0f172a !important; /* text-white 오버라이드와 결합 */
+  border-color: #cbd5e1 !important;
+}
+
+/* 검색 결과 드롭다운 */
+html.light .search-container div.bg-slate-900,
+html.light [class*="bg-slate-900"] {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 호버 상태 배경 (Hover states) - 어두운 배경 대신 밝은 회색으로 */
+html.light .hover\:bg-slate-800:hover,
+html.light [class*="hover:bg-slate-800"]:hover,
+html.light .group:hover .group-hover\:bg-slate-800 {
+  background-color: #f1f5f9 !important; /* slate-100 */
+}
+
+/* 카드 및 섹션 배경 */
+html.light .bg-slate-900\/50,
+html.light .bg-slate-900 {
+  background-color: #ffffff !important;
+}
+
+/* 메인 제목 그래디언트 텍스트 시인성 보정 (라이트 모드에선 대비 강화) */
+html.light .from-purple-400.to-cyan-400 {
+  --tw-gradient-from: #7c3aed !important; /* purple-600 */
+  --tw-gradient-to: #0891b2 !important;   /* cyan-600 */
+}
+
+/* 전역 링(focus ring) 보정 */
+html.light .focus\:ring-purple-500\/20:focus {
+  --tw-ring-color: rgba(147, 51, 234, 0.1) !important;
+}/* ================================================
+ * Rich Aesthetics & Animations
+ * ================================================ */
+
+.glass-surface {
+  @apply bg-surface/70 backdrop-blur-xl border border-white/10;
+}
+
+.text-gradient-premium {
+  @apply bg-gradient-to-r from-violet-400 via-fuchsia-400 to-cyan-400 bg-clip-text text-transparent;
+}
+
+.card-hover-effect {
+  @apply transition-all duration-300 hover:shadow-2xl hover:shadow-violet-500/10 hover:-translate-y-1 hover:border-violet-500/20;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Base transitions */
+* {
+  @apply transition-colors duration-200;
 }

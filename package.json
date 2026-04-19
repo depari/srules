@@ -18,17 +18,23 @@
   "dependencies": {
     "@alexbruf/react-diff-viewer": "^3.1.5",
     "@hookform/resolvers": "^3.3.4",
+    "@swc/helpers": "0.5.21",
     "@tanstack/react-query": "^5.90.20",
     "@tanstack/react-query-devtools": "^5.91.2",
+    "babel-plugin-macros": "3.1.0",
+    "cosmiconfig": "7.1.0",
+    "framer-motion": "^12.38.0",
     "fuse.js": "^7.0.0",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.9.0",
+    "html-to-image": "^1.11.13",
     "marked": "^12.0.0",
     "next": "16.1.5",
     "next-intl": "^4.7.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-hook-form": "^7.50.1",
+    "server-only": "^0.0.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {

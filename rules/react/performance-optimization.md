@@ -11,6 +11,11 @@ difficulty: advanced
 
 # React 성능 최적화 기법
 
+
+## 개요
+
+이 문서는 해당 주제에 대한 기본 원칙과 가이드를 설명합니다.
+
 ## 1. React.memo로 불필요한 리렌더링 방지
 
 ```typescript
@@ -115,3 +120,9 @@ function SearchComponent() {
 - useCallback: 함수 메모이제이션
 - Code Splitting: 번들 크기 최적화
 - Virtual Scrolling: 대량 리스트 최적화
+
+---
+
+## 예시
+
+상세한 실제 적용 사례는 프로젝트의 기존 스타일을 참고하여 적용하십시오.
