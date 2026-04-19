@@ -125,7 +125,7 @@ describe('useRuleActions hooks', () => {
             const { result } = renderHook(() => useShareRule());
 
             await act(async () => {
-                await result.current.share();
+                await result.current.copyUrl();
             });
 
             expect(navigator.clipboard.writeText).toHaveBeenCalledWith(window.location.href);
@@ -137,7 +137,7 @@ describe('useRuleActions hooks', () => {
             const { result } = renderHook(() => useShareRule());
 
             await act(async () => {
-                await result.current.share();
+                await result.current.copyUrl();
             });
 
             expect(result.current.sharesCopied).toBe(true);
