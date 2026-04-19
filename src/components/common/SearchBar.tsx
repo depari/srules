@@ -24,14 +24,6 @@ export default function SearchBar({ variant = 'default', placeholder }: SearchBa
 
     const isCompact = variant === 'compact';
 
-    // 검색어가 있고 결과가 있으면 자동으로 열기 (사용자가 입력 중일 때)
-    useEffect(() => {
-        if (query && query === debouncedQuery && searchResults && searchResults.length > 0) {
-            setIsOpen(true);
-        } else if (!query) {
-            setIsOpen(false);
-        }
-    }, [query, debouncedQuery, searchResults]);
 
     // 외부 클릭 시 닫기
     useEffect(() => {
@@ -59,7 +51,12 @@ export default function SearchBar({ variant = 'default', placeholder }: SearchBa
                 <input
                     type="text"
                     value={query}
-                    onChange={(e) => setQuery(e.target.value)}
+                    onChange={(e) => {
+                        const val = e.target.value;
+                        setQuery(val);
+                        if (val) setIsOpen(true);
+                        else setIsOpen(false);
+                    }}
                     onFocus={() => query && searchResults && searchResults.length > 0 && setIsOpen(true)}
                     placeholder={placeholder || defaultPlaceholder}
                     className={`w-full border shadow-2xl transition-all duration-300 placeholder-slate-500 focus:outline-none focus:ring-4 focus:ring-violet-500/10 

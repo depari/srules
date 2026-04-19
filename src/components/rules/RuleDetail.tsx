@@ -8,9 +8,10 @@ import { motion } from 'framer-motion';
 import { nameToSlug } from '@/lib/slug';
 import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
+import { Rule } from '@/types/rule';
 
 interface RuleDetailProps {
-    rule: any;
+    rule: Rule;
     htmlContent: string;
     slugPath: string;
 }

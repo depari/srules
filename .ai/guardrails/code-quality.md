@@ -7,10 +7,13 @@
   - 특히 `multi_replace_file_content`나 `replace_file_content` 호출 시 교체 대상과 결과물의 경계가 올바른지 검토합니다.
 
 ## 2. 빌드 및 린트 안정성 (Build & Lint Stability)
-- **원칙**: 모든 수정 코드는 애플리케이션의 빌드를 깨뜨려서는 안 됩니다.
+- **원칙**: 모든 수정 코드는 애플리케이션의 빌드 및 린트 체크를 깨뜨려서는 안 됩니다.
+- **금지 사항**: 
+  - `any` 타입을 명시적으로 사용하는 것을 지양합니다. (TypeScript의 이점을 유지)
+  - `useEffect` 내에서 동기적으로 `setState`를 호출하여 cascading render를 유도하는 코드를 작성하지 않습니다.
 - **필수 절차**:
-  - 중요한 UI나 로직 수정 후에는 `npm run dev` 로그를 확인하거나 `npm run build`를 시뮬레이션하여 "Parsing ecmascript source code failed"와 같은 에러가 없는지 확인합니다.
-  - 가능한 경우 수정 후 관련 컴포넌트를 직접 렌더링하거나 유닛 테스트를 실행하여 런타임 에러 유무를 확인합니다.
+  - 중요한 UI나 로직 수정 후에는 `npm run lint`를 실행하여 린트 오류가 없는지 확인합니다.
+  - 빌드 확인(`npm run build`) 시 빌드 작업 종료 전 린트 체크가 포함되어 있는지 확인합니다.
 
 ## 3. TDD 준수 (TDD Adherence)
 - **원칙**: 기능 변경이나 개선 시 반드시 테스트 케이스를 먼저 확보합니다.
